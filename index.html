@@ -33,17 +33,12 @@ input[type=number]{-moz-appearance:textfield;}
 .logo em{font-style:italic;color:var(--forest);}
 
 /* ═══ HERO ═══ */
-.hero{padding:clamp(36px,6vw,72px) clamp(16px,4vw,40px) clamp(28px,4vw,44px);position:relative;overflow:hidden;}
-.blob{position:absolute;border-radius:50%;pointer-events:none;}
-.b1{width:min(500px,70vw);height:min(500px,70vw);top:-30%;right:-10%;background:radial-gradient(circle,#1F6B4A0B 0%,transparent 65%);}
-.b2{width:min(360px,55vw);height:min(360px,55vw);bottom:-20%;left:5%;background:radial-gradient(circle,#B04A280A 0%,transparent 65%);}
+.hero{padding:10px clamp(16px,4vw,40px);position:relative;overflow:hidden;border-bottom:1px solid var(--parch);}
 .hero-line{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--forest),var(--coral),transparent);opacity:.38;}
-.hero-inner{max-width:660px;position:relative;}
-
-
-.hero-h{font-family:'Cormorant Garamond',serif;font-size:clamp(2.4rem,5vw,4.2rem);font-weight:300;line-height:1.04;margin-bottom:14px;}
+.hero-inner{max-width:1300px;position:relative;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.hero-h{font-family:'Cormorant Garamond',serif;font-size:clamp(1.1rem,2vw,1.45rem);font-weight:400;line-height:1.2;margin-bottom:0;white-space:nowrap;}
 .hero-h em{font-style:italic;color:var(--forest);}
-.hero-sub{font-size:clamp(.84rem,1.4vw,.94rem);color:var(--ink2);font-weight:300;max-width:460px;line-height:1.76;margin-bottom:26px;}
+.hero-sub{font-size:.78rem;color:var(--ink3);font-weight:300;max-width:480px;line-height:1.4;margin-bottom:0;}
 
 
 
@@ -325,10 +320,15 @@ input[type=number]{-moz-appearance:textfield;}
 .anchor-divider{height:1px;background:var(--parch);margin:4px 0;}
 .anchor-saving{margin-top:8px;font-size:.75rem;color:var(--forest);font-weight:500;}
 
+/* ═══ RC + CTA SIDE BY SIDE ═══ */
+.rc-cta-outer{max-width:1300px;margin:0 auto;display:flex;gap:16px;align-items:flex-start;padding:20px clamp(16px,4vw,40px) 8px;}
+.rc-section{flex:1;display:flex;gap:14px;flex-wrap:wrap;align-items:flex-start;}
+.cta-section{flex:0 0 240px;min-width:200px;}
+@media(max-width:800px){.rc-cta-outer{flex-direction:column;}.cta-section{flex:none;width:100%;}}
+
 /* ═══ CTA BLOCK ═══ */
-.cta-section{max-width:1300px;margin:0 auto;padding:8px clamp(16px,4vw,40px) 24px;}
 .cta-lbl{font-size:.62rem;text-transform:uppercase;letter-spacing:.12em;color:var(--ink3);font-weight:600;margin-bottom:10px;}
-.cta-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:9px;}
+.cta-grid{display:grid;grid-template-columns:1fr;gap:9px;}
 .cta-btn{display:flex;align-items:center;gap:11px;padding:13px 16px;border-radius:var(--rm);border:1.5px solid var(--parch);background:#fff;cursor:pointer;transition:all .2s;text-decoration:none;box-shadow:0 2px 10px rgba(28,24,16,.06);}
 .cta-btn:hover{border-color:var(--forest);box-shadow:0 4px 18px rgba(31,107,74,.14);transform:translateY(-2px);}
 .cta-ico{font-size:1.3rem;flex-shrink:0;}
@@ -377,14 +377,14 @@ input[type=number]{-moz-appearance:textfield;}
 .bv-title{font-size:.73rem;font-weight:600;color:var(--forest);margin-bottom:2px;}
 .bv-sub{font-size:.76rem;color:var(--ink2);}
 .ctable{background:#fff;border-radius:var(--r);overflow:hidden;overflow-x:auto;box-shadow:0 8px 36px rgba(28,24,16,.1);margin-bottom:14px;}
-.cth{display:grid;grid-template-columns:130px repeat(4,1fr);background:var(--ink);color:#fff;min-width:440px;}
+.cth{display:grid;grid-template-columns:130px repeat(3,1fr);background:var(--ink);color:#fff;min-width:340px;}
 .cthc{padding:10px 12px;border-right:1px solid rgba(255,255,255,.07);}
 .cthc:last-child{border-right:none;}
 .cthc .chn{font-family:'Cormorant Garamond',serif;font-size:.84rem;font-weight:300;margin-bottom:2px;display:flex;align-items:center;gap:5px;}
 .cthc .cht{font-family:'Cormorant Garamond',serif;font-size:clamp(1rem,2vw,1.28rem);font-weight:300;}
 .cthc.wc{background:rgba(255,255,255,.05);}
 .winb{font-size:.54rem;background:var(--forest);color:#fff;border-radius:var(--pill);padding:2px 7px;display:inline-block;margin-bottom:3px;text-transform:uppercase;letter-spacing:.07em;}
-.crow{display:grid;grid-template-columns:130px repeat(4,1fr);border-bottom:1px solid #F2EDE4;min-width:440px;}
+.crow{display:grid;grid-template-columns:130px repeat(3,1fr);border-bottom:1px solid #F2EDE4;min-width:340px;}
 .crow:last-child{border-bottom:none;}
 .crow:hover:not(.trow):not(.mrow){background:#FDFBF6;}
 .cc{padding:8px 12px;font-size:.75rem;border-right:1px solid #F2EDE4;display:flex;align-items:center;}
@@ -476,12 +476,10 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:clamp(20px,4vw,3
 <!-- ═══════════ SCREEN 1: CALCULATOR ═══════════ -->
 <div class="screen on" id="s1">
 <section class="hero">
-  <div class="blob b1"></div><div class="blob b2"></div><div class="hero-line"></div>
+  <div class="hero-line"></div>
   <div class="hero-inner">
-    <h1 class="hero-h">Plan smarter.<br><em>Travel better.</em></h1>
-    <p class="hero-sub">Plan your trip budget, compare destinations side by side, and know exactly what you can afford — before you book anything.</p>
-  </div>
-</section>
+    <h1 class="hero-h">Plan smarter. <em>Travel better.</em></h1>
+    <p class="hero-sub">Compare trip costs side by side — free, no signup required.</p>
   </div>
 </section>
 
@@ -510,14 +508,15 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:clamp(20px,4vw,3
   <div class="add-sc" id="add-sc-btn" onclick="addSc()">
     <div class="add-sc-ico">＋</div>
     <div class="add-sc-title">Add scenario</div>
-    <div class="add-sc-sub" id="add-sc-sub">3 available</div>
+    <div class="add-sc-sub" id="add-sc-sub">2 available</div>
   </div>
 </div>
 
-<!-- REALITY CHECK -->
-<div class="rc-section" id="rc-section"></div>
-<!-- CTA -->
-<div class="cta-section" id="cta-section"></div>
+<!-- REALITY CHECK + CTA side by side -->
+<div class="rc-cta-outer">
+  <div class="rc-section" id="rc-section"></div>
+  <div class="cta-section" id="cta-section"></div>
+</div>
 
 <!-- BBAR -->
 <div class="bbar">
@@ -608,7 +607,7 @@ const CAT={
   insurance:{i:'🛡️',n:'Insurance & visa',a:'Add item'},
   other:{i:'✏️',n:'Other',a:'Add item'}
 };
-const DCATS=['flight','stay','food','transport','activities','insurance'];
+const DCATS=['flight','stay','food','transport','activities','insurance','other'];
 
 const RC={
   'Paris':{min:120,avg:180,max:300,flag:'🇫🇷'},
@@ -700,7 +699,7 @@ function goCmp(){renderCmp();go(2);}
    SCENARIOS
 ══════════════════════════════════ */
 function addSc(){
-  if(S.scs.length>=4)return;
+  if(S.scs.length>=3)return;
   const sc=newSc(S.nid++);S.scs.push(sc);S.aid=sc.id;
   renderTabs();renderCards();
 }
@@ -726,10 +725,10 @@ function renderTabs(){
       <div class="sc-tab-dot" style="background:${DOTS[i%4]}"></div>
       <span class="sc-tab-label">${label}</span>
     </div>`;
-  }).join('')+(S.scs.length<4?`<div class="sc-tab sc-tab-add" onclick="addSc()">＋ Add</div>`:'');
-  const rem=4-S.scs.length;
+  }).join('')+(S.scs.length<3?`<div class="sc-tab sc-tab-add" onclick="addSc()">＋ Add</div>`:'');
+  const rem=3-S.scs.length;
   document.getElementById('add-sc-sub').textContent=rem>0?`${rem} available`:'Max reached';
-  document.getElementById('add-sc-btn').style.opacity=rem>0?'1':'.4';
+  document.getElementById('add-sc-btn').style.opacity=rem>0&&S.scs.length<3?'1':'.4';
 }
 
 /* ══════════════════════════════════
@@ -871,9 +870,9 @@ function updDisp(sid){
   if(!ga){renderCards();return;}
   if(t>0){
     if(ga)ga.textContent=sym+fmt(t);
-    if(gm)gm.innerHTML=sym+fmt(Math.round(t/days))+'/day / '+sym+fmt(Math.round(t/pp))+'/person';
+    if(gm)gm.innerHTML=sym+fmt(Math.round(t/days))+'/day (team) · '+sym+fmt(Math.round(t/days/pp))+'/day per person';
     if(ca)ca.textContent=sym+fmt(t);
-    if(cr)cr.innerHTML=`<div class="ct-meta">${sym}${fmt(Math.round(t/days))}/day &nbsp;·&nbsp; ${sym}${fmt(Math.round(t/pp))}/person</div>`;
+    if(cr)cr.innerHTML=`<div class="ct-meta">${sym}${fmt(Math.round(t/days))}/day · team<br>${sym}${fmt(Math.round(t/days/pp))}/day per person</div>`;
     if(ch)ch.innerHTML=sc.cats.filter(c=>cTot(c)>0).map(c=>`<span class="chip ${CCL[c.id]||'ot'}">${c.ico} <strong>${sym}${fmt(cTot(c))}</strong></span>`).join('');
     // hint removed
   }else{
@@ -888,6 +887,7 @@ function updDisp(sid){
 /* ══════════════════════════════════
    CATEGORY INTERACTIONS
 ══════════════════════════════════ */
+function clrQA(sid,cid){const sc=S.scs.find(s=>s.id===sid);const c=sc?.cats.find(x=>x.id===cid);if(!c)return;c.qa=0;renderCards();updDisp(sid);}
 function togCat(sid,cid){const sc=S.scs.find(s=>s.id===sid);if(sc){sc.oc[cid]=!sc.oc[cid];renderCards();}}
 function addRec(sid,cid){
   const sc=S.scs.find(s=>s.id===sid);const c=sc?.cats.find(x=>x.id===cid);if(!c)return;
@@ -1069,6 +1069,7 @@ function renderCards(){
                 :`<input class="ctl-inp" type="text" inputmode="decimal"
                    value="${c.qa>0?c.qa:''}" placeholder="0"
                    oninput="onCTA(${sc.id},'${c.id}',this.value)"/>
+                   ${c.qa>0?`<button onclick="clrQA(${sc.id},'${c.id}')" style="background:none;border:none;cursor:pointer;color:var(--coral);font-size:.9rem;padding:0 3px;line-height:1;flex-shrink:0" title="Clear value">×</button>`:''}
                    <span class="ctl-note" style="color:var(--ink3);opacity:.5">from Quick</span>
                    `
               }
@@ -1221,7 +1222,7 @@ function renderCards(){
     <!-- CARD TOTAL -->
     <div class="card-total ${CTC[i%4]}">
       <div><div class="ct-lbl">Total</div><div id="ca-${sc.id}" class="ct-amt">${t>0?sym+fmt(t):'—'}</div></div>
-      <div id="cr-${sc.id}">${t>0?`<div class="ct-meta">${sym}${fmt(Math.round(t/days))}/day<br>${sym}${fmt(Math.round(t/pp))}/pp</div>`:'<span class="ct-ph">Fill in costs above</span>'}</div>
+      <div id="cr-${sc.id}">${t>0?`<div class="ct-meta">${sym}${fmt(Math.round(t/days))}/day · team<br>${sym}${fmt(Math.round(t/days/pp))}/day per person</div>`:'<span class="ct-ph">Fill in costs above</span>'}</div>
     </div>
 `;
 
@@ -1434,7 +1435,7 @@ function renderCmp(){
       <div class="chn"><span style="width:6px;height:6px;border-radius:50%;background:${DOTS[S.scs.indexOf(sc)%4]};display:inline-block;flex-shrink:0"></span>${sc.destination||sc.name||'Sc '+(i+1)}</div>
       <div class="cht">${sc.currency}${fmt(t)}</div></div>`;
   });
-  for(let i=active.length;i<4;i++)h+=`<div class="cthc"><div style="height:15px"></div><div class="chn" style="opacity:.2">＋ Add</div><div class="cht" style="opacity:.15">—</div></div>`;
+  for(let i=active.length;i<3;i++)h+=`<div class="cthc"><div style="height:15px"></div><div class="chn" style="opacity:.2">＋ Add</div><div class="cht" style="opacity:.15">—</div></div>`;
   h+=`</div>`;
 
   allCats.forEach(cat=>{
@@ -1448,16 +1449,16 @@ function renderCmp(){
         ${a>0?`<div class="vb"><span>${sc.currency}${fmt(a)}</span><div class="vbt"><div class="vbf ${isLo?'lo':''}" style="width:${Math.round(a/maxT*100)}%"></div></div></div>`:'—'}
       </div>`;
     });
-    for(let i=active.length;i<4;i++)h+=`<div class="cc em">—</div>`;
+    for(let i=active.length;i<3;i++)h+=`<div class="cc em">—</div>`;
     h+=`</div>`;
   });
 
   h+=`<div class="crow trow"><div class="cc lbl" style="font-weight:600;color:var(--ink)">Total</div>`;
   active.forEach(sc=>{const t=scTot(sc);const isLo=t===minT,isHi=t===maxT&&t!==minT;h+=`<div class="cc val ${isLo?'lo':isHi?'hi':''} tv ${sc===cheapest?'wc':''}">${sc.currency}${fmt(t)}</div>`;});
-  for(let i=active.length;i<4;i++)h+=`<div class="cc em tv">—</div>`;
-  h+=`</div><div class="crow mrow"><div class="cc lbl" style="color:var(--ink3);font-size:.67rem">Per day · Per person</div>`;
-  active.forEach(sc=>{const t=scTot(sc);const d=Math.max(sc.nights,1),p=Math.max(sc.adults+(sc.children||0),1);h+=`<div class="cc mv ${sc===cheapest?'wc':''}">${sc.currency}${fmt(Math.round(t/d))}/day · ${sc.currency}${fmt(Math.round(t/p))}/pp</div>`;});
-  for(let i=active.length;i<4;i++)h+=`<div class="cc em mv">—</div>`;
+  for(let i=active.length;i<3;i++)h+=`<div class="cc em tv">—</div>`;
+  h+=`</div><div class="crow mrow"><div class="cc lbl" style="color:var(--ink3);font-size:.67rem">Per day (team) · Per day/person</div>`;
+  active.forEach(sc=>{const t=scTot(sc);const d=Math.max(sc.nights,1),p=Math.max(sc.adults+(sc.children||0),1);h+=`<div class="cc mv ${sc===cheapest?'wc':''}">${sc.currency}${fmt(Math.round(t/d))}/day · ${sc.currency}${fmt(Math.round(t/d/p))}/day pp</div>`;});
+  for(let i=active.length;i<3;i++)h+=`<div class="cc em mv">—</div>`;
   h+=`</div></div>`;
 
   // Build chart with actual amounts visible
