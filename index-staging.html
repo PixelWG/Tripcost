@@ -560,6 +560,37 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:clamp(20px,4vw,3
 .hero-examples-lbl{font-size:.69rem;color:var(--ink3);white-space:nowrap;}
 .hero-ex-chip{padding:5px 13px;border-radius:var(--pill);border:1.5px solid var(--parch);background:#fff;font-family:'Manrope',sans-serif;font-size:.75rem;font-weight:500;color:var(--ink2);cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:5px;}
 .hero-ex-chip:hover{border-color:var(--forest);color:var(--forest);background:var(--fl);}
+
+/* ═══ DEST SUGGESTIONS ═══ */
+.mf.dest-field{position:relative;}
+.dest-sugg{position:absolute;top:100%;left:0;right:0;margin-top:1px;background:#fff;border:1.5px solid rgba(31,107,74,.45);border-top:none;border-radius:0 0 var(--rm) var(--rm);box-shadow:0 8px 24px rgba(28,24,16,.13);z-index:600;overflow:hidden;max-height:186px;overflow-y:auto;}
+.dest-sugg-item{padding:8px 13px;font-size:.82rem;color:var(--ink2);cursor:pointer;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--ivory-d);transition:background .08s;}
+.dest-sugg-item:last-child{border-bottom:none;}
+.dest-sugg-item:hover{background:var(--fl);color:var(--forest);}
+
+/* ═══ FIELD PROGRESSION HINT ═══ */
+.field-hint{font-size:.62rem;color:var(--forest);font-weight:500;padding:5px 13px 3px;display:flex;align-items:center;gap:5px;opacity:.8;}
+
+/* ═══ NEXT FIELD HIGHLIGHT ═══ */
+.mf.next-up{box-shadow:inset 0 0 0 2px rgba(31,107,74,.3)!important;background:rgba(31,107,74,.02)!important;}
+
+/* ═══ SAVED INDICATOR ═══ */
+#saved-dot{position:fixed;bottom:72px;right:clamp(12px,3vw,36px);font-size:.64rem;color:var(--forest);font-weight:600;background:rgba(31,107,74,.07);border:1px solid rgba(31,107,74,.22);border-radius:var(--pill);padding:3px 10px;opacity:0;transition:opacity .25s;z-index:400;pointer-events:none;}
+
+/* ═══ DUPLICATE BUTTON ═══ */
+.sc-tab-dupe{padding:5px 11px;border-radius:var(--pill);border:1.5px dashed var(--parch);background:transparent;font-family:'Manrope',sans-serif;font-size:.71rem;color:var(--ink3);cursor:pointer;transition:all .15s;white-space:nowrap;display:inline-flex;align-items:center;gap:3px;margin-left:2px;}
+.sc-tab-dupe:hover{border-color:var(--forest);color:var(--forest);background:var(--fl);}
+
+/* ═══ COMPARE BUTTON LOADING ═══ */
+.bb-p.loading{opacity:.6;pointer-events:none;}
+
+/* ═══ IDENTICAL SCENARIOS NOTICE ═══ */
+.identical-notice{background:#FFF8EC;border:1px solid var(--amber);border-radius:var(--rm);padding:10px 16px;margin-bottom:14px;font-size:.77rem;color:#7A5000;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+
+/* ═══ BBAR PARTIAL PROGRESS ═══ */
+.bbar-partial{font-size:.72rem;color:var(--ink2);display:flex;align-items:center;gap:5px;flex-wrap:wrap;}
+.bbar-partial span.sep{opacity:.28;}
+.bbar-summary-hint{font-size:.65rem;color:var(--forest);margin-left:6px;opacity:.85;white-space:nowrap;}
 </style>
 <meta name="description" content="Free travel budget calculator. Plan and compare up to 3 trip scenarios side by side. No signup required."/>
 <meta name="keywords" content="travel budget calculator, trip cost calculator, vacation budget planner"/>
@@ -715,7 +746,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:clamp(20px,4vw,3
   <div class="bbar-l" id="bbar-l"><span style="font-size:.75rem;color:var(--ink3)">Fill in a scenario to compare</span></div>
   <div class="bbar-r">
     <button class="bb bb-g" onclick="shareURL()">🔗 Share</button>
-    <button class="bb bb-p" id="cmp-btn" disabled onclick="goCmp()">Compare →</button>
+    <button class="bb bb-p" id="cmp-btn" disabled onclick="goCmpWithLoading()">Compare →</button>
   </div>
 </div>
 
@@ -803,6 +834,8 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:clamp(20px,4vw,3
   <option value="New York"/><option value="London"/><option value="Reykjavik"/>
   <option value="Copenhagen"/><option value="Stockholm"/><option value="Helsinki"/>
 </datalist>
+
+<div id="saved-dot">✓ Saved</div>
 
 <script>
 /* ══════════════════════════════════
@@ -950,7 +983,8 @@ function renderTabs(){
       <div class="sc-tab-dot" style="background:${DOTS[i%4]}"></div>
       <span class="sc-tab-label">${label}</span>
     </div>`;
-  }).join('')+(S.scs.length<3?`<div class="sc-tab sc-tab-add" onclick="addSc()">＋ Add</div>`:'');
+  }).join('')+(S.scs.length<3?`<div class="sc-tab sc-tab-add" onclick="addSc()">＋ Add</div>`:'')
+  +(S.aid&&S.scs.length>0&&S.scs.length<3?`<button class="sc-tab-dupe" onclick="dupeSc(${S.aid})" title="Duplicate this scenario to compare a variation">⎘ Duplicate</button>`:'');
   const rem=3-S.scs.length;
   document.getElementById('add-sc-sub').textContent=`${rem} available`;
 }
@@ -1442,6 +1476,8 @@ function renderCards(){
             placeholder="e.g. Paris, Rome…"
             maxlength="40"
             oninput="onDestChg(${sc.id},this.value)"
+            onfocus="showDestSugg(${sc.id})"
+            onblur="setTimeout(()=>hideDestSugg(${sc.id}),160)"
             onclick="event.stopPropagation()"/>
         </div>
         <div class="mf curr-field clickable ${op==='curr'?'active':''}" onclick="togPanel(${sc.id},'curr',event)">
@@ -1509,11 +1545,14 @@ function renderCards(){
   });
 
   uBbar();
+  setTimeout(()=>{S.scs.forEach(sc=>highlightNextField(sc.id));},40);
 }
 
 function onNameChg(scId,v){const sc=S.scs.find(s=>s.id===scId);if(sc){sc.name=v;renderTabs();}}
 function onDestChg(scId,v){
   const sc=S.scs.find(s=>s.id===scId);if(sc){sc.destination=v;renderTabs();}
+  filterDestSugg(scId,v);
+  setTimeout(()=>highlightNextField(scId),50);
   setTimeout(buildRCandCTA,200);
 }
 
@@ -1536,6 +1575,7 @@ function rstSc(id){
 ══════════════════════════════════ */
 function autoSave(){
   try{localStorage.setItem('travelcost_v5',JSON.stringify(S));}catch(e){}
+  showSaved();
 }
 function uBbar(){
   const active=S.scs.filter(s=>scTot(s)>0);
@@ -1549,7 +1589,15 @@ function uBbar(){
   if(chipsEl)chipsEl.style.display=isBlank?'':'none';
 
   if(!active.length){
-    bl.innerHTML=`<span style="font-size:.75rem;color:var(--ink3)">Fill in a scenario to compare</span>`;
+    const partial=S.scs.find(s=>s.destination);
+    if(partial){
+      const dn=partial.nights?`${partial.nights} night${partial.nights!==1?'s':''}`:null;
+      const tr=`${partial.adults} adult${partial.adults!==1?'s':''}`;
+      const parts=[`<strong>${partial.destination}</strong>`,dn,tr].filter(Boolean).join('<span class="sep"> · </span>');
+      bl.innerHTML=`<div class="bbar-partial">${parts}<span class="bbar-summary-hint">add costs to see total →</span></div>`;
+    } else {
+      bl.innerHTML=`<span style="font-size:.75rem;color:var(--ink3)">Fill in a scenario to compare</span>`;
+    }
     btn.disabled=true;
     document.getElementById('rc-section').innerHTML='';
     document.getElementById('cta-section').innerHTML='';
@@ -1559,6 +1607,9 @@ function uBbar(){
     const idx=S.scs.indexOf(s);
     return `<div class="bbt"><div class="bbt-dot" style="background:${DOTS[idx%4]}"></div><span class="bbt-name">${s.destination||s.name||'Sc '+(idx+1)}</span><span class="bbt-amt">${s.currency}${fmt(scTot(s))}</span></div>`;
   }).join('<span class="bbar-sep">|</span>');
+  if(active.length===1&&S.scs.length<3){
+    bl.innerHTML+=`<span class="bbar-summary-hint">↳ add a 2nd scenario to compare</span>`;
+  }
   btn.disabled=active.length<2;
   buildRCandCTA();
 }
@@ -1684,6 +1735,21 @@ function renderCmp(){
   const active=S.scs.filter(s=>scTot(s)>0);
   if(!active.length){document.getElementById('cmp-content').innerHTML='<p style="padding:40px;text-align:center;color:var(--ink3)">No data to compare.</p>';return;}
   document.getElementById('cmp-sub').textContent=`${active.length} scenario${active.length!==1?'s':''}`;
+  // Identical scenarios detection
+  let identicalHTML='';
+  if(active.length>=2){
+    outer:for(let i=0;i<active.length-1;i++){
+      for(let j=i+1;j<active.length;j++){
+        const a=active[i],b=active[j];
+        if(Math.abs(scTot(a)-scTot(b))<1&&a.nights===b.nights&&a.destination===b.destination){
+          const na=a.destination||a.name||`Scenario ${i+1}`;
+          const nb=b.destination||b.name||`Scenario ${j+1}`;
+          identicalHTML=`<div class="identical-notice">⚠️ <strong>${na}</strong> and <strong>${nb}</strong> look identical — edit one scenario to get a meaningful comparison</div>`;
+          break outer;
+        }
+      }
+    }
+  }
   const tots=active.map(s=>scTot(s)),minT=Math.min(...tots),maxT=Math.max(...tots);
   const cheapest=active[tots.indexOf(minT)],savings=tots.length>1?maxT-minT:0;
   const perDays=active.map(s=>scTot(s)/Math.max(s.nights,1));
@@ -1777,7 +1843,7 @@ function renderCmp(){
   h+=`</div><div class="legend">`;active.forEach((sc,i)=>h+=`<div class="li"><div class="ld" style="background:${DOTS[S.scs.indexOf(sc)%4]}"></div><span>${sc.destination||sc.name||'Sc '+(i+1)}</span></div>`);
   h+=`</div></div>`;
 
-  document.getElementById('cmp-content').innerHTML=h;
+  document.getElementById('cmp-content').innerHTML=identicalHTML+h;
 
   const bb2=document.getElementById('bbar-l2');
   if(bb2)bb2.innerHTML=active.map((s,i)=>{const idx=S.scs.indexOf(s);return`<div class="bbt"><div class="bbt-dot" style="background:${DOTS[idx%4]}"></div><span class="bbt-name">${s.destination||s.name||'Sc '+(idx+1)}</span><span class="bbt-amt">${s.currency}${fmt(scTot(s))}</span></div>`;}).join('<span class="bbar-sep">|</span>');
@@ -1893,6 +1959,9 @@ document.addEventListener('click',e=>{
   if(activePicker!==null&&!e.target.closest('.cat-picker')&&!e.target.closest('.add-cat-btn')){
     activePicker=null;renderCards();
   }
+  if(!e.target.closest('.dest-field')&&!e.target.closest('.dest-sugg')){
+    hideDestSugg(null);
+  }
 });
 
 function showToast(msg){
@@ -1904,6 +1973,120 @@ function showToast(msg){
   t.textContent=msg;t.style.opacity='1';
   clearTimeout(t._timer);
   t._timer=setTimeout(()=>{t.style.opacity='0';},3000);
+}
+
+/* ══════════════════════════════════
+   DESTINATION SUGGESTIONS
+══════════════════════════════════ */
+const DEST_SUGG_LIST=[
+  ['Paris','🇫🇷'],['Rome','🇮🇹'],['Barcelona','🇪🇸'],['Amsterdam','🇳🇱'],
+  ['Lisbon','🇵🇹'],['Budapest','🇭🇺'],['Prague','🇨🇿'],['Vienna','🇦🇹'],
+  ['Berlin','🇩🇪'],['Athens','🇬🇷'],['Tokyo','🇯🇵'],['Bangkok','🇹🇭'],
+  ['Bali','🇮🇩'],['New York','🇺🇸'],['London','🇬🇧'],['Dubrovnik','🇭🇷']
+];
+
+function showDestSugg(scId){
+  const val=document.querySelector('#scc-'+scId+' .dest-inp')?.value||'';
+  renderDestSugg(scId,val);
+}
+
+function filterDestSugg(scId,val){
+  renderDestSugg(scId,val);
+}
+
+function renderDestSugg(scId,filter){
+  const old=document.getElementById('ds-'+scId);if(old)old.remove();
+  const card=document.getElementById('scc-'+scId);if(!card)return;
+  const matches=filter.length>0
+    ?DEST_SUGG_LIST.filter(([d])=>d.toLowerCase().includes(filter.toLowerCase())&&d.toLowerCase()!==filter.toLowerCase())
+    :DEST_SUGG_LIST.slice(0,8);
+  if(!matches.length)return;
+  const wrap=card.querySelector('.mf.dest-field');if(!wrap)return;
+  const el=document.createElement('div');
+  el.className='dest-sugg';el.id='ds-'+scId;
+  el.innerHTML=matches.map(([d,flag])=>`<div class="dest-sugg-item" onmousedown="pickDestSugg(${scId},'${d.replace(/'/g,"\\'")}')">${flag} ${d}</div>`).join('');
+  wrap.appendChild(el);
+}
+
+function hideDestSugg(scId){
+  if(scId!=null){const el=document.getElementById('ds-'+scId);if(el)el.remove();}
+  else document.querySelectorAll('.dest-sugg').forEach(el=>el.remove());
+}
+
+function pickDestSugg(scId,dest){
+  const sc=S.scs.find(s=>s.id===scId);if(!sc)return;
+  sc.destination=dest;
+  if(!sc.name||!sc.name.trim())sc.name=dest;
+  hideDestSugg(scId);
+  const inp=document.querySelector('#scc-'+scId+' .dest-inp');
+  if(inp)inp.value=dest;
+  renderTabs();
+  setTimeout(()=>highlightNextField(scId),50);
+  setTimeout(buildRCandCTA,200);
+  autoSave();
+}
+
+/* ══════════════════════════════════
+   FIELD PROGRESSION HIGHLIGHT
+══════════════════════════════════ */
+function highlightNextField(scId){
+  const sc=S.scs.find(s=>s.id===scId);if(!sc)return;
+  const card=document.getElementById('scc-'+scId);if(!card)return;
+  // Clear previous hints
+  card.querySelectorAll('.mf.next-up').forEach(el=>el.classList.remove('next-up'));
+  card.querySelectorAll('.field-hint').forEach(el=>el.remove());
+  if(!sc.destination)return;
+  if(!sc.sd){
+    const df=card.querySelector('.mf.dates-full');
+    if(df){
+      df.classList.add('next-up');
+      const h=document.createElement('div');
+      h.className='field-hint';
+      h.textContent='↑ Pick your travel dates to continue';
+      const row=df.closest('.mini-row');
+      if(row&&row.nextElementSibling)row.parentNode.insertBefore(h,row.nextElementSibling);
+      else if(row)row.after(h);
+    }
+  }
+}
+
+/* ══════════════════════════════════
+   DUPLICATE SCENARIO
+══════════════════════════════════ */
+function dupeSc(id){
+  if(S.scs.length>=3){showToast('Maximum 3 scenarios reached');return;}
+  const src=S.scs.find(s=>s.id===id);if(!src)return;
+  const clone=JSON.parse(JSON.stringify(src));
+  clone.id=S.nid++;
+  clone.name=(src.destination||src.name||'Option')+' (copy)';
+  clone.openPanel=null;clone.planOpen=false;clone.oc={};
+  S.scs.push(clone);S.aid=clone.id;
+  renderTabs();renderCards();
+  showToast('Scenario duplicated — edit costs to compare a different budget');
+  autoSave();
+}
+
+/* ══════════════════════════════════
+   COMPARE WITH LOADING STATE
+══════════════════════════════════ */
+function goCmpWithLoading(){
+  const btn=document.getElementById('cmp-btn');
+  if(btn){btn.textContent='Calculating…';btn.classList.add('loading');}
+  setTimeout(()=>{
+    renderCmp();go(2);
+    if(btn){btn.textContent='Compare →';btn.classList.remove('loading');}
+  },380);
+}
+
+/* ══════════════════════════════════
+   SAVED INDICATOR
+══════════════════════════════════ */
+let _saveDotTimer=null;
+function showSaved(){
+  const el=document.getElementById('saved-dot');if(!el)return;
+  el.style.opacity='1';
+  clearTimeout(_saveDotTimer);
+  _saveDotTimer=setTimeout(()=>{el.style.opacity='0';},1800);
 }
 </script>
 </body>
