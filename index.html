@@ -603,6 +603,19 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:clamp(20px,4vw,3
 .hero-ex-chip{padding:5px 13px;border-radius:var(--pill);border:1.5px solid var(--parch);background:#fff;font-family:'Manrope',sans-serif;font-size:.75rem;font-weight:500;color:var(--ink2);cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:5px;}
 .hero-ex-chip:hover{border-color:var(--forest);color:var(--forest);background:var(--fl);}
 
+/* ═══ STANDALONE TRAVEL PLAN BOX ═══ */
+#travel-plan-section{max-width:1300px;margin:0 auto;padding:0 clamp(16px,4vw,40px) 28px;}
+.tp-box{background:#fff;border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;}
+.tp-head{padding:16px 22px;background:linear-gradient(135deg,#FDFAF4 60%,#F5F0E6 100%);border-bottom:1px solid #F0EAE0;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.tp-meta{display:flex;align-items:center;gap:10px;}
+.tp-ico{font-size:1.15rem;flex-shrink:0;}
+.tp-label{font-family:'Cormorant Garamond',serif;font-size:1.12rem;font-weight:400;color:var(--ink);}
+.tp-label em{font-style:italic;color:var(--forest);}
+.tp-label-sub{font-size:.65rem;color:var(--ink3);font-weight:400;margin-top:1px;}
+.tp-toggle{padding:6px 14px;border-radius:var(--pill);border:1.5px solid var(--parch);background:#fff;font-family:'Manrope',sans-serif;font-size:.73rem;font-weight:500;color:var(--ink3);cursor:pointer;transition:all .15s;white-space:nowrap;}
+.tp-toggle:hover,.tp-toggle.open{border-color:var(--forest);color:var(--forest);background:var(--fl);}
+.tp-body{border-top:1px solid #F0EAE0;}
+
 /* ═══ PRIVACY SHEET ═══ */
 .privacy-overlay{position:fixed;inset:0;background:rgba(10,8,6,.5);z-index:2000;display:flex;align-items:flex-end;justify-content:center;}
 .privacy-overlay.hidden{display:none!important;}
@@ -752,11 +765,6 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:clamp(20px,4vw,3
   </div>
 </div>
 
-<!-- PRIMARY CTA -->
-<div class="calc-cta-wrap" id="calc-cta-wrap">
-  <button class="calc-cta-btn" id="calc-cta-btn">Calculate my trip →</button>
-</div>
-
 <!-- REALITY CHECK + CTA side by side -->
 <div class="rc-cta-outer" id="rc-cta-outer">
   <div class="rc-section" id="rc-section"></div>
@@ -770,6 +778,11 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:clamp(20px,4vw,3
     <button class="bb bb-g" onclick="shareURL()">🔗 Share</button>
     <button class="bb bb-p" id="cmp-btn" disabled onclick="goCmpWithLoading()">Compare →</button>
   </div>
+</div>
+
+<!-- TRAVEL PLAN (standalone box) -->
+<div id="travel-plan-section" style="display:none">
+  <div id="travel-plan-content"></div>
 </div>
 
 <!-- HOW IT WORKS -->
@@ -1608,7 +1621,7 @@ function renderCards(){
       <div><div class="ct-lbl">Total</div><div id="ca-${sc.id}" class="ct-amt">${t>0?sym+fmt(t):'—'}</div></div>
       <div id="cr-${sc.id}">${t>0?`<div class="ct-meta">${sym}${fmt(Math.round(t/days))}/day · team<br>${sym}${fmt(Math.round(t/days/pp))}/day per person</div>`:'<span class="ct-ph">Fill in costs above</span>'}</div>
     </div>
-    ${t>0?`<button class="plan-toggle${sc.planOpen?' open':''}" onclick="togPlan(${sc.id})"><span>📋 Turn this into a travel plan</span><span>${sc.planOpen?'▾':'▸'}</span></button>${sc.planOpen?renderPlanBody(sc):''}`:''}`;
+    `;
 
     wrap.insertBefore(card,aBtn);
     if(op==='dates')setTimeout(()=>renderCal(sc.id),40);
@@ -1660,12 +1673,7 @@ function uBbar(){
   if(landingEl)landingEl.style.display=isBlank?'':'none';
   if(chipsEl)chipsEl.style.display=isBlank?'':'none';
 
-  // Manage calc CTA button
-  const ctaWrap=document.getElementById('calc-cta-wrap');
-  const ctaBtn=document.getElementById('calc-cta-btn');
-
   if(!active.length){
-    if(ctaWrap)ctaWrap.style.display='none';
     const partial=S.scs.find(s=>s.destination);
     if(partial){
       const dn=partial.nights?`${partial.nights} night${partial.nights!==1?'s':''}`:null;
@@ -1678,20 +1686,8 @@ function uBbar(){
     btn.disabled=true;
     document.getElementById('rc-section').innerHTML='';
     document.getElementById('cta-section').innerHTML='';
+    buildTravelPlanSection();
     return;
-  }
-
-  if(ctaWrap){
-    ctaWrap.style.display='flex';
-    if(ctaBtn){
-      if(active.length>=2){
-        ctaBtn.textContent='Compare all options →';
-        ctaBtn.onclick=goCmpWithLoading;
-      } else {
-        ctaBtn.textContent='Calculate my trip →';
-        ctaBtn.onclick=calcTrip;
-      }
-    }
   }
 
   bl.innerHTML=active.map((s,i)=>{
@@ -1704,6 +1700,7 @@ function uBbar(){
   }
   btn.disabled=active.length<2;
   buildRCandCTA();
+  buildTravelPlanSection();
 }
 
 /* ══════════════════════════════════
@@ -1986,7 +1983,40 @@ function scrollToCalc(){
 function togPlan(scId){
   const sc=S.scs.find(s=>s.id===scId);if(!sc)return;
   sc.planOpen=!sc.planOpen;
-  renderCards();
+  buildTravelPlanSection();
+}
+
+function buildTravelPlanSection(){
+  const section=document.getElementById('travel-plan-section');
+  const content=document.getElementById('travel-plan-content');
+  if(!section||!content)return;
+
+  const active=S.scs.filter(s=>scTot(s)>0);
+  if(!active.length){section.style.display='none';return;}
+
+  // Use active scenario if it has data, else first active
+  const sc=(S.scs.find(s=>s.id===S.aid&&scTot(s)>0))||active[0];
+  if(!sc){section.style.display='none';return;}
+
+  section.style.display='block';
+  const isOpen=!!sc.planOpen;
+  const dest=sc.destination||'your trip';
+  const days=Math.max(sc.nights,1);
+  const dayLabel=`${days} day${days!==1?'s':''}`;
+
+  content.innerHTML=`<div class="tp-box">
+    <div class="tp-head">
+      <div class="tp-meta">
+        <span class="tp-ico">📋</span>
+        <div>
+          <div class="tp-label">Turn this into a travel plan — <em>${dest}</em></div>
+          <div class="tp-label-sub">${dayLabel} · AI-style day-by-day itinerary based on your budget</div>
+        </div>
+      </div>
+      <button class="tp-toggle ${isOpen?'open':''}" onclick="togPlan(${sc.id})">${isOpen?'▾ Collapse':'▸ View plan'}</button>
+    </div>
+    ${isOpen?`<div class="tp-body">${renderPlanBody(sc)}</div>`:''}
+  </div>`;
 }
 
 function renderPlanBody(sc){
