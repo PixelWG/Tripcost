@@ -765,8 +765,7 @@ function renderTabs(){
     </div>`;
   }).join('')+(S.scs.length<3?`<div class="sc-tab sc-tab-add" onclick="addSc()">＋ Add</div>`:'');
   const rem=3-S.scs.length;
-  document.getElementById('add-sc-sub').textContent=rem>0?`${rem} available`:'Max reached';
-  document.getElementById('add-sc-btn').style.opacity=rem>0&&S.scs.length<3?'1':'.4';
+  document.getElementById('add-sc-sub').textContent=`${rem} available`;
 }
 
 /* ══════════════════════════════════
@@ -1024,6 +1023,7 @@ function buildTL(sc){
 function renderCards(){
   const wrap=document.getElementById('sc-wrap'),aBtn=document.getElementById('add-sc-btn');
   wrap.querySelectorAll('.sc-card').forEach(c=>c.remove());
+  aBtn.style.display=S.scs.length>=3?'none':'flex';
 
   S.scs.forEach((sc,i)=>{
     const card=document.createElement('article');
