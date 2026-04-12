@@ -469,6 +469,23 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:clamp(20px,4vw,3
 }
 @media(max-width:640px){.stats .stat:nth-child(n+4){display:none;}.bbt-name{display:none;}.depth-lbl{display:none;}.mini-fields{grid-template-columns:repeat(2,1fr);}.mf{border-bottom:1px solid #F0EAE0;}}
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important;}}
+
+/* ═══ BEST OPTION BADGES ═══ */
+.card-badges{padding:5px 16px 7px;display:flex;gap:5px;flex-wrap:wrap;}
+.best-badge{display:inline-flex;align-items:center;gap:3px;font-size:.57rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;border-radius:var(--pill);padding:3px 9px;}
+.best-badge.cheapest{background:var(--forest);color:#fff;}
+.best-badge.perday{background:var(--amber);color:#fff;}
+
+/* ═══ TRAVEL PLAN ═══ */
+.plan-toggle{width:100%;padding:9px 16px;border:none;border-top:1px solid #F0EAE0;background:transparent;font-family:'Manrope',sans-serif;font-size:.74rem;color:var(--ink3);cursor:pointer;display:flex;align-items:center;justify-content:space-between;text-align:left;transition:background .15s,color .15s;}
+.plan-toggle:hover,.plan-toggle.open{background:var(--fl);color:var(--forest);}
+.plan-body{padding:14px 16px 10px;border-top:1px solid #F0EAE0;background:var(--ivory-c);}
+.plan-day{display:flex;gap:10px;margin-bottom:11px;align-items:flex-start;}
+.plan-day:last-child{margin-bottom:0;}
+.plan-day-num{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:600;color:var(--forest);flex-shrink:0;min-width:24px;line-height:1.35;}
+.plan-day-head{font-size:.77rem;font-weight:600;color:var(--ink);line-height:1.35;}
+.plan-day-txt{font-size:.72rem;color:var(--ink3);line-height:1.5;margin-top:2px;}
+.plan-budget-hint{font-size:.64rem;color:var(--forest);margin-top:3px;font-weight:500;}
 </style>
 <meta name="description" content="Free travel budget calculator. Plan and compare up to 3 trip scenarios side by side. No signup required."/>
 <meta name="keywords" content="travel budget calculator, trip cost calculator, vacation budget planner"/>
@@ -1025,12 +1042,19 @@ function renderCards(){
   wrap.querySelectorAll('.sc-card').forEach(c=>c.remove());
   aBtn.style.display=S.scs.length>=3?'none':'flex';
 
+  const active=S.scs.filter(s=>scTot(s)>0);
+  const cheapestId=active.length>=2?active.reduce((a,b)=>scTot(a)<=scTot(b)?a:b).id:null;
+  const bestDayId=active.length>=2?active.reduce((a,b)=>(scTot(a)/Math.max(a.nights,1))<=(scTot(b)/Math.max(b.nights,1))?a:b).id:null;
+
   S.scs.forEach((sc,i)=>{
     const card=document.createElement('article');
     card.className='sc-card';card.id='scc-'+sc.id;
     const t=scTot(sc),sym=sc.currency,days=Math.max(sc.nights,1),pp=Math.max(sc.adults+(sc.children||0),1);
     // hasN/hasD/hasDt removed (hint removed)
     const totDays=Math.max(sc.nights,1);
+    const isCheapest=t>0&&sc.id===cheapestId;
+    const isBestVal=t>0&&sc.id===bestDayId&&cheapestId!==bestDayId;
+    const badgeHTML=(isCheapest||isBestVal)?`<div class="card-badges">${isCheapest?'<span class="best-badge cheapest">🏆 Cheapest overall</span>':''}${isBestVal?'<span class="best-badge perday">💡 Best value/day</span>':''}</div>`:'';
 
     // Build mini panel HTML
     const op=sc.openPanel;
@@ -1234,6 +1258,7 @@ function renderCards(){
           maxlength="40" oninput="onNameChg(${sc.id},this.value)"/>
         ${S.scs.length>1?`<button class="card-del" onclick="delSc(${sc.id})">×</button>`:''}
       </div>
+      ${badgeHTML}
     </div>
 
     <!-- MINI SETUP: 3 rows layout -->
@@ -1306,7 +1331,7 @@ function renderCards(){
       <div><div class="ct-lbl">Total</div><div id="ca-${sc.id}" class="ct-amt">${t>0?sym+fmt(t):'—'}</div></div>
       <div id="cr-${sc.id}">${t>0?`<div class="ct-meta">${sym}${fmt(Math.round(t/days))}/day · team<br>${sym}${fmt(Math.round(t/days/pp))}/day per person</div>`:'<span class="ct-ph">Fill in costs above</span>'}</div>
     </div>
-`;
+    ${t>0?`<button class="plan-toggle${sc.planOpen?' open':''}" onclick="togPlan(${sc.id})"><span>📋 Turn this into a travel plan</span><span>${sc.planOpen?'▾':'▸'}</span></button>${sc.planOpen?renderPlanBody(sc):''}`:''}`;
 
     wrap.insertBefore(card,aBtn);
     if(op==='dates')setTimeout(()=>renderCal(sc.id),40);
@@ -1594,6 +1619,68 @@ function shareURL(){
       })
       .catch(()=>prompt('Copy this link to share your trip plan:',u));
   }catch(e){alert('Could not generate link.');}
+}
+
+/* ══════════════════════════════════
+   TRAVEL PLAN
+══════════════════════════════════ */
+function togPlan(scId){
+  const sc=S.scs.find(s=>s.id===scId);if(!sc)return;
+  sc.planOpen=!sc.planOpen;
+  renderCards();
+}
+
+function renderPlanBody(sc){
+  const dest=sc.destination||'your destination';
+  const days=Math.max(sc.nights,1);
+  const total=scTot(sc),sym=sc.currency;
+  const daily=total/days;
+  const pp=Math.max(sc.adults+(sc.children||0),1);
+  const rc=getRCData(dest);
+  let tier='mid';
+  if(rc){if((daily/pp)<rc.min*0.9)tier='budget';else if((daily/pp)>rc.avg*1.25)tier='comfort';}
+  const T={
+    budget:{stay:'a hostel or budget guesthouse',food:'street food and local markets',move:'public transport and walking',see:'free attractions and city parks'},
+    mid:{stay:'a mid-range hotel or Airbnb',food:'local restaurants and cafés',move:'a mix of transit and taxi',see:'top attractions and a guided tour'},
+    comfort:{stay:'a boutique hotel or 4★',food:'restaurants and rooftop dining',move:'taxis and private transfers',see:'skip-the-line tickets and curated experiences'}
+  }[tier];
+
+  let rows='';
+  for(let d=1;d<=days;d++){
+    let head,body;
+    if(d===1){
+      head=`Arrival in ${dest}`;
+      body=`Check into ${T.stay}. Take a slow walk to get your bearings. Dinner at ${T.food} nearby.`;
+    } else if(d===days&&days>1){
+      head='Departure day';
+      body='Morning coffee and a last stroll. Pack up, squeeze in a final souvenir stop, then head to the airport or station.';
+    } else if(d===2){
+      head='Main highlights';
+      body=`Full day on ${dest}'s top sights. Get around via ${T.move}. Book ${T.see} ahead if you can.`;
+    } else if(d===3){
+      head='Local neighbourhoods';
+      body=`Skip the guidebook today — explore a local market, a quiet neighbourhood, a hidden courtyard. Lunch at ${T.food}.`;
+    } else if(d%3===1){
+      head='Day trip';
+      body=`Half or full day to a nearby town or landmark. A change of pace from ${dest} that's usually worth it.`;
+    } else if(d%3===2){
+      head='Culture & food';
+      body=`Museum or gallery in the morning. Slow café afternoon. Evening: somewhere new for ${T.food}.`;
+    } else {
+      head='Slow day';
+      body='Later start, local bakery, a park or riverside walk. Let the city find you.';
+    }
+    const hint=total>0?`~${sym}${fmt(Math.round(daily))} for the group`:'';
+    rows+=`<div class="plan-day">
+      <div class="plan-day-num">D${d}</div>
+      <div>
+        <div class="plan-day-head">${head}</div>
+        <div class="plan-day-txt">${body}</div>
+        ${hint?`<div class="plan-budget-hint">${hint}</div>`:''}
+      </div>
+    </div>`;
+  }
+  return `<div class="plan-body">${rows}</div>`;
 }
 
 document.addEventListener('click',e=>{
