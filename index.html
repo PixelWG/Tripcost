@@ -779,7 +779,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:clamp(20px,4vw,3
 <div class="bbar">
   <div class="bbar-l" id="bbar-l"><span style="font-size:.75rem;color:var(--ink3)">Fill in a scenario to compare</span></div>
   <div class="bbar-r">
-    <button class="bb bb-g" onclick="shareURL()">🔗 Share</button>
+    <button class="bb bb-g" onclick="shareURL()">🔗 Share plan with a friend</button>
     <button class="bb bb-p" id="cmp-btn" disabled onclick="goCmpWithLoading()">Compare →</button>
   </div>
 </div>
@@ -1717,7 +1717,8 @@ function buildRCandCTA(){
     const rc=getRCData(dest);
     const total=scTot(sc);
     const days=Math.max(sc.nights,1);
-    const daily=total/days;
+    const pp=Math.max(sc.adults+(sc.children||0),1);
+    const dailyPP=total/days/pp;  // per person per day — matches RC benchmark data
     const sym=sc.currency;
     const idx=S.scs.indexOf(sc);
     const scLabel=getScLabel(sc,idx);
@@ -1725,29 +1726,31 @@ function buildRCandCTA(){
     const groupHd=active.length>1?`<div class="rc-group-hd"><span class="rc-dot" style="background:${dot}"></span>${scLabel}</div>`:'';
     let innerHTML='';
     if(rc&&dest){
-      const minT=rc.min*days,avgT=rc.avg*days,maxT=rc.max*days;
-      const ratio=(daily-rc.min)/(rc.max-rc.min);
+      const minT=rc.min*days*pp,avgT=rc.avg*days*pp,maxT=rc.max*days*pp;
+      const ratio=(dailyPP-rc.min)/(rc.max-rc.min);
       const pct=Math.max(5,Math.min(93,Math.round(ratio*100)));
-      const diffPct=Math.abs((daily-rc.avg)/rc.avg);
+      const diffPct=Math.abs((dailyPP-rc.avg)/rc.avg);
+      const ppLabel=pp>1?` per person`:'';
       let status,statusLabel,statusTitle,statusSub;
-      if(daily<rc.min){
+      if(dailyPP<rc.min){
         status='warn';statusLabel='⚠️ Budget alert';
         statusTitle=`Budget may be tight for ${dest}`;
-        statusSub=`You planned ${sym}${fmt(Math.round(daily))}/day — the typical minimum in ${dest} is ${sym}${rc.min}/day. Consider adjusting or prioritising budget accommodation.`;
+        statusSub=`You planned ${sym}${fmt(Math.round(dailyPP))}/day${ppLabel} — the typical minimum in ${dest} is ${sym}${rc.min}/day. Consider adjusting or prioritising budget accommodation.`;
       }else if(diffPct<=0.2){
         status='ok';statusLabel='✓ Realistic budget';
         statusTitle=`Your budget is on track for ${dest}`;
-        statusSub=`${sym}${fmt(Math.round(daily))}/day is right in the realistic range for ${dest}. You should be comfortable without major compromises.`;
-      }else if(daily>rc.avg){
+        statusSub=`${sym}${fmt(Math.round(dailyPP))}/day${ppLabel} is right in the realistic range for ${dest}. You should be comfortable without major compromises.`;
+      }else if(dailyPP>rc.avg){
         status='good';statusLabel='🌟 Comfortable budget';
         statusTitle=`You can enjoy ${dest} comfortably`;
-        statusSub=`${sym}${fmt(Math.round(daily))}/day is above average for ${dest}. You can afford mid-range hotels, restaurants, and activities without stress.`;
+        statusSub=`${sym}${fmt(Math.round(dailyPP))}/day${ppLabel} is above average for ${dest}. You can afford mid-range hotels, restaurants, and activities without stress.`;
       }else{
         status='ok';statusLabel='✓ Budget-friendly';
         statusTitle=`Your budget works for ${dest}`;
-        statusSub=`${sym}${fmt(Math.round(daily))}/day is below average but manageable with smart choices like Airbnb, local food, and free attractions.`;
+        statusSub=`${sym}${fmt(Math.round(dailyPP))}/day${ppLabel} is below average but manageable with smart choices like Airbnb, local food, and free attractions.`;
       }
       const saving=total-avgT,savingAbs=Math.abs(saving);
+      const ppNote=pp>1?` (${pp} people, ${days} days)`:`(${days} days)`;
       innerHTML=`
       <div class="rc-card ${status}">
         <div class="rc-status ${status}">${statusLabel}</div>
@@ -1759,19 +1762,19 @@ function buildRCandCTA(){
           <span>${sym}${fmt(avgT)} avg</span>
           <span>${sym}${fmt(maxT)} max</span>
         </div>
-        <div class="rc-insight">Most travelers spend around <strong>${sym}${fmt(avgT)}</strong> for ${days} days in ${dest}.
+        <div class="rc-insight">Typical budget for ${dest} ${ppNote}: <strong>${sym}${fmt(avgT)}</strong>.
           You planned <strong>${sym}${fmt(total)}</strong> —
           ${saving>=0?`saving <strong>${sym}${fmt(savingAbs)}</strong> vs average.`:`<span class="neg">${sym}${fmt(savingAbs)} below the typical budget.</span>`}
         </div>
       </div>
       <div class="anchor-card">
-        <div class="anchor-lbl">${rc.flag||''} ${dest} — daily costs</div>
+        <div class="anchor-lbl">${rc.flag||''} ${dest} — per person/day</div>
         <div class="anchor-rows">
           <div class="anchor-row"><span class="al">Budget traveler</span><span class="av">${sym}${rc.min}/day</span></div>
           <div class="anchor-row"><span class="al">Mid-range</span><span class="av">${sym}${rc.avg}/day</span></div>
           <div class="anchor-row"><span class="al">Comfortable</span><span class="av">${sym}${rc.max}/day</span></div>
           <div class="anchor-divider"></div>
-          <div class="anchor-row"><span class="al">Your plan</span><span class="av ${daily>=rc.min?'hi':'lo'}">${sym}${fmt(Math.round(daily))}/day</span></div>
+          <div class="anchor-row"><span class="al">Your plan</span><span class="av ${dailyPP>=rc.min?'hi':'lo'}">${sym}${fmt(Math.round(dailyPP))}/day pp</span></div>
         </div>
         ${saving>=0?`<div class="anchor-saving">💚 Saving ${sym}${fmt(savingAbs)} vs average</div>`:''}
       </div>`;
