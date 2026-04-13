@@ -46,16 +46,12 @@ input[type=number]{-moz-appearance:textfield;}
 .setup{background:var(--ivory-d);border-top:1px solid var(--parch);border-bottom:1px solid var(--parch);}
 .setup-inner{max-width:1300px;margin:0 auto;padding:14px clamp(16px,4vw,40px);}
 .setup-lbl{font-size:.62rem;text-transform:uppercase;letter-spacing:.13em;color:var(--ink3);font-weight:600;margin-bottom:10px;}
-.sc-tabs{display:flex;gap:5px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:2px;}
-.sc-tabs::-webkit-scrollbar{height:3px;}
-.sc-tabs::-webkit-scrollbar-thumb{background:var(--parch);border-radius:3px;}
-.sc-tab{padding:6px 14px;border-radius:var(--pill);border:1.5px solid var(--parch);background:#fff;font-family:'Manrope',sans-serif;font-size:.8rem;font-weight:500;color:var(--ink2);cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .15s;white-space:nowrap;flex-shrink:0;}
+.sc-tabs{display:flex;gap:5px;flex-wrap:wrap;}
+.sc-tab{padding:6px 14px;border-radius:var(--pill);border:1.5px solid var(--parch);background:#fff;font-family:'Manrope',sans-serif;font-size:.8rem;font-weight:500;color:var(--ink2);cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .15s;max-width:160px;}
 .sc-tab.on{border-color:var(--forest);background:var(--fl);color:var(--forest);font-weight:600;}
 .sc-tab-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
-.sc-tab-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100px;}
-.sc-tab-amt{font-size:.68rem;font-family:'Cormorant Garamond',serif;opacity:.75;font-weight:400;}
-.sc-tab.on .sc-tab-amt{opacity:1;font-weight:600;}
-.sc-tab-add{border-style:dashed;color:var(--ink3);}
+.sc-tab-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.sc-tab-add{border-style:dashed;color:var(--ink3);max-width:none;}
 .sc-tab-add:hover{border-color:var(--forest);color:var(--forest);}
 
 /* ═══ MODE BAR ═══ */
@@ -71,26 +67,13 @@ input[type=number]{-moz-appearance:textfield;}
 .dtab.on{background:#fff;color:var(--forest);font-weight:600;box-shadow:0 1px 8px rgba(28,24,16,.1);}
 
 /* ═══ CARDS WRAP ═══ */
-.sc-wrap{max-width:1300px;margin:0 auto;padding:clamp(14px,2.5vw,22px) clamp(16px,4vw,40px) 24px;display:flex;gap:16px;overflow-x:hidden;align-items:flex-start;}
+.sc-wrap{max-width:1300px;margin:0 auto;padding:clamp(18px,3vw,28px) clamp(16px,4vw,40px) 24px;display:flex;gap:16px;overflow-x:auto;align-items:flex-start;-webkit-overflow-scrolling:touch;}
+.sc-wrap::-webkit-scrollbar{height:4px;}
+.sc-wrap::-webkit-scrollbar-thumb{background:var(--parch);border-radius:4px;}
 
 /* ═══ SCENARIO CARD ═══ */
-.sc-card{flex:0 0 clamp(290px,95vw,480px);background:#fff;border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;transition:box-shadow .25s;}
-.sc-card:not(.sc-card-active){display:none!important;}
-#add-sc-btn{display:none!important;}
-
-/* ═══ COMPARISON STRIP ═══ */
-#cmp-strip{padding:0 0 12px;}
-.cstrip-inner{display:flex;align-items:stretch;background:#fff;border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;}
-.cstrip-chip{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 8px 8px;cursor:pointer;transition:background .13s;border-right:1px solid #F0EAE0;gap:3px;min-width:0;background:none;border-top:none;border-bottom:none;border-left:none;font-family:'Manrope',sans-serif;}
-.cstrip-chip:last-child{border-right:none;}
-.cstrip-chip:hover{background:var(--ivory-d);}
-.cstrip-chip.cstrip-active{background:var(--fl);}
-.cstrip-chip.cstrip-best:not(.cstrip-active){background:rgba(31,107,74,.03);}
-.cstrip-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.cstrip-name{font-size:.64rem;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.07em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;}
-.cstrip-amt{font-family:'Cormorant Garamond',serif;font-size:1.18rem;font-weight:400;color:var(--ink);white-space:nowrap;}
-.cstrip-amt.cstrip-best-amt{color:var(--forest);}
-.cstrip-badge{font-size:.54rem;font-weight:700;color:var(--forest);background:rgba(31,107,74,.1);border:1px solid rgba(31,107,74,.22);border-radius:var(--pill);padding:1px 6px;white-space:nowrap;}
+.sc-card{flex:0 0 clamp(290px,82vw,334px);background:#fff;border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;transition:box-shadow .25s,transform .25s;}
+.sc-card:hover{box-shadow:var(--sh2);transform:translateY(-3px);}
 
 /* Card head — scenario name input */
 .card-head{padding:13px 16px 11px;border-bottom:1px solid #F0EAE0;background:linear-gradient(135deg,#FDFAF4 55%,#F8F2E8 100%);}
@@ -763,7 +746,6 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:clamp(20px,4vw,3
 
 <!-- SCENARIO TABS -->
 <div class="setup"><div class="setup-inner">
-  <div id="cmp-strip" style="display:none"></div>
   <div class="setup-lbl">Your scenarios</div>
   <div class="sc-tabs" id="sc-tabs"></div>
 </div></div>
@@ -1524,18 +1506,14 @@ function renderTabs(){
   const tabs=document.getElementById('sc-tabs');
   tabs.innerHTML=S.scs.map((s,i)=>{
     const label=truncate(getScLabel(s,i),16);
-    const tot=scTot(s);
-    const amtHTML=tot>0?`<span class="sc-tab-amt">${s.currency}${fmt(tot)}</span>`:'';
     return `<div class="sc-tab ${s.id===S.aid?'on':''}" onclick="switchSc(${s.id})">
       <div class="sc-tab-dot" style="background:${DOTS[i%4]}"></div>
       <span class="sc-tab-label">${label}</span>
-      ${amtHTML}
     </div>`;
   }).join('')+(S.scs.length<3?`<div class="sc-tab sc-tab-add" onclick="addSc()">＋ Add</div>`:'')
   +(S.aid&&S.scs.length>0&&S.scs.length<3?`<button class="sc-tab-dupe" onclick="dupeSc(${S.aid})" title="Duplicate this scenario">⎘ Duplicate</button>`:'');
   const rem=3-S.scs.length;
   document.getElementById('add-sc-sub').textContent=`${rem} available`;
-  buildCmpStrip();
 }
 
 /* ══════════════════════════════════
@@ -1788,36 +1766,6 @@ function buildTL(sc){
 }
 
 /* ══════════════════════════════════
-   COMPARISON STRIP
-══════════════════════════════════ */
-function buildCmpStrip(){
-  const el=document.getElementById('cmp-strip');
-  if(!el)return;
-  if(S.scs.length<2){el.style.display='none';return;}
-
-  const active=S.scs.filter(s=>scTot(s)>0);
-  const minTot=active.length>=2?Math.min(...active.map(s=>scTot(s))):null;
-  const bestId=active.length>=2?active.find(s=>scTot(s)===minTot)?.id:null;
-
-  el.style.display='block';
-  el.innerHTML=`<div class="cstrip-inner">${
-    S.scs.map((sc,i)=>{
-      const tot=scTot(sc);
-      const isActive=sc.id===S.aid;
-      const isBest=bestId&&sc.id===bestId;
-      const label=getScLabel(sc,i);
-      return `<button class="cstrip-chip${isActive?' cstrip-active':''}${isBest?' cstrip-best':''}"
-        onclick="switchSc(${sc.id})">
-        <span class="cstrip-dot" style="background:${DOTS[i%4]}"></span>
-        <span class="cstrip-name">${label}</span>
-        <span class="cstrip-amt${isBest?' cstrip-best-amt':''}">${tot>0?sc.currency+fmt(tot):'—'}</span>
-        ${isBest?`<span class="cstrip-badge">🏆 Best option</span>`:''}
-      </button>`;
-    }).join('')
-  }</div>`;
-}
-
-/* ══════════════════════════════════
    RENDER CARDS
 ══════════════════════════════════ */
 function renderCards(){
@@ -1831,7 +1779,7 @@ function renderCards(){
 
   S.scs.forEach((sc,i)=>{
     const card=document.createElement('article');
-    card.className=`sc-card${sc.id===S.aid?' sc-card-active':''}`;card.id='scc-'+sc.id;
+    card.className='sc-card';card.id='scc-'+sc.id;
     const t=scTot(sc),sym=sc.currency,days=Math.max(sc.nights,1),pp=Math.max(sc.adults+(sc.children||0),1);
     // hasN/hasD/hasDt removed (hint removed)
     const totDays=Math.max(sc.nights,1);
@@ -2124,7 +2072,6 @@ function renderCards(){
     if(isFA)setTimeout(()=>pDS(sc.id),40);
   });
 
-  buildCmpStrip();
   uBbar();
   setTimeout(()=>{S.scs.forEach(sc=>highlightNextField(sc.id));},40);
 }
@@ -2160,7 +2107,6 @@ function autoSave(){
   showSaved();
 }
 function uBbar(){
-  buildCmpStrip();
   const active=S.scs.filter(s=>scTot(s)>0);
   const bl=document.getElementById('bbar-l'),btn=document.getElementById('cmp-btn');
 
