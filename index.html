@@ -327,7 +327,7 @@ input[type=number]{-moz-appearance:textfield;}
 .rc-insight strong{color:var(--forest);}
 .rc-insight .neg{color:var(--coral);}
 .anchor-card{background:var(--ivory-d);border:1px solid var(--parch);border-radius:var(--rm);padding:15px 18px;flex:0 0 auto;min-width:200px;}
-.anchor-lbl{font-size:.61rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3);font-weight:600;margin-bottom:10px;}
+.anchor-lbl{font-size:.61rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3);font-weight:600;}
 .anchor-rows{display:flex;flex-direction:column;gap:5px;}
 .anchor-row{display:flex;justify-content:space-between;align-items:center;font-size:.78rem;}
 .anchor-row .al{color:var(--ink2);}
@@ -337,6 +337,12 @@ input[type=number]{-moz-appearance:textfield;}
 .anchor-divider{height:1px;background:var(--parch);margin:4px 0;}
 .anchor-saving{margin-top:8px;font-size:.75rem;color:var(--forest);font-weight:500;}
 .anchor-note{margin-top:8px;font-size:.6rem;color:var(--ink3);font-style:italic;}
+.anchor-head{display:flex;align-items:flex-start;justify-content:space-between;gap:6px;margin-bottom:8px;}
+.est-badge{font-size:.58rem;font-weight:700;font-family:'Manrope',sans-serif;padding:2px 7px;border-radius:var(--pill);white-space:nowrap;flex-shrink:0;}
+.est-badge-ok{background:rgba(31,107,74,.1);color:var(--forest);border:1px solid rgba(31,107,74,.25);}
+.est-badge-fb{background:#FFF8EC;color:#8A6010;border:1px solid rgba(138,96,16,.28);}
+.est-daily-range{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:400;color:var(--ink);margin-bottom:10px;line-height:1.2;}
+.est-daily-pp{font-size:.62rem;font-family:'Manrope',sans-serif;color:var(--ink3);font-weight:400;margin-left:3px;}
 
 /* ═══ RC + CTA SIDE BY SIDE ═══ */
 .rc-cta-outer{max-width:1300px;margin:0 auto;display:flex;gap:16px;align-items:flex-start;padding:20px clamp(16px,4vw,40px) 8px;}
@@ -1358,13 +1364,57 @@ function getEstimate(destination){
 function getEstimateMessage(source){
   return {
     city:    null,
-    country: 'Estimated from country averages',
-    region:  'Estimated from regional averages',
-    global:  'Global estimate — enter a known city for better accuracy',
+    country: 'Based on average costs in this country',
+    region:  'Based on similar destinations in this region',
+    global:  'Based on similar European cities',
   }[source] ?? null;
 }
 
-// Backward-compatible alias — returns null for empty dest, object otherwise
+// normalizeDestination — public alias (same as normalize)
+const normalizeDestination = normalize;
+
+// resolveDestination — single entry point for ALL destination input.
+// Typing "rome" and selecting "Rome" from dropdown both go through here.
+// Returns: { city, country|null, matched, min, avg, max, flag, source }
+function resolveDestination(input){
+  if(!input || !input.trim()){
+    return {city:'', country:null, matched:false, ...globalFallback, source:'global'};
+  }
+  const n = normalize(input);
+
+  // Level 1: city exact or partial
+  const cityKey = _partialMatch(cityData, n);
+  if(cityKey){
+    const country = cityToCountry[cityKey] || null;
+    return {city:cityKey, country, matched:true, ...cityData[cityKey], source:'city'};
+  }
+
+  // Level 2: country exact or partial
+  const countryKey = _partialMatch(countryData, n);
+  if(countryKey){
+    return {city:n, country:countryKey, matched:true, ...countryData[countryKey], source:'country'};
+  }
+
+  // Level 3: secondary city → country mapping
+  const cityMapKey = _partialMatch(cityToCountry, n);
+  if(cityMapKey){
+    const country = cityToCountry[cityMapKey];
+    if(countryData[country]){
+      return {city:cityMapKey, country, matched:true, ...countryData[country], source:'country'};
+    }
+    const region = countryToRegion[country];
+    if(region && regionData[region]){
+      return {city:cityMapKey, country, matched:true, ...regionData[region], flag:'', source:'region'};
+    }
+  }
+
+  // Level 4–6 via getEstimate (region / global)
+  const est = getEstimate(n);
+  return {city:n, country:null, matched:false, ...est,
+    source: est.source === 'city' ? est.source : est.source};
+}
+
+// getRCData — backward-compatible alias; null for empty, object otherwise
 function getRCData(dest){
   if(!dest) return null;
   return getEstimate(dest);
@@ -2108,48 +2158,55 @@ function buildRCandCTA(){
   const ctaSec=document.getElementById('cta-section');
   if(!active.length||!rcSec||!ctaSec)return;
 
-  // Build RC for every active scenario
+  // Build RC for every active scenario — unified single pipeline
   let rcHTML='';
   active.forEach(sc=>{
     const dest=sc.destination||'';
-    const rc=getRCData(dest);
+    // resolveDestination is the single entry point — typed or dropdown, always identical
+    const est=resolveDestination(dest);
+    const isFallback=est.source!=='city';
     const total=scTot(sc);
     const days=Math.max(sc.nights,1);
     const pp=Math.max(sc.adults+(sc.children||0),1);
-    const dailyPP=total/days/pp;  // per person per day — matches RC benchmark data
+    const dailyPP=total/days/pp;          // per person / per day
     const sym=sc.currency;
     const idx=S.scs.indexOf(sc);
     const scLabel=getScLabel(sc,idx);
     const dot=DOTS[idx%4];
     const groupHd=active.length>1?`<div class="rc-group-hd"><span class="rc-dot" style="background:${dot}"></span>${scLabel}</div>`:'';
-    let innerHTML='';
-    if(rc&&dest){
-      const minT=rc.min*days*pp,avgT=rc.avg*days*pp,maxT=rc.max*days*pp;
-      const ratio=(dailyPP-rc.min)/(rc.max-rc.min);
-      const pct=Math.max(5,Math.min(93,Math.round(ratio*100)));
-      const diffPct=Math.abs((dailyPP-rc.avg)/rc.avg);
-      const ppLabel=pp>1?` per person`:'';
+
+    // Shared calculations — always valid (est never null)
+    const minT=est.min*days*pp, avgT=est.avg*days*pp, maxT=est.max*days*pp;
+    const saving=total-avgT, savingAbs=Math.abs(saving);
+    const ratio=(dailyPP-est.min)/(est.max-est.min);
+    const pct=Math.max(5,Math.min(93,Math.round(ratio*100)));
+    const ppLabel=pp>1?` per person`:'';
+    const ppNote=pp>1?` (${pp} people, ${days} days)`:`(${days} days)`;
+    const estMsg=getEstimateMessage(est.source);
+
+    // --- RC Status Card: only shown when destination is known ---
+    let rcCardHTML='';
+    if(dest){
+      const diffPct=Math.abs((dailyPP-est.avg)/est.avg);
       let status,statusLabel,statusTitle,statusSub;
-      if(dailyPP<rc.min){
+      if(dailyPP<est.min){
         status='warn';statusLabel='⚠️ Budget alert';
         statusTitle=`Budget may be tight for ${dest}`;
-        statusSub=`You planned ${sym}${fmt(Math.round(dailyPP))}/day${ppLabel} — the typical minimum in ${dest} is ${sym}${rc.min}/day. Consider adjusting or prioritising budget accommodation.`;
+        statusSub=`You planned ${sym}${fmt(Math.round(dailyPP))}/day${ppLabel} — the typical minimum${isFallback?' in this area':` in ${dest}`} is ${sym}${est.min}/day. Consider adjusting or prioritising budget accommodation.`;
       }else if(diffPct<=0.2){
         status='ok';statusLabel='✓ Realistic budget';
-        statusTitle=`Your budget is on track for ${dest}`;
-        statusSub=`${sym}${fmt(Math.round(dailyPP))}/day${ppLabel} is right in the realistic range for ${dest}. You should be comfortable without major compromises.`;
-      }else if(dailyPP>rc.avg){
+        statusTitle=`Your budget is on track${dest?` for ${dest}`:''}`;
+        statusSub=`${sym}${fmt(Math.round(dailyPP))}/day${ppLabel} is right in the realistic range${isFallback?' for this area':` for ${dest}`}. You should be comfortable without major compromises.`;
+      }else if(dailyPP>est.avg){
         status='good';statusLabel='🌟 Comfortable budget';
-        statusTitle=`You can enjoy ${dest} comfortably`;
-        statusSub=`${sym}${fmt(Math.round(dailyPP))}/day${ppLabel} is above average for ${dest}. You can afford mid-range hotels, restaurants, and activities without stress.`;
+        statusTitle=`You can enjoy ${dest||'your trip'} comfortably`;
+        statusSub=`${sym}${fmt(Math.round(dailyPP))}/day${ppLabel} is above average${isFallback?' for this region':` for ${dest}`}. You can afford mid-range hotels, restaurants, and activities without stress.`;
       }else{
         status='ok';statusLabel='✓ Budget-friendly';
-        statusTitle=`Your budget works for ${dest}`;
+        statusTitle=`Your budget works${dest?` for ${dest}`:''}`;
         statusSub=`${sym}${fmt(Math.round(dailyPP))}/day${ppLabel} is below average but manageable with smart choices like Airbnb, local food, and free attractions.`;
       }
-      const saving=total-avgT,savingAbs=Math.abs(saving);
-      const ppNote=pp>1?` (${pp} people, ${days} days)`:`(${days} days)`;
-      innerHTML=`
+      rcCardHTML=`
       <div class="rc-card ${status}">
         <div class="rc-status ${status}">${statusLabel}</div>
         <div class="rc-title">${statusTitle}</div>
@@ -2160,25 +2217,33 @@ function buildRCandCTA(){
           <span>${sym}${fmt(avgT)} avg</span>
           <span>${sym}${fmt(maxT)} max</span>
         </div>
-        <div class="rc-insight">Typical budget for ${dest} ${ppNote}: <strong>${sym}${fmt(avgT)}</strong>.
+        <div class="rc-insight">Typical budget${dest?` for ${dest}`:''}${ppNote}: <strong>${sym}${fmt(avgT)}</strong>.
           You planned <strong>${sym}${fmt(total)}</strong> —
           ${saving>=0?`saving <strong>${sym}${fmt(savingAbs)}</strong> vs average.`:`<span class="neg">${sym}${fmt(savingAbs)} below the typical budget.</span>`}
         </div>
-      </div>
-      <div class="anchor-card">
-        <div class="anchor-lbl">${rc.flag||''} ${dest} — per person/day</div>
-        <div class="anchor-rows">
-          <div class="anchor-row"><span class="al">Budget traveler</span><span class="av">${sym}${rc.min}/day</span></div>
-          <div class="anchor-row"><span class="al">Mid-range</span><span class="av">${sym}${rc.avg}/day</span></div>
-          <div class="anchor-row"><span class="al">Comfortable</span><span class="av">${sym}${rc.max}/day</span></div>
-          <div class="anchor-divider"></div>
-          <div class="anchor-row"><span class="al">Your plan</span><span class="av ${dailyPP>=rc.min?'hi':'lo'}">${sym}${fmt(Math.round(dailyPP))}/day pp</span></div>
-        </div>
-        ${saving>=0?`<div class="anchor-saving">💚 Saving ${sym}${fmt(savingAbs)} vs average</div>`:''}
-        ${getEstimateMessage(rc.source)?`<div class="anchor-note">ℹ️ ${getEstimateMessage(rc.source)}</div>`:''}
       </div>`;
     }
-    if(innerHTML) rcHTML+=`<div class="rc-group">${groupHd}${innerHTML}</div>`;
+
+    // --- Anchor Card: ALWAYS rendered — never empty, never broken ---
+    const anchorHTML=`
+    <div class="anchor-card">
+      <div class="anchor-head">
+        <div class="anchor-lbl">${est.flag||'🌍'} ${dest||'Your trip'}</div>
+        <span class="est-badge ${isFallback?'est-badge-fb':'est-badge-ok'}">${isFallback?'⚠ Estimated':'✔ Data available'}</span>
+      </div>
+      <div class="est-daily-range">${sym}${est.min}–${sym}${est.max}<span class="est-daily-pp">/day per person</span></div>
+      <div class="anchor-rows">
+        <div class="anchor-row"><span class="al">Budget traveler</span><span class="av">${sym}${est.min}/day</span></div>
+        <div class="anchor-row"><span class="al">Mid-range</span><span class="av">${sym}${est.avg}/day</span></div>
+        <div class="anchor-row"><span class="al">Comfortable</span><span class="av">${sym}${est.max}/day</span></div>
+        <div class="anchor-divider"></div>
+        <div class="anchor-row"><span class="al">Your plan</span><span class="av ${dailyPP>=est.min?'hi':'lo'}">${sym}${fmt(Math.round(dailyPP))}/day pp</span></div>
+      </div>
+      ${saving>=0?`<div class="anchor-saving">💚 Saving ${sym}${fmt(savingAbs)} vs average</div>`:''}
+      ${estMsg?`<div class="anchor-note">ℹ️ ${estMsg}</div>`:''}
+    </div>`;
+
+    rcHTML+=`<div class="rc-group">${groupHd}${rcCardHTML}${anchorHTML}</div>`;
   });
   rcSec.innerHTML=rcHTML;
 
@@ -2443,9 +2508,9 @@ function renderPlanBody(sc){
   const total=scTot(sc),sym=sc.currency;
   const daily=total/days;
   const pp=Math.max(sc.adults+(sc.children||0),1);
-  const rc=getRCData(dest);
+  const est=resolveDestination(dest); // always returns a value — same pipeline as RC section
   let tier='mid';
-  if(rc){if((daily/pp)<rc.min*0.9)tier='budget';else if((daily/pp)>rc.avg*1.25)tier='comfort';}
+  if((daily/pp)<est.min*0.9)tier='budget';else if((daily/pp)>est.avg*1.25)tier='comfort';
   const T={
     budget:{stay:'a hostel or budget guesthouse',food:'street food and local markets',move:'public transport and walking',see:'free attractions and city parks'},
     mid:{stay:'a mid-range hotel or Airbnb',food:'local restaurants and cafés',move:'a mix of transit and taxi',see:'top attractions and a guided tour'},
