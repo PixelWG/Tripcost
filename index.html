@@ -518,6 +518,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:32px clamp(16px,
         <div class="pc-savings">Covers your full <span id="insureAmt">trip cost</span></div>
       </div>
     </div>
+    <div id="gygActivitySection"></div>
   </div>
 </section>
 
@@ -838,24 +839,6 @@ function renderForm(){
     +'<div id="destDrop" class="dest-drop"></div></div></div>';
 
 
-  /* GYG activity widget — visible only when destination is set */
-  if(sc.dest){
-    var gygCity=esc(sc.dest.split(',')[0].trim());
-    h+='<div class="gyg-section" id="gygSection">'
-      +'<div class="gyg-heading">'
-      +'<div class="gyg-heading-ico">&#127917;</div>'
-      +'<div><div class="gyg-heading-text">Book experiences in</div>'
-      +'<div class="gyg-heading-city">'+gygCity+'</div></div>'
-      +'</div>'
-      +'<div class="gyg-widget-wrap">'
-      +'<div data-gyg-widget="activities" data-gyg-partner-id="SELDGW6"'
-      +' data-gyg-q="'+gygCity+'" data-gyg-number-of-items="3"'
-      +' data-gyg-locale-code="en-US" id="gygWidget"></div>'
-      +'</div>'
-      +'<div class="gyg-footer">Powered by <a href="https://www.getyourguide.com" target="_blank" rel="noopener sponsored">GetYourGuide</a></div>'
-      +'</div>';
-  }
-
   /* 2. Travel dates (single calendar picker) */
   h+='<div class="fs"><div class="fs-lbl"><span class="fs-n">2</span> Travel dates</div>'
     +'<div class="date-single'+(CAL.open?' df-active':'')+'" onclick="openCal()">'
@@ -948,7 +931,6 @@ function renderForm(){
   h+='</div>';
   h+='<button type="button" class="add-trip-cta" onclick="addSc()">\uFF0B Add another trip to compare</button>';
   document.getElementById('formInner').innerHTML=h;
-  if(sc.dest)setTimeout(function(){var e=document.getElementById('gygWidget');if(e&&window.__gygReinit)window.__gygReinit(e);},80);
 }
 
 /* ── RENDER RIGHT ── */
@@ -1105,7 +1087,7 @@ function updateInsureAmt(){
   const el=document.getElementById('insureAmt');
   if(el)el.textContent=total>0?'of '+s+fmt(total):'trip cost';
 }
-function redraw(){renderTabs();renderModeBar();renderForm();renderRight();renderComparisonSection();renderDaily();updateInsureAmt();saveState();}
+function redraw(){renderTabs();renderModeBar();renderForm();renderRight();renderComparisonSection();renderDaily();updateInsureAmt();renderGYGActivity();saveState();}
 
 /* ── DESTINATION ── */
 function onDestInput(val){
@@ -1122,7 +1104,7 @@ function onDestInput(val){
   const ico=document.querySelector('#destWrap .dest-ico-abs');if(ico)ico.textContent=sc.destFlag||'\uD83C\uDF0D';
   const cs=document.getElementById('curSel');if(cs)cs.value=sc.currency;
   const fh=document.querySelector('.form-head-title');if(fh)fh.textContent=val||sc.name;
-  renderTabs();renderRight();renderComparisonSection();updateInsureAmt();openDrop(val);
+  renderTabs();renderRight();renderComparisonSection();updateInsureAmt();renderGYGActivity();openDrop(val);
 }
 function openDrop(q){
   const drop=document.getElementById('destDrop');if(!drop)return;
@@ -1143,7 +1125,7 @@ function pickDest(name,flag){
   const ico=document.querySelector('#destWrap .dest-ico-abs');if(ico)ico.textContent=flag;
   const drop=document.getElementById('destDrop');if(drop)drop.classList.remove('open');
   const cs=document.getElementById('curSel');if(cs)cs.value=sc.currency;
-  renderTabs();renderRight();renderComparisonSection();updateInsureAmt();
+  renderTabs();renderRight();renderComparisonSection();updateInsureAmt();renderGYGActivity();
 }
 
 /* ── TRAVELLERS / CURRENCY / BUDGET ── */
@@ -1274,6 +1256,44 @@ window.__gygReinit=function(el){
   el.removeAttribute('data-gyg-q');
   requestAnimationFrame(function(){if(q)el.setAttribute('data-gyg-q',q);});
 };
+
+/* ── GYG ACTIVITY SECTION ── */
+/* city comes from esc() — same XSS protection used throughout the app */
+function renderGYGActivity(){
+  var wrap=document.getElementById('gygActivitySection');
+  if(!wrap)return;
+  var sc=active();
+  if(!sc||!sc.dest){while(wrap.firstChild)wrap.removeChild(wrap.firstChild);return;}
+  var city=esc(sc.dest.split(',')[0].trim());
+  var flag=sc.destFlag||'\uD83C\uDF0D';
+  var section=document.createElement('div');
+  section.className='gyg-section';
+  section.id='gygSection';
+  section.setAttribute('data-city',city);
+  var heading=document.createElement('div');heading.className='gyg-heading';
+  var ico=document.createElement('div');ico.className='gyg-heading-ico';ico.textContent=flag;
+  var info=document.createElement('div');
+  var lbl=document.createElement('div');lbl.className='gyg-heading-text';lbl.textContent='Recommended activities in';
+  var cityEl=document.createElement('div');cityEl.className='gyg-heading-city';cityEl.textContent=sc.dest.split(',')[0].trim();
+  info.appendChild(lbl);info.appendChild(cityEl);
+  heading.appendChild(ico);heading.appendChild(info);
+  var widgetWrap=document.createElement('div');widgetWrap.className='gyg-widget-wrap';
+  var widget=document.createElement('div');
+  widget.setAttribute('data-gyg-widget','activities');
+  widget.setAttribute('data-gyg-partner-id','SELDGW6');
+  widget.setAttribute('data-gyg-q',city);
+  widget.setAttribute('data-gyg-number-of-items','3');
+  widget.setAttribute('data-gyg-locale-code','en-US');
+  widget.id='gygWidget';
+  widgetWrap.appendChild(widget);
+  var footer=document.createElement('div');footer.className='gyg-footer';
+  var link=document.createElement('a');link.href='https://www.getyourguide.com';link.target='_blank';link.rel='noopener sponsored';link.textContent='GetYourGuide';
+  footer.appendChild(document.createTextNode('Powered by '));footer.appendChild(link);
+  section.appendChild(heading);section.appendChild(widgetWrap);section.appendChild(footer);
+  while(wrap.firstChild)wrap.removeChild(wrap.firstChild);
+  wrap.appendChild(section);
+  setTimeout(function(){window.__gygReinit(document.getElementById('gygWidget'));},80);
+}
 /* ── INIT ── */
 loadState();
 CAL={open:null,month:null};
