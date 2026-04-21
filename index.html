@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QXWJ43H2DS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-QXWJ43H2DS');
+</script>
 <meta charset="UTF-8"/>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2232%22%20height%3D%2232%22%20viewBox%3D%220%200%2034%2034%22%20fill%3D%22none%22%3E%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%2230%22%20height%3D%2230%22%20rx%3D%228%22%20fill%3D%22%231F6B4A%22%20fill-opacity%3D%220.12%22%20stroke%3D%22%231F6B4A%22%20stroke-width%3D%221.5%22/%3E%3Cpath%20d%3D%22M9%2022%20C9%2016.5%2012.5%2012%2017%2012%20C21.5%2012%2025%2016.5%2025%2022%22%20stroke%3D%22%231F6B4A%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20fill%3D%22none%22/%3E%3Cline%20x1%3D%227%22%20y1%3D%2222%22%20x2%3D%2227%22%20y2%3D%2222%22%20stroke%3D%22%231F6B4A%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22/%3E%3Cpath%20d%3D%22M17%208.5%20L17%206.5%22%20stroke%3D%22%231F6B4A%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22/%3E%3Cpath%20d%3D%22M12%2012.5%20L10.8%2011%22%20stroke%3D%22%231F6B4A%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22/%3E%3Cpath%20d%3D%22M22%2012.5%20L23.2%2011%22%20stroke%3D%22%231F6B4A%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22/%3E%3Ctext%20x%3D%2217%22%20y%3D%2220.5%22%20text-anchor%3D%22middle%22%20fill%3D%22%231F6B4A%22%20font-size%3D%228%22%20font-weight%3D%22700%22%20font-family%3D%22sans-serif%22%3E%26%238364%3B%3C/text%3E%3C/svg%3E"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
@@ -579,6 +587,13 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:32px clamp(16px,
 </footer>
 
 <script>
+
+/* ── ANALYTICS ── */
+let _calcStarted = false;
+function gaEvent(name, params) {
+  if (typeof gtag === 'function') gtag('event', name, params || {});
+}
+
 /* ── CONSTANTS ── */
 const CATS=[
   {key:'flights',label:'Transportation',icon:'\uD83D\uDE8C',hint:'Flights, trains, ferries, buses'},
@@ -664,7 +679,9 @@ function statePayload(){
   return{scenarios:S.scenarios,mode:S.mode,activeId:S.activeId,nextId:S.nextId,recNextId:S.recNextId,v:2};
 }
 function saveState(){
-  try{localStorage.setItem('ts_state',b64encode(JSON.stringify(statePayload())));}catch(e){}
+  try{
+    const sc=active();if(sc){const total=Object.values(sc.budget).reduce((a,b)=>a+b,0);if(total>0)gaEvent('budget_saved',{total_budget:Math.round(total),currency:sc.currency,nights:sc.nights,scenario_count:S.scenarios.length});}
+    localStorage.setItem('ts_state',b64encode(JSON.stringify(statePayload())));}catch(e){}
 }
 function loadState(){
   let encoded=null;
@@ -685,6 +702,7 @@ function loadState(){
   return false;
 }
 function shareLink(){
+  gaEvent('share_clicked',{scenario_count:S.scenarios.length,has_destination:!!(active()&&active().dest)});
   saveState();
   const encoded=b64encode(JSON.stringify(statePayload()));
   const url=location.origin+location.pathname+'#'+encoded;
@@ -1131,6 +1149,7 @@ function redraw(){renderTabs();renderModeBar();renderForm();renderRight();render
 /* ── DESTINATION ── */
 function onDestInput(val){
   const sc=active();sc.dest=val;
+  if(!_calcStarted&&val.length>0){_calcStarted=true;gaEvent('calculator_started',{method:'destination'});}
   const hit=DEST_HINTS.find(d=>val.length>1&&d.name.toLowerCase().includes(val.toLowerCase().trim()));
   sc.destFlag=hit?hit.flag:'';
   if(!sc.manuallyNamed){
@@ -1179,6 +1198,7 @@ function onCur(val){
 }
 function onBudget(key,val){
   const sc=active();sc.budget[key]=Math.max(0,parseFloat(val)||0);
+  if(!_calcStarted){_calcStarted=true;gaEvent('calculator_started',{method:'budget_entry',category:key});}
   renderRight();renderComparisonSection();renderDaily();updateInsureAmt();
 }
 
@@ -1189,6 +1209,7 @@ function switchSc(id){
 }
 function addSc(){
   if(S.scenarios.length>=MAX_SC)return;
+  gaEvent('trip_added',{trip_count:S.scenarios.length+1});
   const id=S.nextId++;S.scenarios.push(blank(id,S.scenarios.length));
   S.activeId=id;S.renaming=null;S.showCatPicker=false;CAL.open=null;
   redraw();document.getElementById('planner').scrollIntoView({behavior:'smooth',block:'start'});
