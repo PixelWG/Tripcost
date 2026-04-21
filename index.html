@@ -6,19 +6,37 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>TripSpending — Free Travel Budget Calculator | Compare Trip Costs</title>
 <meta name="description" content="Plan and compare travel budgets for free. Enter destination, dates and costs — see totals instantly. Compare up to 3 trips side by side. No sign-up needed."/>
-<meta name="robots" content="index, follow"/>
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large"/>
 <meta name="theme-color" content="#1F6B4A"/>
 <link rel="canonical" href="https://tripspending.com/"/>
+<meta name="keywords" content="travel budget calculator, trip cost calculator, vacation budget planner, compare trip costs, travel expense tracker, holiday budget tool, trip planner free, travel cost estimator"/>
+<meta name="author" content="TripSpending"/>
 <meta property="og:type" content="website"/>
-<meta property="og:title" content="TripSpending — Free Travel Budget Calculator"/>
-<meta property="og:description" content="Plan and compare travel budgets for free. Enter destination, dates and costs — see totals instantly. No sign-up needed."/>
+<meta property="og:title" content="TripSpending — Free Travel Budget Calculator | Compare Trip Costs"/>
+<meta property="og:description" content="Plan and compare travel budgets for free. Enter destination, dates and costs — see totals instantly. Compare up to 3 trips side by side. No sign-up needed."/>
 <meta property="og:url" content="https://tripspending.com/"/>
 <meta property="og:site_name" content="TripSpending"/>
+<meta property="og:image" content="https://tripspending.com/og-image.png"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:locale" content="en_US"/>
 <meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:title" content="TripSpending — Free Travel Budget Calculator"/>
-<meta name="twitter:description" content="Plan and compare travel budgets for free. No sign-up needed."/>
+<meta name="twitter:title" content="TripSpending — Free Travel Budget Calculator | Compare Trip Costs"/>
+<meta name="twitter:description" content="Plan and compare travel budgets for free. Enter destination, dates, costs — see totals instantly. Compare up to 3 trips side by side."/>
+<meta name="twitter:image" content="https://tripspending.com/og-image.png"/>
+<link rel="alternate" hreflang="en" href="https://tripspending.com/"/>
+<link rel="alternate" hreflang="x-default" href="https://tripspending.com/"/>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebApplication","name":"TripSpending","url":"https://tripspending.com/","description":"Free travel budget calculator. Plan and compare trip costs side by side. No account required.","applicationCategory":"FinanceApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"featureList":["Compare up to 3 trip budgets","Multi-currency support","Daily cost breakdown","Shareable trip links"]}
+{"@context":"https://schema.org","@type":"WebApplication","name":"TripSpending","url":"https://tripspending.com/","description":"Free travel budget calculator. Plan and compare trip costs side by side. No account required.","applicationCategory":"FinanceApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"featureList":["Compare up to 3 trip budgets","Multi-currency support","Daily cost breakdown","Shareable trip links","Per-person cost calculation","Custom expense categories"],"screenshot":"https://tripspending.com/og-image.png","softwareVersion":"1.0","creator":{"@type":"Organization","name":"TripSpending","url":"https://tripspending.com/"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does TripSpending work?","acceptedAnswer":{"@type":"Answer","text":"Enter your destination, travel dates, and number of travellers. Add costs for transport, accommodation, food, and activities. TripSpending calculates your total budget instantly and lets you compare up to 3 trips side by side."}},{"@type":"Question","name":"Is TripSpending free to use?","acceptedAnswer":{"@type":"Answer","text":"Yes, TripSpending is completely free. No sign-up or account is required. Just open the site and start planning your trip budget."}},{"@type":"Question","name":"Can I compare multiple trip budgets?","acceptedAnswer":{"@type":"Answer","text":"Yes, you can compare up to 3 different trip budgets side by side to find the best value option for your travel plans."}},{"@type":"Question","name":"What currencies does TripSpending support?","acceptedAnswer":{"@type":"Answer","text":"TripSpending supports multiple currencies including EUR, USD, GBP, and more, so you can plan your budget in your preferred currency."}}]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"TripSpending","url":"https://tripspending.com/","description":"Free travel budget calculator to plan and compare trip costs","potentialAction":{"@type":"SearchAction","target":"https://tripspending.com/?destination={search_term_string}","query-input":"required name=search_term_string"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://tripspending.com/"}]}
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -69,7 +87,11 @@ input[type=number]{-moz-appearance:textfield;}
 .hero-eyebrow::before,.hero-eyebrow::after{content:'';display:block;width:28px;height:1px;background:currentColor;opacity:.35;}
 h1.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.6rem,5.5vw,4rem);font-weight:300;color:var(--ink);line-height:1.05;margin-bottom:16px;animation:fadeUp .65s .08s cubic-bezier(.16,1,.3,1) both;}
 h1.hero-title em{font-style:italic;color:var(--forest);}
-.hero-sub{font-size:.92rem;color:var(--ink3);font-weight:300;line-height:1.8;max-width:480px;margin:0 auto 36px;animation:fadeUp .65s .15s cubic-bezier(.16,1,.3,1) both;}
+.hero-sub{font-size:.92rem;color:var(--ink3);font-weight:300;line-height:1.8;max-width:480px;margin:0 auto 14px;animation:fadeUp .65s .15s cubic-bezier(.16,1,.3,1) both;}
+.hero-for{font-size:.78rem;color:var(--ink3);font-weight:400;max-width:480px;margin:0 auto 16px;animation:fadeUp .65s .2s cubic-bezier(.16,1,.3,1) both;}
+.hero-proof{display:inline-flex;align-items:center;gap:7px;font-size:.72rem;color:var(--ink3);font-weight:500;margin-bottom:28px;animation:fadeUp .65s .25s cubic-bezier(.16,1,.3,1) both;}
+.hero-proof strong{color:var(--forest);}
+.hero-proof-dot{width:7px;height:7px;border-radius:50%;background:var(--forest);opacity:.7;}
 .how-steps{display:grid;grid-template-columns:repeat(3,1fr);max-width:560px;margin:0 auto;background:#fff;border-radius:22px;border:1px solid var(--parch);box-shadow:var(--sh);overflow:hidden;animation:fadeUp .65s .38s cubic-bezier(.16,1,.3,1) both;}
 .how-step{padding:20px 22px;display:flex;flex-direction:column;gap:7px;border-right:1px solid var(--parch);}
 .how-step:last-child{border-right:none;}
@@ -402,8 +424,8 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:32px clamp(16px,
   <div class="hero-inner">
     <div class="hero-eyebrow">Free trip budget calculator</div>
     <h1 id="hero-title" class="hero-title">Know exactly what your<br>trip will <em>cost</em></h1>
-    <p class="hero-sub">Enter your destination and costs &mdash; see your total instantly. Compare multiple trips side by side.</p>
-    <div class="how-steps">
+    <p class="hero-sub">Stop guessing what your trip will cost. Enter your destination and get a full breakdown in seconds &mdash; before you book anything.</p>
+    <p class="hero-for">Perfect for solo trips, couples &amp; group travel &mdash; no spreadsheet needed.</p><div class="hero-proof"><span class="hero-proof-dot"></span>Trusted by travellers in <strong>40+ countries</strong></div><div class="how-steps">
       <div class="how-step"><div class="how-step-n">Step 1</div><div class="how-step-ico">&#9992;&#65039;</div><h3 class="how-step-title">Enter your trip</h3><div class="how-step-body">Destination, dates, travellers &mdash; fill what you know</div></div>
       <div class="how-step"><div class="how-step-n">Step 2</div><div class="how-step-ico">&#128176;</div><h3 class="how-step-title">Add your costs</h3><div class="how-step-body">Transport, stay, food, activities &mdash; total updates live</div></div>
       <div class="how-step"><div class="how-step-n">Step 3</div><div class="how-step-ico">&#9878;&#65039;</div><h3 class="how-step-title">Compare options</h3><div class="how-step-body">Add multiple trips to find the best value</div></div>
@@ -462,28 +484,28 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:32px clamp(16px,
     <div class="mon-header reveal">
       <div class="section-label">Save more on your trip</div>
       <h2 class="section-title">Book with our partners</h2>
-      <div class="section-sub">We compare prices across hundreds of providers so you get the best deal &mdash; at no extra cost to you.</div>
+      <div class="section-sub">We compare prices across hundreds of providers so you get the best deal &mdash; at no extra cost to you. Partner links marked <em>Affiliate partner</em> may earn us a small commission &mdash; it keeps this tool free.</div>
     </div>
     <div class="partner-row">
       <div class="partner-card reveal reveal-d1">
         <div class="pc-top"><div class="pc-ico" style="background:#EAF4FB">&#128652;</div><div><div class="pc-label">Transportation</div><div class="pc-title">Find the best way to get there</div></div></div>
         <div class="pc-badge affiliate">Affiliate partner</div>
         <div class="pc-body">Compare flights, trains, and buses across hundreds of providers. We search so you don&rsquo;t have to.</div>
-        <button type="button" class="pc-cta green">Search transport <span class="pc-cta-arr">&#8594;</span></button>
+        <button type="button" class="pc-cta green">Find cheapest flights <span class="pc-cta-arr">&#8594;</span></button>
         <div class="pc-savings">Users save on average <strong>$180 per booking</strong></div>
       </div>
       <div class="partner-card reveal reveal-d2">
         <div class="pc-top"><div class="pc-ico" style="background:#FDF5E8">&#127968;</div><div><div class="pc-label">Accommodation</div><div class="pc-title">Hotels, apartments, hostels</div></div></div>
         <div class="pc-badge affiliate">Affiliate partner</div>
         <div class="pc-body">From budget stays to luxury resorts. Filter by your daily accommodation budget.</div>
-        <button type="button" class="pc-cta green">Find accommodation <span class="pc-cta-arr">&#8594;</span></button>
+        <button type="button" class="pc-cta green">Compare hotels for your dates <span class="pc-cta-arr">&#8594;</span></button>
         <div class="pc-savings">Over <strong>1.5M properties</strong> worldwide</div>
       </div>
       <div class="partner-card reveal reveal-d3">
         <div class="pc-top"><div class="pc-ico" style="background:#F5EDFB">&#127917;</div><div><div class="pc-label">Activities</div><div class="pc-title">Tours, tickets &amp; experiences</div></div></div>
         <div class="pc-badge affiliate">Affiliate partner</div>
         <div class="pc-body">Skip the queue, book local experiences. Prices matched to your activity budget.</div>
-        <button type="button" class="pc-cta outline">Browse activities <span class="pc-cta-arr">&#8594;</span></button>
+        <button type="button" class="pc-cta outline">Book local experiences <span class="pc-cta-arr">&#8594;</span></button>
         <div class="pc-savings"><strong>Free cancellation</strong> on most bookings</div>
       </div>
       <div class="partner-card reveal reveal-d4">
@@ -498,6 +520,57 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:32px clamp(16px,
 </section>
 
 </main>
+
+<section id="faq" aria-labelledby="faq-title" style="padding:clamp(52px,6vw,80px) 0;background:#fff;border-bottom:1px solid var(--parch);">
+  <div style="max-width:var(--w);margin:0 auto;padding:0 clamp(16px,4vw,48px);">
+    <div class="reveal">
+      <div class="section-label">Questions &amp; answers</div>
+      <h2 id="faq-title" class="section-title">Frequently asked questions</h2>
+      <div class="section-sub" style="margin-bottom:32px;">Everything you need to know about planning your travel budget with TripSpending.</div>
+    </div>
+    <div style="max-width:720px;display:flex;flex-direction:column;gap:12px;">
+      <details class="reveal reveal-d1" style="background:var(--ivory-c);border:1.5px solid var(--parch);border-radius:var(--rm);overflow:hidden;">
+        <summary style="padding:16px 20px;font-size:.88rem;font-weight:600;color:var(--ink2);cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;">How does TripSpending work?<span style="font-size:.75rem;color:var(--ink3);transition:transform .2s;">&#9654;</span></summary>
+        <p style="padding:0 20px 16px;font-size:.78rem;color:var(--ink3);line-height:1.75;">Enter your destination, travel dates, and number of travellers. Then add costs for transport, accommodation, food, and activities. TripSpending calculates your total budget instantly and lets you compare up to 3 trips side by side to find the best value.</p>
+      </details>
+      <details class="reveal reveal-d2" style="background:var(--ivory-c);border:1.5px solid var(--parch);border-radius:var(--rm);overflow:hidden;">
+        <summary style="padding:16px 20px;font-size:.88rem;font-weight:600;color:var(--ink2);cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;">Is TripSpending free?<span style="font-size:.75rem;color:var(--ink3);transition:transform .2s;">&#9654;</span></summary>
+        <p style="padding:0 20px 16px;font-size:.78rem;color:var(--ink3);line-height:1.75;">Yes, TripSpending is completely free. No sign-up, no account, no hidden fees. Just open the site and start planning your trip budget right away.</p>
+      </details>
+      <details class="reveal reveal-d3" style="background:var(--ivory-c);border:1.5px solid var(--parch);border-radius:var(--rm);overflow:hidden;">
+        <summary style="padding:16px 20px;font-size:.88rem;font-weight:600;color:var(--ink2);cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;">Can I compare multiple trip budgets?<span style="font-size:.75rem;color:var(--ink3);transition:transform .2s;">&#9654;</span></summary>
+        <p style="padding:0 20px 16px;font-size:.78rem;color:var(--ink3);line-height:1.75;">Absolutely. Add up to 3 different trips and compare them side by side. TripSpending highlights the cheapest option and shows cost breakdowns for each category, making it easy to see where one destination is more affordable than another.</p>
+      </details>
+      <details class="reveal reveal-d4" style="background:var(--ivory-c);border:1.5px solid var(--parch);border-radius:var(--rm);overflow:hidden;">
+        <summary style="padding:16px 20px;font-size:.88rem;font-weight:600;color:var(--ink2);cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;">What currencies does TripSpending support?<span style="font-size:.75rem;color:var(--ink3);transition:transform .2s;">&#9654;</span></summary>
+        <p style="padding:0 20px 16px;font-size:.78rem;color:var(--ink3);line-height:1.75;">TripSpending supports multiple currencies including EUR, USD, GBP, CHF, SEK, NOK, DKK, PLN, CZK, HUF, and more. Select your preferred currency and all costs update automatically.</p>
+      </details>
+      <details class="reveal" style="background:var(--ivory-c);border:1.5px solid var(--parch);border-radius:var(--rm);overflow:hidden;">
+        <summary style="padding:16px 20px;font-size:.88rem;font-weight:600;color:var(--ink2);cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;">Can I share my trip budget with friends?<span style="font-size:.75rem;color:var(--ink3);transition:transform .2s;">&#9654;</span></summary>
+        <p style="padding:0 20px 16px;font-size:.78rem;color:var(--ink3);line-height:1.75;">Yes! Click the &ldquo;Copy link&rdquo; button in the comparison section. All your trip data is encoded in the URL, so anyone who opens the link will see exactly what you planned &mdash; no account needed on either side.</p>
+      </details>
+      <details class="reveal" style="background:var(--ivory-c);border:1.5px solid var(--parch);border-radius:var(--rm);overflow:hidden;">
+        <summary style="padding:16px 20px;font-size:.88rem;font-weight:600;color:var(--ink2);cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;">How accurate are the budget estimates?<span style="font-size:.75rem;color:var(--ink3);transition:transform .2s;">&#9654;</span></summary>
+        <p style="padding:0 20px 16px;font-size:.78rem;color:var(--ink3);line-height:1.75;">TripSpending shows exactly what you enter &mdash; it&rsquo;s a calculator, not an estimator. The accuracy depends on your research. We recommend checking flight prices, hotel rates, and local costs before entering your numbers for the most realistic budget.</p>
+      </details>
+      <details class="reveal" style="background:var(--ivory-c);border:1.5px solid var(--parch);border-radius:var(--rm);overflow:hidden;">
+        <summary style="padding:16px 20px;font-size:.88rem;font-weight:600;color:var(--ink2);cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;">What expense categories can I track?<span style="font-size:.75rem;color:var(--ink3);transition:transform .2s;">&#9654;</span></summary>
+        <p style="padding:0 20px 16px;font-size:.78rem;color:var(--ink3);line-height:1.75;">Default categories include transportation, accommodation, food &amp; drink, activities, and local transport. You can also add custom categories like visa fees, shopping, SIM cards, health &amp; medical, tips, parking, souvenirs, or create your own.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section id="about-tool" aria-labelledby="about-title" style="padding:clamp(40px,5vw,64px) 0;background:var(--ivory);border-bottom:1px solid var(--parch);">
+  <div style="max-width:var(--w);margin:0 auto;padding:0 clamp(16px,4vw,48px);">
+    <article style="max-width:720px;">
+      <h2 id="about-title" class="section-title reveal" style="margin-bottom:18px;">The free travel budget calculator for smarter trip planning</h2>
+      <p class="reveal" style="font-size:.82rem;color:var(--ink3);line-height:1.85;margin-bottom:14px;">Planning a vacation shouldn&rsquo;t mean juggling spreadsheets. TripSpending is a free travel budget calculator that gives you a clear picture of what your trip will cost &mdash; from flights and hotels to food, activities, and local transport. Just enter your numbers and let the calculator do the maths.</p>
+      <p class="reveal" style="font-size:.82rem;color:var(--ink3);line-height:1.85;margin-bottom:14px;">Whether you&rsquo;re comparing a weekend in Barcelona against a week in Bali, or working out the per-person cost for a group holiday, TripSpending breaks everything down. You get daily spending averages, per-person costs, and a full category breakdown &mdash; all updated in real time as you type.</p>
+      <p class="reveal" style="font-size:.82rem;color:var(--ink3);line-height:1.85;">No account, no app download, no hidden costs. Just a clean, fast trip cost calculator that works on any device. Start planning your next trip budget now.</p>
+    </article>
+  </div>
+</section>
 
 <footer role="contentinfo">
   <div class="footer-logo"><span class="logo-trip">Trip</span><span class="logo-spending">Spending</span><span class="logo-tld">.com</span></div>
