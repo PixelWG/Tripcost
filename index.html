@@ -238,7 +238,7 @@ h1.hero-title em{font-style:italic;color:var(--forest);}
 .add-trip-cta{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;margin-top:20px;padding:11px;border-radius:var(--rm);border:2px dashed var(--parch);background:transparent;font-family:'Manrope',sans-serif;font-size:.78rem;font-weight:600;color:var(--ink3);cursor:pointer;transition:all .22s;}
 .add-trip-cta:hover{border-color:var(--forest);color:var(--forest);background:var(--fl);}
 /* RIGHT PANEL */
-.pl-right{background:linear-gradient(158deg,#1c6142 0%,#0d2b1c 100%);display:flex;flex-direction:column;position:sticky;top:58px;max-height:calc(100vh - 58px);overflow-y:auto;}
+.pl-right{background:linear-gradient(158deg,#1c6142 0%,#0d2b1c 100%);display:flex;flex-direction:column;position:sticky;top:58px;max-height:calc(100vh - 58px);overflow:hidden;}
 .pl-right::-webkit-scrollbar{width:4px;}
 .pl-right::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:4px;}
 .pr-inner{padding:28px 32px;flex:1;display:flex;flex-direction:column;gap:16px;}
@@ -408,6 +408,192 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:32px clamp(16px,
 .gyg-footer a{color:var(--forest);text-decoration:none;font-weight:600;}
 @media(max-width:1024px){.planner-shell{grid-template-columns:1fr;}.pl-right{position:static;max-height:none;}.daily-layout{grid-template-columns:1fr;}}
 @media(max-width:640px){.how-steps{grid-template-columns:1fr;}.how-step{border-right:none;border-bottom:1px solid var(--parch);}.how-step:last-child{border-bottom:none;}}
+/* ── MOBILE: BOTTOM BAR + SUMMARY SHEET ── */
+.m-bar{display:none;}
+.m-sheet-wrap{display:none;}
+@media(max-width:767px){
+  /* Right panel replaced by bottom sheet on phones */
+  .pl-right{display:none!important;}
+  .planner-shell{grid-template-columns:1fr!important;}
+  /* Room for fixed bottom bar */
+  .form-inner{padding-bottom:88px!important;}
+  /* Hide hero — calculator is immediately visible on load */
+  #hero{display:none!important;}
+  /* Compact nav — just the logo strip */
+  .nav{height:44px!important;padding:0 16px!important;}
+  .logo{font-size:1.15rem!important;}
+  .nav-tag{display:none;}
+  /* Section spacing */
+  #comparison,#daily,#monetize{padding:clamp(36px,6vw,52px) 0!important;}
+  /* Single-column grids */
+  .cmp-grid{grid-template-columns:1fr!important;}
+  .partner-row{grid-template-columns:1fr!important;}
+  /* Compact planner tabs */
+  .sc-tab{min-width:100px!important;max-width:150px!important;padding:0 11px!important;}
+  /* ── BOTTOM BAR ── */
+  .m-bar{
+    display:flex;
+    position:fixed;bottom:0;left:0;right:0;
+    min-height:64px;
+    padding:10px 20px;
+    padding-bottom:calc(10px + env(safe-area-inset-bottom, 0px));
+    background:var(--forest);
+    align-items:center;
+    justify-content:space-between;
+    z-index:200;
+    cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+    transition:background .12s;
+  }
+  .m-bar:active{background:var(--fd);}
+  .m-bar-left{display:flex;flex-direction:column;gap:2px;}
+  .m-bar-lbl{font-size:.54rem;text-transform:uppercase;letter-spacing:.13em;color:rgba(255,255,255,.5);font-weight:700;}
+  .m-bar-total{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:300;color:#fff;line-height:1;}
+  .m-bar-sub{font-size:.6rem;color:rgba(255,255,255,.48);margin-top:2px;}
+  .m-bar-right{display:flex;flex-direction:column;align-items:center;gap:3px;color:rgba(255,255,255,.55);}
+  .m-bar-right svg{transition:transform .28s cubic-bezier(.16,1,.3,1);}
+  .m-bar-right.up svg{transform:rotate(180deg);}
+  .m-bar-right-txt{font-size:.5rem;text-transform:uppercase;letter-spacing:.1em;font-weight:700;}
+  /* ── SHEET OVERLAY ── */
+  .m-sheet-wrap{
+    display:block;
+    position:fixed;inset:0;
+    z-index:250;
+    pointer-events:none;
+  }
+  .m-sheet-wrap.open{pointer-events:all;}
+  .m-backdrop{
+    position:absolute;inset:0;
+    background:rgba(10,8,6,.45);
+    opacity:0;transition:opacity .28s;
+  }
+  .m-sheet-wrap.open .m-backdrop{opacity:1;}
+  .m-sheet{
+    position:absolute;bottom:0;left:0;right:0;
+    background:#fff;
+    border-radius:22px 22px 0 0;
+    max-height:88%;
+    display:flex;flex-direction:column;
+    transform:translateY(100%);
+    transition:transform .28s cubic-bezier(.32,0,.67,0);
+    padding-bottom:env(safe-area-inset-bottom, 0px);
+  }
+  .m-sheet-wrap.open .m-sheet{
+    transform:translateY(0);
+    transition:transform .36s cubic-bezier(.16,1,.3,1);
+  }
+  .m-sheet-handle{width:38px;height:4px;background:var(--parch);border-radius:2px;margin:13px auto 0;flex-shrink:0;}
+  .m-sheet-hdr{padding:14px 20px 12px;border-bottom:1px solid var(--ivory-d);flex-shrink:0;}
+  .msh-dest{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:300;color:var(--ink);}
+  .msh-meta{font-size:.67rem;color:var(--ink3);margin-top:3px;}
+  .m-sheet-body{overflow-y:auto;padding:18px 20px 24px;flex:1;}
+  .m-sheet-body::-webkit-scrollbar{display:none;}
+  .msh-total-card{background:linear-gradient(148deg,#1c6142 0%,#0d2b1c 100%);border-radius:18px;padding:22px;margin-bottom:18px;}
+  .msh-tc-lbl{font-size:.54rem;text-transform:uppercase;letter-spacing:.13em;color:rgba(255,255,255,.42);font-weight:700;margin-bottom:5px;}
+  .msh-tc-total{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:300;color:#fff;line-height:1;margin-bottom:14px;}
+  .msh-tc-cur{font-size:1.1rem;opacity:.45;margin-right:2px;}
+  .msh-tc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding-top:13px;border-top:1px solid rgba(255,255,255,.1);}
+  .msh-tc-val{font-size:.97rem;font-weight:700;color:#fff;}
+  .msh-tc-sub{font-size:.52rem;color:rgba(255,255,255,.38);text-transform:uppercase;letter-spacing:.06em;margin-top:2px;}
+  .msh-bd-lbl{font-size:.57rem;text-transform:uppercase;letter-spacing:.12em;color:var(--ink3);font-weight:700;margin-bottom:12px;}
+  .msh-bd-row{margin-bottom:11px;}
+  .msh-bd-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
+  .msh-bd-name{font-size:.74rem;color:var(--ink3);}
+  .msh-bd-val{font-size:.74rem;font-weight:700;color:var(--ink);}
+  .msh-bd-bar-bg{height:4px;background:var(--parch);border-radius:2px;overflow:hidden;}
+  .msh-bd-bar-fill{height:4px;border-radius:2px;transition:width .5s cubic-bezier(.16,1,.3,1);}
+  .msh-trips-section{margin-top:18px;}
+  .msh-trip-row{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:10px;background:var(--ivory-d);margin-bottom:7px;cursor:pointer;}
+  .msh-trip-row.msh-best{background:var(--fl);border:1px solid var(--fm);}
+  .msh-trip-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+  .msh-trip-name{flex:1;font-size:.79rem;font-weight:600;color:var(--ink2);}
+  .msh-trip-total{font-size:.84rem;font-weight:700;color:var(--ink);}
+  .msh-badge-best{padding:2px 8px;background:var(--forest);color:#fff;border-radius:var(--pill);font-size:.52rem;font-weight:700;text-transform:uppercase;flex-shrink:0;}
+  .msh-share-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:15px;background:var(--forest);color:#fff;border:none;border-radius:14px;font-family:'Manrope',sans-serif;font-size:.83rem;font-weight:700;cursor:pointer;margin-top:20px;}
+}
+
+/* ── NAV MENU DRAWER ── */
+.nav-menu-btn{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border:1.5px solid var(--parch);border-radius:var(--rs);background:#fff;cursor:pointer;flex-shrink:0;transition:all .18s;color:var(--ink2);}
+.nav-menu-btn:hover{border-color:var(--forest);background:var(--fl);color:var(--forest);}
+.nav-backdrop{position:fixed;inset:0;background:rgba(10,8,6,.45);z-index:499;opacity:0;pointer-events:none;transition:opacity .25s;}
+.nav-backdrop.open{opacity:1;pointer-events:all;}
+.nav-drawer{position:fixed;top:0;right:0;bottom:0;width:300px;background:#fff;z-index:500;box-shadow:-6px 0 32px rgba(10,8,6,.14);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);}
+.nav-drawer.open{transform:translateX(0);}
+.nd-head{display:flex;align-items:center;justify-content:space-between;padding:18px 20px 16px;border-bottom:1px solid var(--parch);}
+.nd-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--ink);}
+.nd-close{width:32px;height:32px;border:none;background:none;font-size:1.15rem;cursor:pointer;color:var(--ink3);display:flex;align-items:center;justify-content:center;border-radius:50%;transition:background .12s;}
+.nd-close:hover{background:var(--ivory-d);}
+.nd-section-lbl{font-size:.57rem;text-transform:uppercase;letter-spacing:.13em;font-weight:700;color:var(--ink3);padding:16px 20px 6px;}
+.nd-item{display:flex;align-items:center;gap:12px;padding:12px 20px;cursor:pointer;transition:background .1s;border-top:1px solid var(--ivory-d);}
+.nd-item:hover{background:var(--ivory-d);}
+.nd-item-flag{font-size:1.25rem;flex-shrink:0;}
+.nd-item-info{flex:1;}
+.nd-item-name{font-size:.84rem;font-weight:700;color:var(--ink);}
+.nd-item-meta{font-size:.64rem;color:var(--ink3);margin-top:2px;}
+.nd-item-badge{font-size:.55rem;font-weight:700;text-transform:uppercase;padding:2px 7px;border-radius:var(--pill);}
+.nd-item-badge.live{background:var(--fl);color:var(--forest);}
+.nd-item-badge.soon{background:var(--ivory-d);color:var(--ink3);}
+.nd-item-arr{color:var(--forest);font-size:.85rem;flex-shrink:0;}
+.nd-footer{margin-top:auto;padding:16px 20px;font-size:.7rem;color:var(--ink3);border-top:1px solid var(--parch);line-height:1.6;}
+/* ── RIGHT PANEL TABS ── */
+.rp-tabs{display:none;flex-shrink:0;background:#fff;border-bottom:1px solid var(--parch);}
+.rp-tabs.visible{display:flex;}
+.rp-tab{display:flex;align-items:center;gap:7px;padding:0 18px;height:42px;cursor:pointer;font-family:'Manrope',sans-serif;font-size:.74rem;font-weight:600;color:var(--ink3);border-bottom:3px solid transparent;transition:all .15s;white-space:nowrap;background:#fff;}
+.rp-tab:hover{color:var(--ink);background:var(--ivory-d);}
+.rp-tab.rp-active{color:var(--forest);border-bottom-color:var(--forest);background:var(--ivory-c);}
+.rp-tab-ico{font-size:.85rem;}
+.rp-tab-new{font-size:.52rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;padding:2px 6px;border-radius:var(--pill);background:var(--fl);color:var(--forest);margin-left:3px;}
+/* ── BUDGET + GUIDE PANELS ── */
+.rp-budget-panel{flex:1;overflow-y:auto;display:flex;flex-direction:column;}
+.rp-budget-panel::-webkit-scrollbar{width:4px;}
+.rp-budget-panel::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:4px;}
+.rp-guide-panel{display:none;flex-direction:column;flex:1;overflow:hidden;background:var(--ivory-c);}
+.rp-guide-panel.active{display:flex;}
+.rg-header{padding:14px 22px 0;border-bottom:1px solid var(--parch);flex-shrink:0;background:var(--ivory-c);}
+.rg-header-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px;}
+.rg-crumb{font-size:.62rem;color:var(--ink3);display:flex;align-items:center;gap:4px;flex-wrap:wrap;}
+.rg-crumb a{color:var(--ink3);text-decoration:none;}
+.rg-crumb a:hover{color:var(--forest);}
+.rg-open-link{display:flex;align-items:center;gap:4px;font-size:.7rem;font-weight:600;color:var(--forest);text-decoration:none;background:var(--fl);border-radius:var(--pill);padding:4px 11px;transition:background .15s;white-space:nowrap;flex-shrink:0;}
+.rg-open-link:hover{background:var(--fm);text-decoration:none;}
+.rg-label{font-size:.57rem;text-transform:uppercase;letter-spacing:.12em;font-weight:700;color:var(--forest);margin-bottom:4px;}
+.rg-h2{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--ink);line-height:1.2;margin-bottom:7px;}
+.rg-meta{font-size:.62rem;color:var(--ink3);padding-bottom:12px;display:flex;gap:10px;flex-wrap:wrap;}
+.rg-body{overflow-y:auto;padding:16px 22px 16px;flex:1;}
+.rg-body::-webkit-scrollbar{width:3px;}
+.rg-body::-webkit-scrollbar-thumb{background:var(--parch);border-radius:2px;}
+.rg-quick-box{background:var(--forest);color:#fff;border-radius:var(--rm);padding:15px 16px;margin-bottom:16px;}
+.rg-qb-lbl{font-size:.56rem;text-transform:uppercase;letter-spacing:.11em;font-weight:700;color:rgba(255,255,255,.5);margin-bottom:8px;}
+.rg-tier-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;}
+.rg-tier{background:rgba(255,255,255,.1);border-radius:8px;padding:9px 8px;}
+.rg-tier-name{font-size:.56rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;color:rgba(255,255,255,.55);margin-bottom:3px;}
+.rg-tier-price{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;color:#fff;line-height:1;}
+.rg-tier-day{font-size:.54rem;color:rgba(255,255,255,.42);margin-top:2px;}
+.rg-h3{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:600;color:var(--ink);margin:16px 0 9px;padding-top:12px;border-top:1px solid var(--parch);}
+.rg-p{font-size:.79rem;color:var(--ink2);line-height:1.7;margin-bottom:9px;}
+.rg-table-wrap{overflow-x:auto;margin:6px 0 12px;border-radius:var(--rs);border:1px solid var(--parch);}
+.rg-table{width:100%;border-collapse:collapse;font-size:.7rem;}
+.rg-table thead th{background:var(--forest);color:#fff;padding:6px 9px;text-align:left;font-size:.59rem;text-transform:uppercase;letter-spacing:.05em;}
+.rg-table thead th:first-child{border-radius:var(--rs) 0 0 0;}
+.rg-table thead th:last-child{border-radius:0 var(--rs) 0 0;}
+.rg-table tbody td{padding:6px 9px;border-bottom:1px solid var(--parch);color:var(--ink2);}
+.rg-table tbody td:first-child{font-weight:600;color:var(--ink);}
+.rg-table tbody tr:last-child td{border-bottom:none;}
+.rg-table tbody tr:nth-child(even){background:var(--ivory);}
+.rg-total-row td{font-weight:700!important;color:var(--forest)!important;background:rgba(31,107,74,.07)!important;}
+.rg-hidden-list{list-style:none;display:flex;flex-direction:column;gap:6px;margin:6px 0 12px;}
+.rg-hidden-li{display:grid;grid-template-columns:56px 1fr;gap:9px;align-items:baseline;}
+.rg-cost-tag{font-family:'Cormorant Garamond',serif;font-size:.92rem;font-weight:700;color:var(--coral);}
+.rg-cost-desc{font-size:.76rem;color:var(--ink2);line-height:1.5;}
+.rg-faq-item{border:1px solid var(--parch);border-radius:var(--rs);padding:10px 12px;margin-bottom:7px;background:#fff;}
+.rg-faq-q{font-weight:700;font-size:.76rem;color:var(--ink);margin-bottom:5px;}
+.rg-faq-a{font-size:.73rem;color:var(--ink2);line-height:1.6;}
+.rg-cta{padding:12px 22px;border-top:1px solid var(--parch);background:var(--ivory);flex-shrink:0;}
+.rg-cta-btn{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;padding:10px;background:var(--forest);color:#fff;border:none;border-radius:var(--pill);font-family:'Manrope',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer;transition:all .2s;}
+.rg-cta-btn:hover{background:var(--fd);}
+/* Mobile guide button */
+.m-bar-guide-btn{display:none;align-items:center;gap:4px;background:rgba(255,255,255,.14);color:rgba(255,255,255,.9);border:1px solid rgba(255,255,255,.22);border-radius:var(--pill);font-family:'Manrope',sans-serif;font-size:.62rem;font-weight:700;padding:5px 10px;cursor:pointer;-webkit-tap-highlight-color:transparent;margin-right:8px;white-space:nowrap;flex-shrink:0;}
+.m-bar-guide-btn.visible{display:flex;}
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important;}}
 </style>
 </head>
@@ -419,7 +605,33 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:32px clamp(16px,
   <div class="nav-accent"></div>
   <span class="logo" onclick="resetApp()" title="Click to start over"><svg width="30" height="30" viewBox="0 0 34 34" fill="none" aria-hidden="true" focusable="false"><rect x="2" y="2" width="30" height="30" rx="8" fill="#1F6B4A" fill-opacity="0.08" stroke="#1F6B4A" stroke-width="1.3"/><path d="M9 22 C9 16.5 12.5 12 17 12 C21.5 12 25 16.5 25 22" stroke="#1F6B4A" stroke-width="1.8" stroke-linecap="round" fill="none"/><line x1="7" y1="22" x2="27" y2="22" stroke="#1F6B4A" stroke-width="1.8" stroke-linecap="round"/><path d="M17 8.5 L17 6.5" stroke="#1F6B4A" stroke-width="1.3" stroke-linecap="round"/><path d="M12 12.5 L10.8 11" stroke="#1F6B4A" stroke-width="1.3" stroke-linecap="round"/><path d="M22 12.5 L23.2 11" stroke="#1F6B4A" stroke-width="1.3" stroke-linecap="round"/><text x="17" y="20.5" text-anchor="middle" fill="#1F6B4A" font-size="8" font-weight="700" font-family="Manrope,sans-serif">&#8364;</text></svg><span><span class="logo-trip">Trip</span><span class="logo-spending">Spending</span><span class="logo-tld">.com</span></span></span>
   <div class="nav-tag">Free trip budget calculator &mdash; <strong>no sign-up needed</strong></div>
+  <button class="nav-menu-btn" id="navMenuBtn" onclick="openNavMenu()" aria-label="Open destinations menu"><svg width="18" height="14" viewBox="0 0 18 14" fill="none" aria-hidden="true"><path d="M1 1H17M1 7H17M1 13H17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
 </nav>
+<div class="nav-backdrop" id="navBackdrop" onclick="closeNavMenu()"></div>
+<div class="nav-drawer" id="navDrawer" aria-label="Site menu" role="dialog">
+  <div class="nd-head">
+    <div class="nd-title">Menu</div>
+    <button class="nd-close" onclick="closeNavMenu()" aria-label="Close menu">&times;</button>
+  </div>
+  <div class="nd-section-lbl">Destinations</div>
+  <div class="nd-item" onclick="navPickDest('Bali, Indonesia','🇮🇩')">
+    <span class="nd-item-flag">🇮🇩</span>
+    <div class="nd-item-info"><div class="nd-item-name">Bali, Indonesia</div><div class="nd-item-meta">Cost guide &middot; budget tiers &middot; FAQ</div></div>
+    <span class="nd-item-badge live">Guide</span>
+    <span class="nd-item-arr">&rsaquo;</span>
+  </div>
+  <div class="nd-item" style="opacity:.45;pointer-events:none;">
+    <span class="nd-item-flag">🇹🇭</span>
+    <div class="nd-item-info"><div class="nd-item-name">Thailand</div><div class="nd-item-meta">Bangkok &middot; Chiang Mai &middot; Phuket</div></div>
+    <span class="nd-item-badge soon">Soon</span>
+  </div>
+  <div class="nd-item" style="opacity:.45;pointer-events:none;">
+    <span class="nd-item-flag">🇻🇳</span>
+    <div class="nd-item-info"><div class="nd-item-name">Vietnam</div><div class="nd-item-meta">Hanoi &middot; Ho Chi Minh &middot; Da N&#259;ng</div></div>
+    <span class="nd-item-badge soon">Soon</span>
+  </div>
+  <div class="nd-footer">More destination guides coming soon.</div>
+</div>
 
 <main id="main-content">
 <section id="hero" aria-labelledby="hero-title">
@@ -443,7 +655,14 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:32px clamp(16px,
       <div class="form-inner" id="formInner"></div>
     </div>
     <div class="pl-right">
-      <div class="pr-inner" id="prInner" aria-live="polite" aria-atomic="false" aria-label="Budget summary"></div>
+      <div class="rp-tabs" id="rpTabs">
+        <div class="rp-tab rp-active" id="rpTabBudget" onclick="switchRpTab('budget')"><span class="rp-tab-ico">&#128202;</span> Budget Summary</div>
+        <div class="rp-tab" id="rpTabGuide" onclick="switchRpTab('guide')" style="display:none"></div>
+      </div>
+      <div id="rpBudgetPanel" class="rp-budget-panel">
+        <div class="pr-inner" id="prInner" aria-live="polite" aria-atomic="false" aria-label="Budget summary"></div>
+      </div>
+      <div id="rpGuidePanel" class="rp-guide-panel"></div>
     </div>
   </div>
 </section>
@@ -930,8 +1149,9 @@ function renderForm(){
 function renderRight(){
   const ri=document.getElementById('prInner');
   const anyData=S.scenarios.some(s=>Object.values(s.budget).some(v=>v>0)||s.dest);
-  if(!anyData){ri.innerHTML='<div class="pr-empty"><div class="pr-empty-ico">\uD83D\uDE8C</div><div class="pr-empty-txt">Fill in the form \u2014 your result appears here live</div></div>';return;}
+  if(!anyData){ri.innerHTML='<div class="pr-empty"><div class="pr-empty-ico">\uD83D\uDE8C</div><div class="pr-empty-txt">Fill in the form \u2014 your result appears here live</div></div>';updateMobileBar();return;}
   S.scenarios.length===1?renderSingle(ri):renderCompare(ri);
+  updateMobileBar();
 }
 function renderSingle(ri){
   const sc=active();
@@ -1080,7 +1300,7 @@ function updateInsureAmt(){
   const el=document.getElementById('insureAmt');
   if(el)el.textContent=total>0?'of '+s+fmt(total):'trip cost';
 }
-function redraw(){renderTabs();renderModeBar();renderForm();renderRight();renderComparisonSection();renderDaily();updateInsureAmt();renderGYGActivity();saveState();}
+function redraw(){renderTabs();renderModeBar();renderForm();renderRight();renderComparisonSection();renderDaily();updateInsureAmt();renderGYGActivity();saveState();if(active())checkGuide(active().dest);}
 
 /* ── DESTINATION ── */
 function onDestInput(val){
@@ -1097,7 +1317,7 @@ function onDestInput(val){
   const ico=document.querySelector('#destWrap .dest-ico-abs');if(ico)ico.textContent=sc.destFlag||'\uD83C\uDF0D';
   const cs=document.getElementById('curSel');if(cs)cs.value=sc.currency;
   const fh=document.querySelector('.form-head-title');if(fh)fh.textContent=val||sc.name;
-  renderTabs();renderRight();renderComparisonSection();updateInsureAmt();renderGYGActivity();openDrop(val);
+  renderTabs();renderRight();renderComparisonSection();updateInsureAmt();renderGYGActivity();openDrop(val);checkGuide(val);
 }
 function openDrop(q){
   const drop=document.getElementById('destDrop');if(!drop)return;
@@ -1118,7 +1338,7 @@ function pickDest(name,flag){
   const ico=document.querySelector('#destWrap .dest-ico-abs');if(ico)ico.textContent=flag;
   const drop=document.getElementById('destDrop');if(drop)drop.classList.remove('open');
   const cs=document.getElementById('curSel');if(cs)cs.value=sc.currency;
-  renderTabs();renderRight();renderComparisonSection();updateInsureAmt();renderGYGActivity();
+  renderTabs();renderRight();renderComparisonSection();updateInsureAmt();renderGYGActivity();checkGuide(name);
 }
 
 /* ── TRAVELLERS / CURRENCY / BUDGET ── */
@@ -1287,10 +1507,239 @@ function renderGYGActivity(){
   wrap.appendChild(section);
   setTimeout(function(){window.__gygReinit(document.getElementById('gygWidget'));},80);
 }
+/* ── MOBILE BOTTOM BAR + SUMMARY SHEET ── */
+function isMobile(){return window.innerWidth<=767;}
+function updateMobileBar(){
+  if(!isMobile())return;
+  const sc=active();if(!sc)return;
+  const{total,perPerson,sym:s}=stats(sc);
+  const bt=document.getElementById('mBarTotal');
+  const bs=document.getElementById('mBarSub');
+  if(bt)bt.textContent=s+fmt(total);
+  if(bs)bs.textContent=total>0?(s+fmt(perPerson)+' per person · Tap for summary'):'Tap to see full summary';
+}
+function toggleMobileSheet(){
+  const wrap=document.getElementById('mSheetWrap');
+  if(!wrap)return;
+  if(wrap.classList.contains('open'))closeMobileSheet();
+  else openMobileSheet();
+}
+function openMobileSheet(){
+  renderMobileSheet();
+  const wrap=document.getElementById('mSheetWrap');
+  if(wrap)wrap.classList.add('open');
+  const icon=document.getElementById('mBarRight');
+  if(icon)icon.classList.add('up');
+  document.body.style.overflow='hidden';
+}
+function closeMobileSheet(){
+  const wrap=document.getElementById('mSheetWrap');
+  if(wrap)wrap.classList.remove('open');
+  const icon=document.getElementById('mBarRight');
+  if(icon)icon.classList.remove('up');
+  document.body.style.overflow='';
+}
+function renderMobileSheet(){
+  const sc=active();if(!sc)return;
+  const{total,travelers,perPerson,perDay,sym:s}=stats(sc);
+  const cats=effectiveCats(sc);
+  const maxV=Math.max(...cats.map(c=>sc.budget[c.key]||0),1);
+  const hdr=document.getElementById('mSheetHdr');
+  if(hdr){
+    hdr.innerHTML='<div class="msh-dest">'+(sc.destFlag?sc.destFlag+' ':'')+esc(sc.dest||sc.name)+'</div>'
+      +'<div class="msh-meta">'+(sc.nights>0?sc.nights+' nights · ':'')+travelers+' traveller'+(travelers!==1?'s':'')+'</div>';
+  }
+  let h='<div class="msh-total-card">'
+    +'<div class="msh-tc-lbl">Total estimated cost</div>'
+    +'<div class="msh-tc-total"><span class="msh-tc-cur">'+s+'</span>'+fmt(total)+'</div>'
+    +'<div class="msh-tc-grid">'
+    +'<div><div class="msh-tc-val">'+s+fmt(perPerson)+'</div><div class="msh-tc-sub">per person</div></div>'
+    +'<div><div class="msh-tc-val">'+(sc.nights>0?s+fmt(perDay):'—')+'</div><div class="msh-tc-sub">per day</div></div>'
+    +'<div><div class="msh-tc-val">'+(sc.nights>0?sc.nights:'—')+'</div><div class="msh-tc-sub">nights</div></div>'
+    +'</div></div>';
+  if(total>0){
+    h+='<div class="msh-bd-lbl">Cost breakdown</div>'
+      +cats.map((cat,i)=>{
+        const v=sc.budget[cat.key]||0;
+        const pct=maxV>0?(v/maxV*100):0;
+        return '<div class="msh-bd-row">'
+          +'<div class="msh-bd-head"><span class="msh-bd-name">'+cat.icon+' '+cat.label+'</span>'
+          +'<span class="msh-bd-val">'+s+fmt(v)+'</span></div>'
+          +'<div class="msh-bd-bar-bg"><div class="msh-bd-bar-fill" style="width:'+pct+'%;background:'+BD_COLORS[i%BD_COLORS.length]+'"></div></div>'
+          +'</div>';
+      }).join('');
+  }
+  if(S.scenarios.length>1){
+    const allSt=S.scenarios.map(sc=>({sc,...stats(sc)}));
+    const withCost=allSt.filter(x=>x.total>0);
+    const bestId=withCost.length>1?withCost.reduce((a,b)=>a.perPerson<b.perPerson?a:b).sc.id:null;
+    h+='<div class="msh-trips-section"><div class="msh-bd-lbl">All trips</div>'
+      +allSt.map(({sc:t,total:tot})=>{
+        const isBest=t.id===bestId&&tot>0;
+        return '<div class="msh-trip-row'+(isBest?' msh-best':'')+'" onclick="switchSc('+t.id+');closeMobileSheet()">'
+          +'<div class="msh-trip-dot" style="background:'+SC_COLORS[t.colorIdx]+'"></div>'
+          +'<div class="msh-trip-name">'+esc(t.dest||t.name)+'</div>'
+          +'<div class="msh-trip-total">'+sym(t)+fmt(Object.values(t.budget).reduce((a,b)=>a+b,0))+'</div>'
+          +(isBest?'<span class="msh-badge-best">Best</span>':'')
+          +'</div>';
+      }).join('')+'</div>';
+  }
+  h+='<button class="msh-share-btn" onclick="shareLink()">\U0001f517 Share this budget</button>';
+  const body=document.getElementById('mSheetBody');
+  if(body)body.innerHTML=h;
+}
+
 /* ── INIT ── */
+
+/* ── DESTINATION GUIDES ── */
+const GUIDES={
+  bali:{
+    flag:'🇮🇩',slug:'bali',tabLabel:'Bali Guide',
+    intro:'Bali is still good value — but prices have risen since 2022. Budget travelers live well on $35–50/day eating at warungs and renting a scooter. Mid-range comfort — private villa, restaurants, day trips — runs $80–150/day.',
+    tiers:[
+      {name:'Budget',price:'$35–50',day:'per person / day'},
+      {name:'Mid-range',price:'$80–150',day:'per person / day'},
+      {name:'Comfort',price:'$200+',day:'per person / day'}
+    ],
+    table:[
+      ['Accommodation','$8–18/night','$35–75/night','$120–400/night'],
+      ['Food','$6–10/day','$20–40/day','$60–120/day'],
+      ['Transport','$5–8/day','$15–30/day','$50–100/day'],
+      ['Activities','$3–8/day','$15–35/day','$50–150/day'],
+      ['Total / day','$22–44','$85–180','$280–770']
+    ],
+    hiddenCosts:[
+      ['$35','Visa on arrival (most nationalities)'],
+      ['$10–15','Bali tourist levy (2024)'],
+      ['$3–5','ATM fees per withdrawal'],
+      ['$30–60','Airport transfers (book in advance)']
+    ],
+    faq:[
+      ['Is $1,000 enough for 2 weeks?','Yes — $71/day is achievable staying in guesthouses, eating local, renting a scooter. You won\'t be roughing it.'],
+      ['Cheapest time to visit?','Wet season (Nov–Mar) cuts hotel prices 30–40%. April and October are ideal shoulder months: decent weather, lower prices.'],
+      ['Week in Bali for 2 people?','Budget $700–900 · Mid-range $1,100–1,600 · Comfort $1,800–3,500+. These figures exclude flights.']
+    ]
+  }
+};
+let _activeGuideKey=null;
+function _guideKey(destName){const l=(destName||'').toLowerCase();return Object.keys(GUIDES).find(k=>l.includes(k))||null;}
+function checkGuide(destName){
+  const key=_guideKey(destName);
+  if(key===_activeGuideKey)return;
+  _activeGuideKey=key;
+  const tabs=document.getElementById('rpTabs');
+  const gTab=document.getElementById('rpTabGuide');
+  const mBtn=document.getElementById('mBarGuideBtn');
+  if(key){
+    const g=GUIDES[key];
+    if(tabs)tabs.classList.add('visible');
+    if(gTab){gTab.style.display='flex';gTab.innerHTML='<span class="rp-tab-ico">'+g.flag+'</span> '+g.tabLabel+'<span class="rp-tab-new">New</span>';}
+    if(mBtn)mBtn.classList.add('visible');
+  }else{
+    if(tabs)tabs.classList.remove('visible');
+    if(gTab)gTab.style.display='none';
+    if(mBtn)mBtn.classList.remove('visible');
+    const gPanel=document.getElementById('rpGuidePanel');
+    if(gPanel&&gPanel.classList.contains('active'))switchRpTab('budget');
+  }
+}
+function switchRpTab(tab){
+  const bTab=document.getElementById('rpTabBudget');
+  const gTab=document.getElementById('rpTabGuide');
+  const bPanel=document.getElementById('rpBudgetPanel');
+  const gPanel=document.getElementById('rpGuidePanel');
+  if(!bPanel||!gPanel)return;
+  if(tab==='guide'&&_activeGuideKey){
+    if(bTab)bTab.classList.remove('rp-active');
+    if(gTab){gTab.classList.add('rp-active');const b=gTab.querySelector('.rp-tab-new');if(b)b.remove();}
+    bPanel.style.display='none';
+    gPanel.classList.add('active');
+    renderGuidePanel();
+  }else{
+    if(bTab)bTab.classList.add('rp-active');
+    if(gTab)gTab.classList.remove('rp-active');
+    bPanel.style.display='';
+    gPanel.classList.remove('active');
+  }
+}
+function renderGuidePanel(){
+  const panel=document.getElementById('rpGuidePanel');
+  if(!panel||!_activeGuideKey)return;
+  const g=GUIDES[_activeGuideKey];
+  const tierHTML=g.tiers.map(t=>'<div class="rg-tier"><div class="rg-tier-name">'+t.name+'</div><div class="rg-tier-price">'+t.price+'</div><div class="rg-tier-day">'+t.day+'</div></div>').join('');
+  const tableHTML=g.table.map((row,i)=>'<tr'+(i===g.table.length-1?' class="rg-total-row"':'')+'>'
+    +row.map((cell,j)=>(j===0?'<td><strong>'+cell+'</strong></td>':'<td>'+cell+'</td>')).join('')+'</tr>').join('');
+  const hiddenHTML=g.hiddenCosts.map(([cost,desc])=>'<li class="rg-hidden-li"><span class="rg-cost-tag">'+cost+'</span><span class="rg-cost-desc">'+desc+'</span></li>').join('');
+  const faqHTML=g.faq.map(([q,a])=>'<div class="rg-faq-item"><div class="rg-faq-q">'+q+'</div><div class="rg-faq-a">'+a+'</div></div>').join('');
+  panel.innerHTML='<div class="rg-header">'
+    +'<div class="rg-header-top">'
+    +'<div class="rg-crumb"><a href="/">Home</a> › <a href="/destinations/">Destinations</a> › Bali</div>'
+    +'<a href="/destinations/'+g.slug+'/" target="_blank" rel="noopener" class="rg-open-link">Full article ↗</a>'
+    +'</div>'
+    +'<div class="rg-label">Destination guide · 2026</div>'
+    +'<div class="rg-h2">How Much Does a Trip to Bali Cost?</div>'
+    +'<div class="rg-meta"><span>'+g.flag+' Bali, Indonesia</span><span>· Prices in USD</span><span>· Updated 2026</span></div>'
+    +'</div>'
+    +'<div class="rg-body">'
+    +'<div class="rg-quick-box"><div class="rg-qb-lbl">Quick answer — per person / day</div><div class="rg-tier-row">'+tierHTML+'</div></div>'
+    +'<div class="rg-p">'+g.intro+'</div>'
+    +'<div class="rg-h3">Cost breakdown</div>'
+    +'<div class="rg-table-wrap"><table class="rg-table"><thead><tr><th>Category</th><th>Budget</th><th>Mid-range</th><th>Comfort</th></tr></thead><tbody>'+tableHTML+'</tbody></table></div>'
+    +'<div class="rg-h3">Hidden costs to budget for</div>'
+    +'<ul class="rg-hidden-list">'+hiddenHTML+'</ul>'
+    +'<div class="rg-h3">FAQ</div>'
+    +faqHTML
+    +'</div>'
+    +'<div class="rg-cta"><button class="rg-cta-btn" onclick="switchRpTab(\'budget\')">← Back to budget summary</button></div>';
+}
+/* ── NAV DRAWER FUNCTIONS ── */
+function openNavMenu(){
+  document.getElementById('navDrawer').classList.add('open');
+  document.getElementById('navBackdrop').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeNavMenu(){
+  const d=document.getElementById('navDrawer');if(d)d.classList.remove('open');
+  const b=document.getElementById('navBackdrop');if(b)b.classList.remove('open');
+  document.body.style.overflow='';
+}
+function navPickDest(name,flag){
+  closeNavMenu();
+  pickDest(name,flag);
+  setTimeout(()=>{
+    document.getElementById('planner').scrollIntoView({behavior:'smooth',block:'start'});
+    if(_guideKey(name))setTimeout(()=>switchRpTab('guide'),220);
+  },100);
+}
+function openGuideArticle(){
+  if(!_activeGuideKey)return;
+  window.open('/destinations/'+GUIDES[_activeGuideKey].slug+'/', '_blank');
+}
+
 loadState();
 CAL={open:null,month:null};
 redraw();
 </script>
+<!-- Mobile bottom bar + summary sheet (CSS shows only at max-width:767px) -->
+<div class="m-bar" id="mBar" onclick="toggleMobileSheet()">
+  <div class="m-bar-left">
+    <div class="m-bar-lbl">Total budget</div>
+    <div class="m-bar-total" id="mBarTotal">&#8364; 0</div>
+    <div class="m-bar-sub" id="mBarSub">Tap to see full summary</div>
+  </div>
+  <button class="m-bar-guide-btn" id="mBarGuideBtn" onclick="event.stopPropagation();openGuideArticle()" aria-label="Open destination guide">Guide &#8599;</button>
+  <div class="m-bar-right" id="mBarRight">
+    <svg width="18" height="10" viewBox="0 0 18 10" fill="none" aria-hidden="true"><path d="M1 9L9 1L17 9" stroke="rgba(255,255,255,.65)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span class="m-bar-right-txt">Summary</span>
+  </div>
+</div>
+<div class="m-sheet-wrap" id="mSheetWrap" role="dialog" aria-modal="true" aria-label="Trip budget summary">
+  <div class="m-backdrop" onclick="closeMobileSheet()"></div>
+  <div class="m-sheet">
+    <div class="m-sheet-handle"></div>
+    <div class="m-sheet-hdr" id="mSheetHdr"></div>
+    <div class="m-sheet-body" id="mSheetBody"></div>
+  </div>
+</div>
 </body>
 </html>
