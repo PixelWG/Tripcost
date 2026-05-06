@@ -620,15 +620,17 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:32px clamp(16px,
     <span class="nd-item-badge live">Guide</span>
     <span class="nd-item-arr">&rsaquo;</span>
   </div>
-  <div class="nd-item" style="opacity:.45;pointer-events:none;">
+  <div class="nd-item" onclick="navPickDest('Bangkok, Thailand','🇹🇭')">
     <span class="nd-item-flag">🇹🇭</span>
-    <div class="nd-item-info"><div class="nd-item-name">Thailand</div><div class="nd-item-meta">Bangkok &middot; Chiang Mai &middot; Phuket</div></div>
-    <span class="nd-item-badge soon">Soon</span>
+    <div class="nd-item-info"><div class="nd-item-name">Thailand</div><div class="nd-item-meta">Cost guide &middot; budget tiers &middot; FAQ</div></div>
+    <span class="nd-item-badge live">Guide</span>
+    <span class="nd-item-arr">&rsaquo;</span>
   </div>
-  <div class="nd-item" style="opacity:.45;pointer-events:none;">
+  <div class="nd-item" onclick="navPickDest('Hanoi, Vietnam','🇻🇳')">
     <span class="nd-item-flag">🇻🇳</span>
-    <div class="nd-item-info"><div class="nd-item-name">Vietnam</div><div class="nd-item-meta">Hanoi &middot; Ho Chi Minh &middot; Da N&#259;ng</div></div>
-    <span class="nd-item-badge soon">Soon</span>
+    <div class="nd-item-info"><div class="nd-item-name">Vietnam</div><div class="nd-item-meta">Cost guide &middot; budget tiers &middot; FAQ</div></div>
+    <span class="nd-item-badge live">Guide</span>
+    <span class="nd-item-arr">&rsaquo;</span>
   </div>
   <div class="nd-footer">More destination guides coming soon.</div>
 </div>
@@ -1594,7 +1596,7 @@ function renderMobileSheet(){
 /* ── DESTINATION GUIDES ── */
 const GUIDES={
   bali:{
-    flag:'🇮🇩',slug:'bali',tabLabel:'Bali Guide',
+    flag:'🇮🇩',slug:'bali',tabLabel:'Bali Guide',name:'Bali',country:'Bali, Indonesia',h2:'How Much Does a Trip to Bali Cost?',
     intro:'Bali is still good value — but prices have risen since 2022. Budget travelers live well on $35–50/day eating at warungs and renting a scooter. Mid-range comfort — private villa, restaurants, day trips — runs $80–150/day.',
     tiers:[
       {name:'Budget',price:'$35–50',day:'per person / day'},
@@ -1618,6 +1620,60 @@ const GUIDES={
       ['Is $1,000 enough for 2 weeks?','Yes — $71/day is achievable staying in guesthouses, eating local, renting a scooter. You won\'t be roughing it.'],
       ['Cheapest time to visit?','Wet season (Nov–Mar) cuts hotel prices 30–40%. April and October are ideal shoulder months: decent weather, lower prices.'],
       ['Week in Bali for 2 people?','Budget $700–900 · Mid-range $1,100–1,600 · Comfort $1,800–3,500+. These figures exclude flights.']
+    ]
+  },
+  thailand:{
+    flag:'🇹🇭',slug:'thailand',tabLabel:'Thailand Guide',name:'Thailand',country:'Thailand',h2:'How Much Does a Trip to Thailand Cost?',
+    intro:'Thailand delivers exceptional value. Street food meals cost $1–3, guesthouses start at $10, and a full day of activities rarely exceeds $30. Mid-range travelers in private hotels with air-con and guided day trips spend $65–120/day.',
+    tiers:[
+      {name:'Budget',price:'$30–50',day:'per person / day'},
+      {name:'Mid-range',price:'$65–120',day:'per person / day'},
+      {name:'Comfort',price:'$180+',day:'per person / day'}
+    ],
+    table:[
+      ['Accommodation','$5–15/night','$25–55/night','$100–350/night'],
+      ['Food','$5–10/day','$20–40/day','$60–120/day'],
+      ['Transport','$4–8/day','$12–25/day','$40–80/day'],
+      ['Activities','$3–10/day','$15–40/day','$50–150/day'],
+      ['Total / day','$17–43','$72–160','$250–700']
+    ],
+    hiddenCosts:[
+      ['Free','Visa exemption 60 days (most nationalities)'],
+      ['$30–50','Airport transfer from Bangkok Suvarnabhumi'],
+      ['$3–5','ATM fees per withdrawal'],
+      ['$10–20/day','Motorbike rental (optional)']
+    ],
+    faq:[
+      ['Is $1,000 enough for 2 weeks?','Yes — $71/day covers a private guesthouse, three meals, and a day trip. Comfortable budget travel is very achievable in Thailand.'],
+      ['Cheapest time to visit?','May–October (low season) cuts hotel rates 30–40%. Crowds thin outside Bangkok. Expect afternoon showers in the south.'],
+      ['Week in Thailand for 2 people?','Budget $480–700 · Mid-range $1,000–1,680 · Comfort $2,520+. Figures exclude international flights.']
+    ]
+  },
+  vietnam:{
+    flag:'🇻🇳',slug:'vietnam',tabLabel:'Vietnam Guide',name:'Vietnam',country:'Vietnam',h2:'How Much Does a Trip to Vietnam Cost?',
+    intro:'Vietnam ranks among the most affordable destinations in Southeast Asia. A bowl of pho costs $1–2, dorm beds start at $5, and three distinct regions — north, central, south — offer dramatically different scenery, food and culture in one trip.',
+    tiers:[
+      {name:'Budget',price:'$25–40',day:'per person / day'},
+      {name:'Mid-range',price:'$55–100',day:'per person / day'},
+      {name:'Comfort',price:'$150+',day:'per person / day'}
+    ],
+    table:[
+      ['Accommodation','$5–12/night','$18–50/night','$80–250/night'],
+      ['Food','$4–8/day','$15–30/day','$50–100/day'],
+      ['Transport','$3–7/day','$10–25/day','$30–80/day'],
+      ['Activities','$3–8/day','$12–30/day','$45–120/day'],
+      ['Total / day','$15–35','$55–135','$205–550']
+    ],
+    hiddenCosts:[
+      ['$25','E-visa 90 days (most nationalities)'],
+      ['$15–25','Airport transfer (Hanoi or Ho Chi Minh City)'],
+      ['$3–5','ATM fees per withdrawal'],
+      ['$5–15/day','Motorbike rental (optional)']
+    ],
+    faq:[
+      ['Is Vietnam cheaper than Bali?','Yes — street food costs $1–3, beers from $0.50, budget guesthouses from $8. Daily costs of $25 are realistic for slow travelers.'],
+      ['Best time to visit Vietnam?','November–April for the south and central coast. June–August for the north (Sapa, Hanoi). Weather varies significantly by region.'],
+      ['2 weeks in Vietnam for 2 people?','Budget $700–1,120 · Mid-range $1,540–2,800 · Comfort $4,200+. The north–south flight saves 30+ hours of bus travel.']
     ]
   }
 };
@@ -1673,12 +1729,12 @@ function renderGuidePanel(){
   const faqHTML=g.faq.map(([q,a])=>'<div class="rg-faq-item"><div class="rg-faq-q">'+q+'</div><div class="rg-faq-a">'+a+'</div></div>').join('');
   panel.innerHTML='<div class="rg-header">'
     +'<div class="rg-header-top">'
-    +'<div class="rg-crumb"><a href="/">Home</a> › <a href="/destinations/">Destinations</a> › Bali</div>'
+    +'<div class="rg-crumb"><a href="/">Home</a> › <a href="destinations/">Destinations</a> › '+g.name+'</div>'
     +'<a href="destinations/'+g.slug+'/index.html" target="_blank" rel="noopener" class="rg-open-link">Full article ↗</a>'
     +'</div>'
     +'<div class="rg-label">Destination guide · 2026</div>'
-    +'<div class="rg-h2">How Much Does a Trip to Bali Cost?</div>'
-    +'<div class="rg-meta"><span>'+g.flag+' Bali, Indonesia</span><span>· Prices in USD</span><span>· Updated 2026</span></div>'
+    +'<div class="rg-h2">'+g.h2+'</div>'
+    +'<div class="rg-meta"><span>'+g.flag+' '+g.country+'</span><span>· Prices in USD</span><span>· Updated 2026</span></div>'
     +'</div>'
     +'<div class="rg-body">'
     +'<div class="rg-quick-box"><div class="rg-qb-lbl">Quick answer — per person / day</div><div class="rg-tier-row">'+tierHTML+'</div></div>'
