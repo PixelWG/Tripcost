@@ -1361,7 +1361,7 @@ function pickDest(name,flag){
   const ico=document.querySelector('#destWrap .dest-ico-abs');if(ico)ico.textContent=flag;
   const drop=document.getElementById('destDrop');if(drop)drop.classList.remove('open');
   const cs=document.getElementById('curSel');if(cs)cs.value=sc.currency;
-  renderTabs();renderRight();renderComparisonSection();updateInsureAmt();renderGYGActivity();checkGuide(name);
+  renderTabs();renderRight();renderComparisonSection();updateInsureAmt();renderGYGActivity();checkGuide(name);if(_guideKey(name))switchRpTab('guide');
 }
 
 /* ── TRAVELLERS / CURRENCY / BUDGET ── */
@@ -1699,7 +1699,19 @@ const GUIDES={
   }
 };
 let _activeGuideKey=null;
-function _guideKey(destName){const l=(destName||'').toLowerCase();return Object.keys(GUIDES).find(k=>l.includes(k))||null;}
+const GUIDE_CITIES={
+  bali:['bali','ubud','denpasar','seminyak','canggu','nusa dua'],
+  thailand:['thailand','bangkok','chiang mai','phuket','koh samui','koh tao','koh lanta','pai','chiang rai'],
+  vietnam:['vietnam','hanoi','ho chi minh','saigon','hoi an','da nang','nha trang','hue','sapa','ha long'],
+  barcelona:['barcelona']
+};
+function _guideKey(destName){
+  const l=(destName||'').toLowerCase();
+  return Object.keys(GUIDES).find(function(k){
+    const cities=GUIDE_CITIES[k]||[k];
+    return cities.some(function(city){return l.includes(city);});
+  })||null;
+}
 function checkGuide(destName){
   const key=_guideKey(destName);
   if(key===_activeGuideKey)return;
