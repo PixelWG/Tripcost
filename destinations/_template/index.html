@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<!--
+  ╔══════════════════════════════════════════════════════════════════╗
+  ║  TRIPSPENDING — DESTINATION GUIDE TEMPLATE                      ║
+  ║  Copy this file to destinations/[SLUG]/index.html               ║
+  ║  Replace every [PLACEHOLDER] with real values (no brackets)     ║
+  ║  Then add the GUIDES entry in index.html and the nav drawer item ║
+  ╚══════════════════════════════════════════════════════════════════╝
+
+  CHECKLIST — things to update:
+  [ ] All [PLACEHOLDER] values in this file
+  [ ] GUIDES entry in index.html  (see GUIDES section at bottom of script)
+  [ ] GUIDE_CITIES entry in index.html  (add city aliases for _guideKey)
+  [ ] Nav drawer <a> item in index.html
+  [ ] Destinations index page (destinations/index.html) — add card
+  [ ] sitemap.xml — add URL
+  [ ] Deploy: cp to production/ and /tmp/Tripcost, git push
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<!-- SEO: target keyword format: "how much does a trip to [DESTINATION] cost" -->
+<title>How Much Does a Trip to [DESTINATION_NAME] Cost in 2026? | TripSpending</title>
+<meta name="description" content="Complete [DESTINATION_NAME] travel budget guide 2026 — accommodation, food, transport and activities at 3 budget levels. Real [YEAR] prices."/>
+<meta name="robots" content="index, follow"/>
+<link rel="canonical" href="https://tripspending.com/destinations/[SLUG]/"/>
+<meta property="og:type" content="article"/>
+<meta property="og:title" content="How Much Does a Trip to [DESTINATION_NAME] Cost in 2026? | TripSpending"/>
+<meta property="og:description" content="Complete [DESTINATION_NAME] travel budget guide 2026 — accommodation, food, transport and activities at 3 budget levels."/>
+<meta property="og:url" content="https://tripspending.com/destinations/[SLUG]/"/>
+<meta property="og:image" content="https://tripspending.com/og-image.png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="How Much Does a Trip to [DESTINATION_NAME] Cost in 2026? | TripSpending"/>
+<meta name="twitter:image" content="https://tripspending.com/og-image.png"/>
+
+<!-- FAQ schema: fill in 5 real Q&As. First Q should be the target keyword question. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is [DESTINATION_NAME] expensive for tourists?",
+      "acceptedAnswer": { "@type": "Answer", "text": "[ANSWER_1]" }
+    },
+    {
+      "@type": "Question",
+      "name": "How much spending money per day in [DESTINATION_NAME]?",
+      "acceptedAnswer": { "@type": "Answer", "text": "[ANSWER_2]" }
+    },
+    {
+      "@type": "Question",
+      "name": "Is $1,000 enough for a week in [DESTINATION_NAME]?",
+      "acceptedAnswer": { "@type": "Answer", "text": "[ANSWER_3]" }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the cheapest time to visit [DESTINATION_NAME]?",
+      "acceptedAnswer": { "@type": "Answer", "text": "[ANSWER_4]" }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does a week in [DESTINATION_NAME] cost for 2 people?",
+      "acceptedAnswer": { "@type": "Answer", "text": "[ANSWER_5]" }
+    }
+  ]
+}
+</script>
+
+<!-- Fonts: non-render-blocking (do not change this pattern) -->
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Manrope:wght@300;400;500;600;700&display=swap"></noscript>
+
+<!-- ═══════════════════════════ STYLES (do not modify) ═══════════════════════════ -->
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --forest:#1F6B4A;--fd:#154A34;--fl:rgba(31,107,74,.07);
+  --coral:#B04A28;
+  --ink:#0A0806;--ink2:#2A2018;--ink3:#4A3E34;
+  --ivory:#F6F1E8;--ivory-d:#EDE5D4;--ivory-c:#FDFAF4;
+  --parch:#E2D9C8;--white:#fff;
+  --sh:0 2px 16px rgba(28,24,16,.08);--sh2:0 8px 36px rgba(28,24,16,.12);
+  --rm:14px;--rs:8px;--pill:100px;
+}
+body{font-family:'Manrope',sans-serif;font-size:15px;line-height:1.6;color:var(--ink);background:var(--ivory);-webkit-font-smoothing:antialiased;}
+a{color:var(--forest);text-decoration:none;}
+a:hover{text-decoration:underline;}
+.nav{position:sticky;top:0;z-index:100;background:rgba(246,241,232,.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--parch);height:58px;display:flex;align-items:center;padding:0 clamp(16px,4vw,48px);gap:16px;}
+.logo{display:inline-flex;align-items:center;gap:9px;font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;text-decoration:none;color:inherit;flex-shrink:0;}
+.logo-trip{color:var(--forest);}.logo-spending{color:var(--ink);}.logo-tld{color:#9A8E82;font-weight:300;font-size:.72em;}
+.nav-back{margin-left:auto;font-size:.8rem;color:var(--ink3);display:flex;align-items:center;gap:5px;flex-shrink:0;}
+.nav-back:hover{color:var(--forest);}
+.dest-shell{display:grid;grid-template-columns:1fr 420px;gap:0;max-width:1280px;margin:0 auto;align-items:start;}
+.dest-content{padding:clamp(28px,4vw,48px) clamp(16px,3vw,40px) 80px clamp(16px,4vw,48px);max-width:760px;}
+.dest-sidebar{position:sticky;top:58px;height:calc(100vh - 58px);border-left:1px solid var(--parch);display:flex;flex-direction:column;overflow:hidden;background:var(--ivory-c);}
+.calc-hdr{background:var(--forest);padding:14px 20px;flex-shrink:0;}
+.calc-hdr-title{font-size:.9rem;font-weight:700;color:#fff;}
+.calc-hdr-sub{font-size:.7rem;color:rgba(255,255,255,.6);margin-top:3px;}
+.calc-frame{flex:1;width:100%;border:none;display:block;background:#fff;}
+.breadcrumb{font-size:.72rem;color:var(--ink3);margin-bottom:24px;display:flex;gap:5px;align-items:center;flex-wrap:wrap;}
+.breadcrumb a{color:var(--ink3);}.breadcrumb a:hover{color:var(--forest);}.breadcrumb-sep{color:var(--parch);}
+.article-label{font-size:.65rem;text-transform:uppercase;letter-spacing:.14em;font-weight:700;color:var(--forest);margin-bottom:10px;}
+.article-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;line-height:1.2;color:var(--ink);margin-bottom:14px;}
+.article-meta{font-size:.75rem;color:var(--ink3);margin-bottom:32px;display:flex;gap:14px;flex-wrap:wrap;}
+.article-meta strong{color:var(--ink2);}
+.intro{font-size:1rem;color:var(--ink2);line-height:1.8;margin-bottom:32px;}.intro p+p{margin-top:12px;}
+.mobile-cta{display:none;margin-bottom:24px;}
+.cta-btn{display:inline-flex;align-items:center;gap:7px;background:var(--coral);color:#fff;font-family:'Manrope',sans-serif;font-size:.88rem;font-weight:700;padding:13px 22px;border-radius:var(--pill);border:none;cursor:pointer;transition:all .2s;text-decoration:none;}
+.cta-btn:hover{background:#943D21;color:#fff;text-decoration:none;transform:translateY(-1px);box-shadow:var(--sh2);}
+.cta-sub{font-size:.72rem;color:var(--ink3);margin-top:8px;}
+.quick-box{background:var(--forest);color:#fff;border-radius:var(--rm);padding:24px 28px;margin-bottom:28px;}
+.qb-label{font-size:.62rem;text-transform:uppercase;letter-spacing:.14em;font-weight:700;color:rgba(255,255,255,.55);margin-bottom:8px;}
+.qb-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;margin-bottom:18px;}
+.tier-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px;}
+.tier{background:rgba(255,255,255,.1);border-radius:var(--rs);padding:12px 10px;}
+.tier-name{font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;color:rgba(255,255,255,.55);margin-bottom:5px;}
+.tier-price{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:#fff;line-height:1;}
+.tier-day{font-size:.65rem;color:rgba(255,255,255,.45);margin-top:3px;}
+.tier-desc{font-size:.72rem;color:rgba(255,255,255,.7);margin-top:7px;line-height:1.5;}
+.section-h2{font-family:'Cormorant Garamond',serif;font-size:1.65rem;font-weight:700;color:var(--ink);margin:44px 0 14px;}
+p{margin-bottom:13px;color:var(--ink2);line-height:1.75;}
+.cost-table-wrap{overflow-x:auto;margin:20px 0 32px;border-radius:var(--rm);border:1px solid var(--parch);box-shadow:var(--sh);}
+table{width:100%;border-collapse:collapse;font-size:.84rem;}
+thead th{background:var(--forest);color:#fff;padding:11px 14px;text-align:left;font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;}
+thead th:first-child{border-radius:var(--rm) 0 0 0;}
+thead th:last-child{border-radius:0 var(--rm) 0 0;}
+tbody tr:nth-child(even){background:var(--ivory);}
+tbody tr:nth-child(odd){background:var(--white);}
+tbody td{padding:11px 14px;vertical-align:top;border-bottom:1px solid var(--parch);line-height:1.5;}
+tbody td:first-child{font-weight:600;color:var(--ink);white-space:nowrap;}
+tbody tr:last-child td{border-bottom:none;}
+.total-row td{background:rgba(31,107,74,.07)!important;font-weight:700;color:var(--forest);}
+.tier-card{border:1.5px solid var(--parch);border-radius:var(--rm);padding:22px 26px;margin:18px 0;box-shadow:var(--sh);}
+.tier-card.budget{border-left:4px solid #5B9E7A;}
+.tier-card.mid{border-left:4px solid #378ADD;}
+.tier-card.comfort{border-left:4px solid var(--coral);}
+.tier-card-label{font-size:.62rem;text-transform:uppercase;letter-spacing:.13em;font-weight:700;margin-bottom:5px;}
+.tier-card.budget .tier-card-label{color:#5B9E7A;}
+.tier-card.mid .tier-card-label{color:#378ADD;}
+.tier-card.comfort .tier-card-label{color:var(--coral);}
+.tier-card-price{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:700;color:var(--ink);margin-bottom:12px;}
+.tier-sub{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
+.tier-sub-label{font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);font-weight:600;margin-bottom:2px;}
+.tier-sub-val{font-size:.84rem;font-weight:600;color:var(--ink);}
+.hidden-list{list-style:none;margin:14px 0 0;display:flex;flex-direction:column;gap:9px;}
+.hidden-list li{display:grid;grid-template-columns:auto 1fr;gap:13px;align-items:baseline;}
+.cost-tag{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;color:var(--coral);white-space:nowrap;}
+.cost-desc{font-size:.86rem;color:var(--ink2);line-height:1.5;}
+.cost-desc strong{color:var(--ink);font-weight:600;}
+.faq-list{margin-top:18px;display:flex;flex-direction:column;gap:18px;}
+.faq-item{border:1px solid var(--parch);border-radius:var(--rm);padding:18px 22px;background:var(--white);}
+.faq-q{font-weight:700;font-size:.92rem;color:var(--ink);margin-bottom:9px;}
+.faq-a{font-size:.86rem;color:var(--ink2);line-height:1.65;}
+.affiliate-box{border:1.5px solid var(--parch);border-radius:var(--rm);padding:22px 26px;margin:28px 0;background:var(--white);box-shadow:var(--sh);}
+.affiliate-box-title{font-size:.65rem;text-transform:uppercase;letter-spacing:.13em;font-weight:700;color:var(--ink3);margin-bottom:14px;}
+.affiliate-links{display:flex;flex-direction:column;gap:10px;}
+.affiliate-link{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:var(--rs);border:1.5px solid var(--parch);background:var(--ivory);text-decoration:none;transition:all .18s;}
+.affiliate-link:hover{border-color:var(--forest);background:var(--fl);text-decoration:none;}
+.aff-icon{font-size:1.2rem;flex-shrink:0;}.aff-info{flex:1;}
+.aff-name{font-size:.88rem;font-weight:700;color:var(--ink);}
+.aff-desc{font-size:.72rem;color:var(--ink3);margin-top:2px;}
+.aff-arrow{color:var(--forest);font-size:.9rem;flex-shrink:0;}
+.affiliate-disc{font-size:.68rem;color:var(--ink3);margin-top:10px;line-height:1.5;}
+.article-cta{margin:48px 0 0;padding:28px 32px;background:var(--forest);border-radius:var(--rm);color:#fff;text-align:center;}
+.article-cta-title{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;margin-bottom:8px;}
+.article-cta-sub{font-size:.82rem;color:rgba(255,255,255,.7);margin-bottom:18px;line-height:1.6;}
+.article-cta-btn{display:inline-flex;align-items:center;gap:7px;background:#fff;color:var(--forest);font-family:'Manrope',sans-serif;font-size:.88rem;font-weight:700;padding:13px 24px;border-radius:var(--pill);text-decoration:none;transition:all .2s;}
+.article-cta-btn:hover{background:var(--ivory-d);text-decoration:none;transform:translateY(-1px);}
+footer{background:var(--ink);color:rgba(255,255,255,.5);padding:36px clamp(16px,4vw,48px);text-align:center;font-size:.78rem;line-height:1.8;}
+.footer-logo{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:700;display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:8px;}
+.footer-logo .logo-trip{color:rgba(91,196,138,.85);}
+.footer-logo .logo-spending{color:rgba(255,255,255,.75);}
+.footer-logo .logo-tld{color:rgba(255,255,255,.28);font-weight:300;font-size:.8em;}
+footer a{color:rgba(255,255,255,.45);}
+footer a:hover{color:#fff;}
+@media(max-width:1100px){.dest-shell{grid-template-columns:1fr 380px;}}
+@media(max-width:900px){.dest-shell{grid-template-columns:1fr;}.dest-sidebar{display:none;}.mobile-cta{display:block;}.tier-sub{grid-template-columns:1fr 1fr;}}
+@media(max-width:520px){.tier-row{grid-template-columns:1fr;}.tier-sub{grid-template-columns:1fr 1fr;}.quick-box{padding:18px 16px;}.tier-card{padding:18px 16px;}.affiliate-box{padding:16px;}}
+</style>
+</head>
+<body>
+
+<nav class="nav" aria-label="Site navigation">
+  <a href="/" class="logo" aria-label="TripSpending home">
+    <svg viewBox="0 0 34 34" width="26" height="26" fill="none" aria-hidden="true">
+      <circle cx="17" cy="17" r="16" fill="#1F6B4A" opacity=".12"/>
+      <path d="M7 21 Q17 7 27 21" stroke="#1F6B4A" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <circle cx="17" cy="21" r="3" fill="#1F6B4A"/>
+      <path d="M17 21 L22 14" stroke="#B04A28" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    <span><span class="logo-trip">Trip</span><span class="logo-spending">Spending</span><span class="logo-tld">.com</span></span>
+  </a>
+  <a href="/" class="nav-back" aria-label="Back to calculator">&#8592; Calculator</a>
+</nav>
+
+<div class="dest-shell">
+  <main class="dest-content">
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="breadcrumb-sep">&#8250;</span>
+      <a href="/destinations/">Destinations</a><span class="breadcrumb-sep">&#8250;</span>
+      <!-- Update text: "[DESTINATION_NAME] cost guide 2026" -->
+      <span>[DESTINATION_NAME] cost guide 2026</span>
+    </nav>
+
+    <div class="article-label">Destination cost guide &middot; Updated 2026</div>
+    <!-- H1: must contain the target keyword -->
+    <h1 class="article-h1">How Much Does a Trip to [DESTINATION_NAME] Cost in 2026?</h1>
+    <div class="article-meta">
+      <span><strong>Destination:</strong> [DESTINATION_FULL_NAME]</span>
+      <!-- e.g. "Thai Baht · prices in USD" or "Euro · prices in USD" -->
+      <span><strong>Currency:</strong> [LOCAL_CURRENCY] &middot; prices in USD</span>
+      <span><strong>Last verified:</strong> May 2026</span>
+    </div>
+
+    <!-- 2-paragraph intro. Para 1: hook with 2-3 specific local prices. Para 2: the 3 tiers with price ranges. -->
+    <div class="intro">
+      <p>[INTRO_PARAGRAPH_1 — specific local prices, e.g. "A bowl of X costs $Y. Guesthouses from $Z."]</p>
+      <p>[INTRO_PARAGRAPH_2 — budget/mid/comfort tiers with daily price ranges and what they cover]</p>
+    </div>
+
+    <div class="mobile-cta">
+      <!-- Update dest param: e.g. /?dest=Tokyo%2C+Japan -->
+      <a href="/?dest=[DEST_URL_ENCODED]" class="cta-btn">Build Your [DESTINATION_NAME] Budget &#8594;</a>
+      <div class="cta-sub">Free calculator &mdash; no sign-up required</div>
+    </div>
+
+    <!-- Quick-answer box: 3 tier prices -->
+    <div class="quick-box" role="region" aria-label="Cost summary">
+      <div class="qb-label">Quick answer</div>
+      <div class="qb-title">How much does a trip to [DESTINATION_NAME] cost?</div>
+      <div class="tier-row">
+        <div class="tier">
+          <div class="tier-name">Budget</div>
+          <div class="tier-price">$[B_LOW]&ndash;[B_HIGH]</div>
+          <div class="tier-day">per person / day</div>
+          <div class="tier-desc">[BUDGET_TIER_DESC — hostel/street food/local transport]</div>
+        </div>
+        <div class="tier">
+          <div class="tier-name">Mid-range</div>
+          <div class="tier-price">$[M_LOW]&ndash;[M_HIGH]</div>
+          <div class="tier-day">per person / day</div>
+          <div class="tier-desc">[MID_TIER_DESC — private hotel/restaurants/guided tour]</div>
+        </div>
+        <div class="tier">
+          <div class="tier-name">Comfort</div>
+          <div class="tier-price">$[C_PRICE]+</div>
+          <div class="tier-day">per person / day</div>
+          <div class="tier-desc">[COMFORT_TIER_DESC — boutique hotel/fine dining/private transfers]</div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="section-h2">Full Cost Breakdown: [DESTINATION_NAME] 2026</h2>
+    <!-- Add 1-2 lines on exchange rate and any notable fee context -->
+    <p>[EXCHANGE_RATE_NOTE — e.g. "Prices per person per day in USD. Exchange rate: 1 USD ≈ X [CURRENCY] (May 2026)."]</p>
+
+    <div class="cost-table-wrap">
+      <table>
+        <thead><tr><th>Category</th><th>Budget</th><th>Mid-range</th><th>Comfort / Splurge</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Accommodation</td>
+            <td>$[B_ACC]/night<br><span style="font-size:.76rem;color:#767676">[B_ACC_DESC]</span></td>
+            <td>$[M_ACC]/night<br><span style="font-size:.76rem;color:#767676">[M_ACC_DESC]</span></td>
+            <td>$[C_ACC]/night<br><span style="font-size:.76rem;color:#767676">[C_ACC_DESC]</span></td>
+          </tr>
+          <tr>
+            <td>Food</td>
+            <td>$[B_FOOD]/day<br><span style="font-size:.76rem;color:#767676">[B_FOOD_DESC]</span></td>
+            <td>$[M_FOOD]/day<br><span style="font-size:.76rem;color:#767676">[M_FOOD_DESC]</span></td>
+            <td>$[C_FOOD]/day<br><span style="font-size:.76rem;color:#767676">[C_FOOD_DESC]</span></td>
+          </tr>
+          <tr>
+            <td>Transport</td>
+            <td>$[B_TRANS]/day<br><span style="font-size:.76rem;color:#767676">[B_TRANS_DESC]</span></td>
+            <td>$[M_TRANS]/day<br><span style="font-size:.76rem;color:#767676">[M_TRANS_DESC]</span></td>
+            <td>$[C_TRANS]/day<br><span style="font-size:.76rem;color:#767676">[C_TRANS_DESC]</span></td>
+          </tr>
+          <tr>
+            <td>Activities</td>
+            <td>$[B_ACT]/day<br><span style="font-size:.76rem;color:#767676">[B_ACT_DESC]</span></td>
+            <td>$[M_ACT]/day<br><span style="font-size:.76rem;color:#767676">[M_ACT_DESC]</span></td>
+            <td>$[C_ACT]/day<br><span style="font-size:.76rem;color:#767676">[C_ACT_DESC]</span></td>
+          </tr>
+          <tr class="total-row">
+            <td>Total per day</td>
+            <td><strong>$[B_TOTAL]/day</strong></td>
+            <td><strong>$[M_TOTAL]/day</strong></td>
+            <td><strong>$[C_TOTAL]/day</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="section-h2">By Budget Level</h2>
+
+    <!-- Budget tier card: ~2 paragraphs of real detail. What accommodation looks like, what food costs, local transport options. End with a tip. -->
+    <div class="tier-card budget">
+      <div class="tier-card-label">Budget traveler</div>
+      <div class="tier-card-price">Under $[B_HIGH]/day</div>
+      <div class="tier-sub">
+        <div><div class="tier-sub-label">Stay</div><div class="tier-sub-val">$[B_ACC]/night</div></div>
+        <div><div class="tier-sub-label">Food</div><div class="tier-sub-val">$[B_FOOD]/day</div></div>
+        <div><div class="tier-sub-label">Transport</div><div class="tier-sub-val">$[B_TRANS]/day</div></div>
+      </div>
+      <p>[BUDGET_ACCOMMODATION_DETAIL — specific hostel/guesthouse names or areas, price range, what you get]</p>
+      <p>[BUDGET_FOOD_TRANSPORT_DETAIL — street food prices, local transport costs, free activities]</p>
+      <p><strong>Tip:</strong> [BUDGET_TIP — one practical money-saving insight specific to this destination]</p>
+    </div>
+
+    <!-- Mid-range tier card -->
+    <div class="tier-card mid">
+      <div class="tier-card-label">Mid-range</div>
+      <div class="tier-card-price">$[M_LOW]&ndash;[M_HIGH]/day</div>
+      <div class="tier-sub">
+        <div><div class="tier-sub-label">Stay</div><div class="tier-sub-val">$[M_ACC]/night</div></div>
+        <div><div class="tier-sub-label">Food</div><div class="tier-sub-val">$[M_FOOD]/day</div></div>
+        <div><div class="tier-sub-label">Transport</div><div class="tier-sub-val">$[M_TRANS]/day</div></div>
+      </div>
+      <p>[MID_ACCOMMODATION_DETAIL — specific hotel types/areas, booking tips]</p>
+      <p>[MID_ACTIVITIES_DETAIL — tours, restaurants, experiences with specific prices]</p>
+      <p><strong>Tip:</strong> [MID_TIP — booking advice, card to avoid ATM fees, pass to buy, etc.]</p>
+    </div>
+
+    <!-- Comfort tier card -->
+    <div class="tier-card comfort">
+      <div class="tier-card-label">Comfort / Splurge</div>
+      <div class="tier-card-price">$[C_PRICE]+/day</div>
+      <div class="tier-sub">
+        <div><div class="tier-sub-label">Stay</div><div class="tier-sub-val">$[C_ACC]/night</div></div>
+        <div><div class="tier-sub-label">Food</div><div class="tier-sub-val">$[C_FOOD]/day</div></div>
+        <div><div class="tier-sub-label">Transport</div><div class="tier-sub-val">$[C_TRANS]/day</div></div>
+      </div>
+      <p>[COMFORT_HOTEL_DETAIL — specific luxury/boutique hotels, starting prices, what makes them special]</p>
+      <p>[COMFORT_DINING_EXPERIENCES — tasting menus, private tours, exclusive experiences with prices]</p>
+    </div>
+
+    <!-- Affiliate box: replace YOUR_AFFILIATE_ID and YOUR_PARTNER_ID -->
+    <h2 class="section-h2">Where to Book: Hotels &amp; Tours</h2>
+    <div class="affiliate-box">
+      <div class="affiliate-box-title">Recommended booking partners</div>
+      <div class="affiliate-links">
+        <a class="affiliate-link"
+           href="https://www.booking.com/searchresults.html?ss=[DESTINATION_URL_ENCODED]&aid=YOUR_AFFILIATE_ID"
+           target="_blank" rel="noopener sponsored">
+          <span class="aff-icon">&#127968;</span>
+          <span class="aff-info">
+            <span class="aff-name">Search [DESTINATION_NAME] Hotels on Booking.com</span>
+            <span class="aff-desc">[BOOKING_DESC — e.g. "500+ properties · free cancellation options · Genius discounts"]</span>
+          </span>
+          <span class="aff-arrow">&#8599;</span>
+        </a>
+        <a class="affiliate-link"
+           href="https://www.getyourguide.com/[GYG_DESTINATION_SLUG]/?partner_id=YOUR_PARTNER_ID"
+           target="_blank" rel="noopener sponsored">
+          <span class="aff-icon">&#127981;</span>
+          <span class="aff-info">
+            <span class="aff-name">Book [DESTINATION_NAME] Tours on GetYourGuide</span>
+            <span class="aff-desc">[GYG_DESC — e.g. "temples, cooking classes, day trips · skip-the-line tickets · free cancellation"]</span>
+          </span>
+          <span class="aff-arrow">&#8599;</span>
+        </a>
+      </div>
+      <p class="affiliate-disc">&#8505; Partner links &mdash; we may earn a small commission if you book through these links, at no extra cost to you.</p>
+    </div>
+
+    <!-- Hidden costs: 4-5 items. First item should be the visa situation. -->
+    <h2 class="section-h2">Hidden Costs People Forget</h2>
+    <p>[HIDDEN_INTRO — 1 sentence about what kind of surprises this destination has]</p>
+    <ul class="hidden-list">
+      <li>
+        <span class="cost-tag">[VISA_COST]</span>
+        <span class="cost-desc"><strong>[VISA_TYPE]</strong> &mdash; [VISA_DETAIL — cost, validity, how to apply, nationalities covered]</span>
+      </li>
+      <li>
+        <span class="cost-tag">[AIRPORT_COST]</span>
+        <span class="cost-desc"><strong>Airport transfer</strong> &mdash; [AIRPORT_DETAIL — options, costs, timing]</span>
+      </li>
+      <li>
+        <span class="cost-tag">[ATM_COST]</span>
+        <span class="cost-desc"><strong>ATM / currency fees</strong> &mdash; [ATM_DETAIL — local bank fees, best card to use]</span>
+      </li>
+      <li>
+        <span class="cost-tag">[EXTRA1_COST]</span>
+        <span class="cost-desc"><strong>[EXTRA1_NAME]</strong> &mdash; [EXTRA1_DETAIL]</span>
+      </li>
+      <li>
+        <span class="cost-tag">[EXTRA2_COST]</span>
+        <span class="cost-desc"><strong>[EXTRA2_NAME]</strong> &mdash; [EXTRA2_DETAIL]</span>
+      </li>
+    </ul>
+
+    <!-- FAQ: 5 items matching the JSON-LD above -->
+    <h2 class="section-h2" id="faq">Frequently Asked Questions</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q">Is [DESTINATION_NAME] expensive for tourists?</div>
+        <div class="faq-a">[ANSWER_1]</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How much spending money per day in [DESTINATION_NAME]?</div>
+        <div class="faq-a">[ANSWER_2]</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Is $1,000 enough for a week in [DESTINATION_NAME]?</div>
+        <div class="faq-a">[ANSWER_3]</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What is the cheapest time to visit [DESTINATION_NAME]?</div>
+        <div class="faq-a">[ANSWER_4]</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How much does a week in [DESTINATION_NAME] cost for 2 people?</div>
+        <div class="faq-a">[ANSWER_5]</div>
+      </div>
+    </div>
+
+    <div class="article-cta">
+      <div class="article-cta-title">Ready to plan your [DESTINATION_NAME] budget?</div>
+      <div class="article-cta-sub">Use our free calculator to build your full trip budget &mdash; adjust nights, travelers, and categories.</div>
+      <a href="/?dest=[DEST_URL_ENCODED]" class="article-cta-btn">Build Your [DESTINATION_NAME] Budget &#8594;</a>
+    </div>
+
+  </main>
+
+  <aside class="dest-sidebar" aria-label="Budget calculator">
+    <div class="calc-hdr">
+      <div class="calc-hdr-title">Calculate your [DESTINATION_NAME] budget</div>
+      <div class="calc-hdr-sub">Free &mdash; adjust nights, travelers &amp; categories</div>
+    </div>
+    <!-- Update dest param below: e.g. /?dest=Tokyo%2C+Japan&embed=1 -->
+    <iframe
+      class="calc-frame"
+      src="/?dest=[DEST_URL_ENCODED]&embed=1"
+      title="TripSpending Budget Calculator"
+      loading="lazy"
+      allow="clipboard-write"
+    ></iframe>
+  </aside>
+</div>
+
+<footer role="contentinfo">
+  <div class="footer-logo">
+    <span class="logo-trip">Trip</span><span class="logo-spending">Spending</span><span class="logo-tld">.com</span>
+  </div>
+  <div style="margin-bottom:8px;">
+    <a href="/">Home</a> &nbsp;&middot;&nbsp;
+    <a href="/destinations/">Destinations</a> &nbsp;&middot;&nbsp;
+    <a href="#">Privacy</a> &nbsp;&middot;&nbsp;
+    <a href="#">Affiliate disclosure</a>
+  </div>
+  <div>&copy; 2026 TripSpending. Partner links may earn commission at no extra cost to you. All estimates are indicative only.</div>
+</footer>
+
+</body>
+</html>
+
+<!--
+════════════════════════════════════════════════════════
+  WHAT TO ADD IN index.html AFTER CREATING THIS PAGE
+════════════════════════════════════════════════════════
+
+  1. GUIDE_CITIES (in the GUIDE_CITIES const):
+     [SLUG]: ['[SLUG]', '[CITY_1]', '[CITY_2]', '[CITY_3]'],
+
+  2. GUIDES entry (after last destination, before closing }; ):
+     [SLUG]:{
+       flag:'[FLAG_EMOJI]',slug:'[SLUG]',tabLabel:'[DESTINATION_NAME] Guide',
+       name:'[DESTINATION_NAME]',country:'[DESTINATION_FULL_NAME]',
+       h2:'How Much Does a Trip to [DESTINATION_NAME] Cost?',
+       intro:'[SHORT_INTRO — 2 sentences]',
+       tiers:[
+         {name:'Budget',price:'$[B_LOW]–[B_HIGH]',day:'per person / day'},
+         {name:'Mid-range',price:'$[M_LOW]–[M_HIGH]',day:'per person / day'},
+         {name:'Comfort',price:'$[C_PRICE]+',day:'per person / day'}
+       ],
+       table:[
+         ['Accommodation','$[B_ACC]/night','$[M_ACC]/night','$[C_ACC]/night'],
+         ['Food','$[B_FOOD]/day','$[M_FOOD]/day','$[C_FOOD]/day'],
+         ['Transport','$[B_TRANS]/day','$[M_TRANS]/day','$[C_TRANS]/day'],
+         ['Activities','$[B_ACT]/day','$[M_ACT]/day','$[C_ACT]/day'],
+         ['Total / day','$[B_TOTAL]','$[M_TOTAL]','$[C_TOTAL]']
+       ],
+       hiddenCosts:[
+         ['[VISA_COST]','[VISA_DESC]'],
+         ['[AIRPORT_COST]','[AIRPORT_DESC]'],
+         ['[ATM_COST]','[ATM_DESC]'],
+         ['[EXTRA1_COST]','[EXTRA1_DESC]']
+       ],
+       faq:[
+         ['[FAQ_Q1]','[FAQ_A1]'],
+         ['[FAQ_Q2]','[FAQ_A2]'],
+         ['[FAQ_Q3]','[FAQ_A3]']
+       ]
+     }
+
+  3. Nav drawer item (before <div class="nd-footer">):
+     <a href="/destinations/[SLUG]/" class="nd-item" onclick="closeNavMenu()">
+       <span class="nd-item-flag">[FLAG_EMOJI]</span>
+       <div class="nd-item-info">
+         <div class="nd-item-name">[DESTINATION_NAME]</div>
+         <div class="nd-item-meta">Cost guide &middot; budget tiers &middot; FAQ</div>
+       </div>
+       <span class="nd-item-badge live">Guide</span>
+       <span class="nd-item-arr">&rsaquo;</span>
+     </a>
+
+  4. Destinations index page (destinations/index.html):
+     Copy one of the .dest-card blocks and update flag, name, desc, tiers, href.
+
+  5. sitemap.xml:
+     <url>
+       <loc>https://tripspending.com/destinations/[SLUG]/</loc>
+       <lastmod>[TODAY_DATE]</lastmod>
+       <changefreq>monthly</changefreq>
+       <priority>0.8</priority>
+     </url>
+
+  6. Deploy:
+     cp destinations/[SLUG]/index.html production/destinations/[SLUG]/index.html
+     cp index.html production/index.html
+     cp destinations/index.html production/destinations/index.html
+     cp sitemap.xml production/sitemap.xml
+     cp [all changed files] /tmp/Tripcost/[same paths]
+     cd /tmp/Tripcost && git add -A && git commit -m "Add [DESTINATION] guide" && git push
+════════════════════════════════════════════════════════
+-->

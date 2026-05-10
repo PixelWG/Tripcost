@@ -607,9 +607,10 @@ body.embed-mode footer{display:none!important;}
 body.embed-mode{background:var(--ivory);}
 body.embed-mode #planner{padding:0;}
 body.embed-mode .planner-shell{grid-template-columns:1fr!important;min-height:100vh;}
-body.embed-mode .pl-right{display:none!important;}
-body.embed-mode .m-bar{display:flex!important;}
-body.embed-mode .form-inner{padding-bottom:88px!important;}
+body.embed-mode .pl-right{display:block!important;}
+body.embed-mode .m-bar{display:none!important;}
+body.embed-mode .m-sheet-wrap{display:none!important;}
+body.embed-mode .form-inner{padding-bottom:0!important;}
 </style>
 </head>
 <body>
@@ -629,30 +630,30 @@ body.embed-mode .form-inner{padding-bottom:88px!important;}
     <button class="nd-close" onclick="closeNavMenu()" aria-label="Close menu">&times;</button>
   </div>
   <div class="nd-section-lbl">Destinations</div>
-  <div class="nd-item" onclick="navPickDest('Bali, Indonesia','🇮🇩')">
+  <a href="/destinations/bali/" class="nd-item" onclick="closeNavMenu()">
     <span class="nd-item-flag">🇮🇩</span>
     <div class="nd-item-info"><div class="nd-item-name">Bali, Indonesia</div><div class="nd-item-meta">Cost guide &middot; budget tiers &middot; FAQ</div></div>
     <span class="nd-item-badge live">Guide</span>
     <span class="nd-item-arr">&rsaquo;</span>
-  </div>
-  <div class="nd-item" onclick="navPickDest('Bangkok, Thailand','🇹🇭')">
+  </a>
+  <a href="/destinations/thailand/" class="nd-item" onclick="closeNavMenu()">
     <span class="nd-item-flag">🇹🇭</span>
     <div class="nd-item-info"><div class="nd-item-name">Thailand</div><div class="nd-item-meta">Cost guide &middot; budget tiers &middot; FAQ</div></div>
     <span class="nd-item-badge live">Guide</span>
     <span class="nd-item-arr">&rsaquo;</span>
-  </div>
-  <div class="nd-item" onclick="navPickDest('Hanoi, Vietnam','🇻🇳')">
+  </a>
+  <a href="/destinations/vietnam/" class="nd-item" onclick="closeNavMenu()">
     <span class="nd-item-flag">🇻🇳</span>
     <div class="nd-item-info"><div class="nd-item-name">Vietnam</div><div class="nd-item-meta">Cost guide &middot; budget tiers &middot; FAQ</div></div>
     <span class="nd-item-badge live">Guide</span>
     <span class="nd-item-arr">&rsaquo;</span>
-  </div>
-  <div class="nd-item" onclick="navPickDest('Barcelona, Spain','🇪🇸')">
+  </a>
+  <a href="/destinations/barcelona/" class="nd-item" onclick="closeNavMenu()">
     <span class="nd-item-flag">🇪🇸</span>
     <div class="nd-item-info"><div class="nd-item-name">Barcelona, Spain</div><div class="nd-item-meta">Cost guide &middot; budget tiers &middot; FAQ</div></div>
     <span class="nd-item-badge live">Guide</span>
     <span class="nd-item-arr">&rsaquo;</span>
-  </div>
+  </a>
   <div class="nd-footer">More destination guides coming soon.</div>
 </div>
 
@@ -1811,17 +1812,28 @@ function openGuideArticle(){
 
 loadState();
 CAL={open:null,month:null};
-redraw();
-/* ── URL PARAMS: embed mode + dest pre-fill ── */
+/* ── URL PARAMS: apply dest override BEFORE first render ── */
 (function(){
   var params=new URLSearchParams(location.search);
   if(params.get('embed')==='1'){document.body.classList.add('embed-mode');}
   var dp=params.get('dest');
   if(dp){
-    var hint=DEST_HINTS.find(function(d){return d.name.toLowerCase()===dp.toLowerCase();});
-    pickDest(dp,hint?hint.flag:'🌍');
-    saveState();
+    var sc=active();
+    if(sc){
+      var hint=DEST_HINTS.find(function(d){return d.name.toLowerCase()===dp.toLowerCase();});
+      sc.dest=dp;
+      sc.destFlag=hint?hint.flag:'🌍';
+      if(!sc.manuallyNamed)sc.name=dp.split(',')[0].trim();
+      var ac=currencyForDest(dp);
+      if(ac&&CUR_SYM[ac])sc.currency=ac;
+    }
   }
+})();
+redraw();
+/* ── Post-render: activate guide tab if dest has one ── */
+(function(){
+  var dp=new URLSearchParams(location.search).get('dest');
+  if(dp){checkGuide(dp);if(_guideKey(dp))switchRpTab('guide');saveState();}
 })();
 </script>
 <!-- Mobile bottom bar + summary sheet (CSS shows only at max-width:767px) -->
