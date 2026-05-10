@@ -67,6 +67,9 @@ a:hover{text-decoration:underline;}
 /* Coming soon card */
 .dest-card.soon{opacity:.55;cursor:default;pointer-events:none;}
 .dest-card.soon .card-cta{background:var(--parch);color:var(--ink3);}
+/* Region sections */
+.region-section{margin-bottom:48px;}
+.region-label{font-size:.62rem;text-transform:uppercase;letter-spacing:.16em;font-weight:700;color:var(--ink3);margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid var(--parch);}
 /* CTA strip */
 .calc-strip{margin-top:56px;background:var(--forest);border-radius:var(--rm);padding:32px 36px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;}
 .calc-strip-copy{}
@@ -111,158 +114,97 @@ footer a:hover{color:#fff;}
   <h1 class="page-h1">Where do you want<br>to travel?</h1>
   <p class="page-sub">Pick a destination to see a full cost breakdown &mdash; real 2026 prices at budget, mid-range and comfort levels. Then open the calculator to build your exact trip budget.</p>
 
-  <div class="dest-grid">
+  <div class="region-section">
+    <h2 class="region-label">Southeast Asia</h2>
+    <div class="dest-grid">
 
-    <a href="/destinations/bali/" class="dest-card">
-      <div class="card-flag">&#127470;&#127465;</div>
-      <div class="card-region">Southeast Asia</div>
-      <div class="card-name">Bali, Indonesia</div>
-      <p class="card-desc">Rice terraces, surf beaches, temple ceremonies and world-class food &mdash; all at prices that make other holiday destinations feel overpriced. Ubud and Seminyak suit very different budgets.</p>
-      <div class="card-tiers">
-        <div class="card-tier">
-          <div class="card-tier-label">Budget</div>
-          <div class="card-tier-price">$35&ndash;60</div>
-          <div class="card-tier-day">/ day</div>
+      <a href="/destinations/bali/" class="dest-card">
+        <div class="card-flag">&#127470;&#127465;</div>
+        <div class="card-name">Bali, Indonesia</div>
+        <p class="card-desc">Rice terraces, surf beaches, temple ceremonies and world-class food &mdash; all at prices that make other holiday destinations feel overpriced. Ubud and Seminyak suit very different budgets.</p>
+        <div class="card-tiers">
+          <div class="card-tier"><div class="card-tier-label">Budget</div><div class="card-tier-price">$35&ndash;60</div><div class="card-tier-day">/ day</div></div>
+          <div class="card-tier"><div class="card-tier-label">Mid-range</div><div class="card-tier-price">$80&ndash;150</div><div class="card-tier-day">/ day</div></div>
+          <div class="card-tier"><div class="card-tier-label">Comfort</div><div class="card-tier-price">$200+</div><div class="card-tier-day">/ day</div></div>
         </div>
-        <div class="card-tier">
-          <div class="card-tier-label">Mid-range</div>
-          <div class="card-tier-price">$80&ndash;150</div>
-          <div class="card-tier-day">/ day</div>
-        </div>
-        <div class="card-tier">
-          <div class="card-tier-label">Comfort</div>
-          <div class="card-tier-price">$200+</div>
-          <div class="card-tier-day">/ day</div>
-        </div>
-      </div>
-      <span class="card-cta">View Bali guide &#8594;</span>
-    </a>
+        <span class="card-cta">View Bali guide &#8594;</span>
+      </a>
 
-    <a href="/destinations/thailand/" class="dest-card">
-      <div class="card-flag">&#127481;&#127469;</div>
-      <div class="card-region">Southeast Asia</div>
-      <div class="card-name">Thailand</div>
-      <p class="card-desc">Bangkok&rsquo;s street food alleys, Chiang Mai&rsquo;s temples and the islands&rsquo; turquoise water &mdash; all visa-free for 60 days. Thailand consistently delivers more per dollar than almost anywhere else.</p>
-      <div class="card-tiers">
-        <div class="card-tier">
-          <div class="card-tier-label">Budget</div>
-          <div class="card-tier-price">$30&ndash;50</div>
-          <div class="card-tier-day">/ day</div>
+      <a href="/destinations/thailand/" class="dest-card">
+        <div class="card-flag">&#127481;&#127469;</div>
+        <div class="card-name">Thailand</div>
+        <p class="card-desc">Bangkok&rsquo;s street food alleys, Chiang Mai&rsquo;s temples and the islands&rsquo; turquoise water &mdash; all visa-free for 60 days. Thailand consistently delivers more per dollar than almost anywhere else.</p>
+        <div class="card-tiers">
+          <div class="card-tier"><div class="card-tier-label">Budget</div><div class="card-tier-price">$30&ndash;50</div><div class="card-tier-day">/ day</div></div>
+          <div class="card-tier"><div class="card-tier-label">Mid-range</div><div class="card-tier-price">$65&ndash;120</div><div class="card-tier-day">/ day</div></div>
+          <div class="card-tier"><div class="card-tier-label">Comfort</div><div class="card-tier-price">$180+</div><div class="card-tier-day">/ day</div></div>
         </div>
-        <div class="card-tier">
-          <div class="card-tier-label">Mid-range</div>
-          <div class="card-tier-price">$65&ndash;120</div>
-          <div class="card-tier-day">/ day</div>
-        </div>
-        <div class="card-tier">
-          <div class="card-tier-label">Comfort</div>
-          <div class="card-tier-price">$180+</div>
-          <div class="card-tier-day">/ day</div>
-        </div>
-      </div>
-      <span class="card-cta">View Thailand guide &#8594;</span>
-    </a>
+        <span class="card-cta">View Thailand guide &#8594;</span>
+      </a>
 
-    <a href="/destinations/vietnam/" class="dest-card">
-      <div class="card-flag">&#127483;&#127475;</div>
-      <div class="card-region">Southeast Asia</div>
-      <div class="card-name">Vietnam</div>
-      <p class="card-desc">Pho for $1, bia hoi beer for $0.25, and 1,650 km of coastline, mountains and ancient towns. Vietnam packs three distinct regions into one trip and remains among the cheapest destinations on earth.</p>
-      <div class="card-tiers">
-        <div class="card-tier">
-          <div class="card-tier-label">Budget</div>
-          <div class="card-tier-price">$25&ndash;45</div>
-          <div class="card-tier-day">/ day</div>
+      <a href="/destinations/vietnam/" class="dest-card">
+        <div class="card-flag">&#127483;&#127475;</div>
+        <div class="card-name">Vietnam</div>
+        <p class="card-desc">Pho for $1, bia hoi beer for $0.25, and 1,650 km of coastline, mountains and ancient towns. Vietnam packs three distinct regions into one trip and remains among the cheapest destinations on earth.</p>
+        <div class="card-tiers">
+          <div class="card-tier"><div class="card-tier-label">Budget</div><div class="card-tier-price">$25&ndash;45</div><div class="card-tier-day">/ day</div></div>
+          <div class="card-tier"><div class="card-tier-label">Mid-range</div><div class="card-tier-price">$60&ndash;110</div><div class="card-tier-day">/ day</div></div>
+          <div class="card-tier"><div class="card-tier-label">Comfort</div><div class="card-tier-price">$160+</div><div class="card-tier-day">/ day</div></div>
         </div>
-        <div class="card-tier">
-          <div class="card-tier-label">Mid-range</div>
-          <div class="card-tier-price">$60&ndash;110</div>
-          <div class="card-tier-day">/ day</div>
-        </div>
-        <div class="card-tier">
-          <div class="card-tier-label">Comfort</div>
-          <div class="card-tier-price">$160+</div>
-          <div class="card-tier-day">/ day</div>
-        </div>
-      </div>
-      <span class="card-cta">View Vietnam guide &#8594;</span>
-    </a>
+        <span class="card-cta">View Vietnam guide &#8594;</span>
+      </a>
 
-    <a href="/destinations/barcelona/" class="dest-card">
-      <div class="card-flag">&#127466;&#127480;</div>
-      <div class="card-region">Europe &middot; Spain</div>
-      <div class="card-name">Barcelona</div>
-      <p class="card-desc">Gaud&iacute; architecture, beach clubs, world-class food markets and a nightlife scene that starts at midnight. Mid-range by European standards, and far cheaper than Paris or Amsterdam for accommodation.</p>
-      <div class="card-tiers">
-        <div class="card-tier">
-          <div class="card-tier-label">Budget</div>
-          <div class="card-tier-price">$75&ndash;120</div>
-          <div class="card-tier-day">/ day</div>
-        </div>
-        <div class="card-tier">
-          <div class="card-tier-label">Mid-range</div>
-          <div class="card-tier-price">$180&ndash;280</div>
-          <div class="card-tier-day">/ day</div>
-        </div>
-        <div class="card-tier">
-          <div class="card-tier-label">Comfort</div>
-          <div class="card-tier-price">$400+</div>
-          <div class="card-tier-day">/ day</div>
-        </div>
-      </div>
-      <span class="card-cta">View Barcelona guide &#8594;</span>
-    </a>
-
-    <div class="dest-card soon">
-      <div class="card-flag">&#127471;&#127477;</div>
-      <div class="card-region">Asia &middot; Japan</div>
-      <div class="card-name">Tokyo</div>
-      <p class="card-desc">Michelin-starred ramen, bullet trains, cherry blossom parks and capsule hotels. Japan is pricier than Southeast Asia but surprises most visitors with how affordable day-to-day life can be.</p>
-      <div class="card-tiers">
-        <div class="card-tier">
-          <div class="card-tier-label">Budget</div>
-          <div class="card-tier-price">$70&ndash;100</div>
-          <div class="card-tier-day">/ day</div>
-        </div>
-        <div class="card-tier">
-          <div class="card-tier-label">Mid-range</div>
-          <div class="card-tier-price">$130&ndash;220</div>
-          <div class="card-tier-day">/ day</div>
-        </div>
-        <div class="card-tier">
-          <div class="card-tier-label">Comfort</div>
-          <div class="card-tier-price">$300+</div>
-          <div class="card-tier-day">/ day</div>
-        </div>
-      </div>
-      <span class="card-cta">Coming soon</span>
     </div>
+  </div>
 
-    <div class="dest-card soon">
-      <div class="card-flag">&#127477;&#127481;</div>
-      <div class="card-region">Europe &middot; Portugal</div>
-      <div class="card-name">Lisbon</div>
-      <p class="card-desc">Fado music, pastel de nata, tram rides and Atlantic sunsets. Lisbon remains Western Europe&rsquo;s most affordable capital and one of its most charming, with a restaurant scene that punches above its weight.</p>
-      <div class="card-tiers">
-        <div class="card-tier">
-          <div class="card-tier-label">Budget</div>
-          <div class="card-tier-price">$55&ndash;90</div>
-          <div class="card-tier-day">/ day</div>
+  <div class="region-section">
+    <h2 class="region-label">Europe</h2>
+    <div class="dest-grid">
+
+      <a href="/destinations/barcelona/" class="dest-card">
+        <div class="card-flag">&#127466;&#127480;</div>
+        <div class="card-name">Barcelona, Spain</div>
+        <p class="card-desc">Gaud&iacute; architecture, beach clubs, world-class food markets and a nightlife scene that starts at midnight. Mid-range by European standards, and far cheaper than Paris or Amsterdam for accommodation.</p>
+        <div class="card-tiers">
+          <div class="card-tier"><div class="card-tier-label">Budget</div><div class="card-tier-price">$75&ndash;120</div><div class="card-tier-day">/ day</div></div>
+          <div class="card-tier"><div class="card-tier-label">Mid-range</div><div class="card-tier-price">$180&ndash;280</div><div class="card-tier-day">/ day</div></div>
+          <div class="card-tier"><div class="card-tier-label">Comfort</div><div class="card-tier-price">$400+</div><div class="card-tier-day">/ day</div></div>
         </div>
-        <div class="card-tier">
-          <div class="card-tier-label">Mid-range</div>
-          <div class="card-tier-price">$120&ndash;200</div>
-          <div class="card-tier-day">/ day</div>
+        <span class="card-cta">View Barcelona guide &#8594;</span>
+      </a>
+
+      <div class="dest-card soon">
+        <div class="card-flag">&#127477;&#127481;</div>
+        <div class="card-name">Lisbon, Portugal</div>
+        <p class="card-desc">Fado music, pastel de nata, tram rides and Atlantic sunsets. Lisbon remains Western Europe&rsquo;s most affordable capital and one of its most charming, with a restaurant scene that punches above its weight.</p>
+        <div class="card-tiers">
+          <div class="card-tier"><div class="card-tier-label">Budget</div><div class="card-tier-price">$55&ndash;90</div><div class="card-tier-day">/ day</div></div>
+          <div class="card-tier"><div class="card-tier-label">Mid-range</div><div class="card-tier-price">$120&ndash;200</div><div class="card-tier-day">/ day</div></div>
+          <div class="card-tier"><div class="card-tier-label">Comfort</div><div class="card-tier-price">$280+</div><div class="card-tier-day">/ day</div></div>
         </div>
-        <div class="card-tier">
-          <div class="card-tier-label">Comfort</div>
-          <div class="card-tier-price">$280+</div>
-          <div class="card-tier-day">/ day</div>
-        </div>
+        <span class="card-cta">Coming soon</span>
       </div>
-      <span class="card-cta">Coming soon</span>
-    </div>
 
+    </div>
+  </div>
+
+  <div class="region-section">
+    <h2 class="region-label">East Asia</h2>
+    <div class="dest-grid">
+
+      <div class="dest-card soon">
+        <div class="card-flag">&#127471;&#127477;</div>
+        <div class="card-name">Tokyo, Japan</div>
+        <p class="card-desc">Michelin-starred ramen, bullet trains, cherry blossom parks and capsule hotels. Japan is pricier than Southeast Asia but surprises most visitors with how affordable day-to-day life can be.</p>
+        <div class="card-tiers">
+          <div class="card-tier"><div class="card-tier-label">Budget</div><div class="card-tier-price">$70&ndash;100</div><div class="card-tier-day">/ day</div></div>
+          <div class="card-tier"><div class="card-tier-label">Mid-range</div><div class="card-tier-price">$130&ndash;220</div><div class="card-tier-day">/ day</div></div>
+          <div class="card-tier"><div class="card-tier-label">Comfort</div><div class="card-tier-price">$300+</div><div class="card-tier-day">/ day</div></div>
+        </div>
+        <span class="card-cta">Coming soon</span>
+      </div>
+
+    </div>
   </div>
 
   <div class="calc-strip">
