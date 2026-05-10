@@ -595,6 +595,21 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:32px clamp(16px,
 .m-bar-guide-btn{display:none;align-items:center;gap:4px;background:rgba(255,255,255,.14);color:rgba(255,255,255,.9);border:1px solid rgba(255,255,255,.22);border-radius:var(--pill);font-family:'Manrope',sans-serif;font-size:.62rem;font-weight:700;padding:5px 10px;cursor:pointer;-webkit-tap-highlight-color:transparent;margin-right:8px;white-space:nowrap;flex-shrink:0;}
 .m-bar-guide-btn.visible{display:flex;}
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important;}}
+/* ── EMBED MODE — strip to calculator only ── */
+body.embed-mode .nav,
+body.embed-mode .nav-backdrop,
+body.embed-mode .nav-drawer,
+body.embed-mode #hero,
+body.embed-mode #comparison,
+body.embed-mode #daily,
+body.embed-mode #monetize,
+body.embed-mode footer{display:none!important;}
+body.embed-mode{background:var(--ivory);}
+body.embed-mode #planner{padding:0;}
+body.embed-mode .planner-shell{grid-template-columns:1fr!important;min-height:100vh;}
+body.embed-mode .pl-right{display:none!important;}
+body.embed-mode .m-bar{display:flex!important;}
+body.embed-mode .form-inner{padding-bottom:88px!important;}
 </style>
 </head>
 <body>
@@ -1782,6 +1797,17 @@ function openGuideArticle(){
 loadState();
 CAL={open:null,month:null};
 redraw();
+/* ── URL PARAMS: embed mode + dest pre-fill ── */
+(function(){
+  var params=new URLSearchParams(location.search);
+  if(params.get('embed')==='1'){document.body.classList.add('embed-mode');}
+  var dp=params.get('dest');
+  if(dp){
+    var hint=DEST_HINTS.find(function(d){return d.name.toLowerCase()===dp.toLowerCase();});
+    pickDest(dp,hint?hint.flag:'🌍');
+    saveState();
+  }
+})();
 </script>
 <!-- Mobile bottom bar + summary sheet (CSS shows only at max-width:767px) -->
 <div class="m-bar" id="mBar" onclick="toggleMobileSheet()">

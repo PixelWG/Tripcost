@@ -67,7 +67,8 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Manrope:wght@300;400;500;600;700&display=swap"></noscript>
 
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -467,7 +468,7 @@ footer a:hover{color:#fff;}
     </div>
     <iframe
       class="calc-frame"
-      src="/?dest=Bali%2C+Indonesia"
+      src="/?dest=Bali%2C+Indonesia&embed=1"
       title="TripSpending Budget Calculator"
       loading="lazy"
       allow="clipboard-write"
