@@ -683,6 +683,19 @@ body.embed-mode .form-inner{padding-bottom:0!important;}
     <span class="nd-item-badge live">Guide</span>
     <span class="nd-item-arr">&rsaquo;</span>
   </a>
+  <a href="/destinations/lisbon/" class="nd-item" onclick="closeNavMenu()">
+    <span class="nd-item-flag">🇵🇹</span>
+    <div class="nd-item-info"><div class="nd-item-name">Lisbon, Portugal</div><div class="nd-item-meta">Cost guide &middot; budget tiers &middot; FAQ</div></div>
+    <span class="nd-item-badge live">Guide</span>
+    <span class="nd-item-arr">&rsaquo;</span>
+  </a>
+  <div class="nd-section-lbl" style="margin-top:4px">East Asia</div>
+  <a href="/destinations/tokyo/" class="nd-item" onclick="closeNavMenu()">
+    <span class="nd-item-flag">🇯🇵</span>
+    <div class="nd-item-info"><div class="nd-item-name">Tokyo, Japan</div><div class="nd-item-meta">Cost guide &middot; budget tiers &middot; FAQ</div></div>
+    <span class="nd-item-badge live">Guide</span>
+    <span class="nd-item-arr">&rsaquo;</span>
+  </a>
   <div class="nd-footer">More destination guides coming soon.</div>
 </div>
 
@@ -1770,6 +1783,60 @@ const GUIDES={
       ['Cheapest time to visit Barcelona?','November–February: hotel rates drop 30–40%, crowds are thinner. The city still averages 10–14°C. Avoid August if you dislike crowds — peak season and school holidays push prices up sharply.'],
       ['2 weeks in Barcelona for 2 people?','Budget $2,100–3,360 · Mid-range $5,040–7,840 · Comfort $11,200+. On-the-ground costs only; international flights excluded.']
     ]
+  },
+  tokyo:{
+    flag:'🇯🇵',slug:'tokyo',tabLabel:'Tokyo Guide',name:'Tokyo',country:'Tokyo, Japan',h2:'How Much Does a Trip to Tokyo Cost?',
+    intro:'Tokyo surprises most visitors — street-level costs are lower than the city\'s reputation suggests. Ramen at a standing counter costs $8–12, subway rides $1.50–2, and capsule hotels start at $25/night. Mid-range comfort in a business hotel with restaurant meals runs $150–250/day.',
+    tiers:[
+      {name:'Budget',price:'$65–100',day:'per person / day'},
+      {name:'Mid-range',price:'$150–250',day:'per person / day'},
+      {name:'Comfort',price:'$350+',day:'per person / day'}
+    ],
+    table:[
+      ['Accommodation','$20–45/night','$70–160/night','$250–600/night'],
+      ['Food','$15–25/day','$35–60/day','$100–250/day'],
+      ['Transport','$7–12/day','$12–22/day','$40–80/day'],
+      ['Activities','$5–15/day','$20–45/day','$60–150/day'],
+      ['Total / day','$47–97','$137–287','$450–1,080']
+    ],
+    hiddenCosts:[
+      ['Free','Visa-free 90 days (US, EU, UK, Australia, Canada)'],
+      ['$35–60','Airport transfer — Narita Express or Limousine Bus'],
+      ['¥500 deposit','IC card (Suica/Pasmo) — works on all Tokyo transit'],
+      ['¥200–1,000/night','Tokyo accommodation tax (charged separately by hotel)']
+    ],
+    faq:[
+      ['Is $1,000 enough for a week?','Yes — $143/day covers a business hotel, restaurant meals, the metro and major attractions including a day trip. Book accommodation early; popular hotels at this price sell out weeks ahead.'],
+      ['Cheapest time to visit?','January–February (lowest prices, cold but manageable) or September–November (excellent weather, autumn foliage). Avoid late March–May (cherry blossom peak) and Golden Week when prices spike sharply.'],
+      ['Week in Tokyo for 2 people?','Budget $910–1,400 · Mid-range $2,100–3,500 · Comfort $4,900+. Add the JR Pass ($270/person for 7 days) only if you\'re traveling beyond Tokyo to Kyoto, Osaka or Hiroshima.']
+    ]
+  },
+  lisbon:{
+    flag:'🇵🇹',slug:'lisbon',tabLabel:'Lisbon Guide',name:'Lisbon',country:'Lisbon, Portugal',h2:'How Much Does a Trip to Lisbon Cost?',
+    intro:'Lisbon is Western Europe\'s most affordable capital. A pastel de nata costs €1.20, the prato do dia set lunch €8–12, and a metro ride €1.65. Budget travelers on guesthouses and neighborhood restaurants can live well under $90/day in a city packed with character.',
+    tiers:[
+      {name:'Budget',price:'$55–90',day:'per person / day'},
+      {name:'Mid-range',price:'$130–220',day:'per person / day'},
+      {name:'Comfort',price:'$300+',day:'per person / day'}
+    ],
+    table:[
+      ['Accommodation','$15–40/night','$60–140/night','$200–450/night'],
+      ['Food','$15–25/day','$35–65/day','$90–200/day'],
+      ['Transport','$5–10/day','$10–20/day','$30–60/day'],
+      ['Activities','$8–18/day','$20–45/day','$60–130/day'],
+      ['Total / day','$43–93','$125–270','$380–840']
+    ],
+    hiddenCosts:[
+      ['€7','ETIAS authorisation (non-EU visitors from 2025)'],
+      ['€2–4/night','Lisbon tourist tax — charged per person per night by all hotels'],
+      ['€1.65+','Airport transfer — Metro Line 1 Red (25–30 min) or Uber €12–18'],
+      ['€29–35','Sintra day trip (train return + Pena Palace entry + tuk-tuk)']
+    ],
+    faq:[
+      ['Is $1,000 enough for a week?','Yes — $143/day covers a good 3-star hotel, restaurant dinners, the Sintra day trip and the main sights. Book 4–6 weeks ahead in summer when Lisbon fills quickly.'],
+      ['Is Lisbon cheaper than Barcelona?','Yes. Hotels run €60–140/night vs €100–200 in Barcelona. The prato do dia lunch is €8–12 vs €12–15 for Barcelona\'s menú del día. Lisbon has the lower baseline across most categories.'],
+      ['Week in Lisbon for 2 people?','Budget $770–1,260 · Mid-range $1,820–3,080 · Comfort $4,200+. Add €7/person for the ETIAS authorisation (non-EU, valid 3 years).']
+    ]
   }
 };
 let _activeGuideKey=null;
@@ -1777,7 +1844,9 @@ const GUIDE_CITIES={
   bali:['bali','ubud','denpasar','seminyak','canggu','nusa dua'],
   thailand:['thailand','bangkok','chiang mai','phuket','koh samui','koh tao','koh lanta','pai','chiang rai'],
   vietnam:['vietnam','hanoi','ho chi minh','saigon','hoi an','da nang','nha trang','hue','sapa','ha long'],
-  barcelona:['barcelona']
+  barcelona:['barcelona'],
+  tokyo:['tokyo'],
+  lisbon:['lisbon']
 };
 function _guideKey(destName){
   const l=(destName||'').toLowerCase();
