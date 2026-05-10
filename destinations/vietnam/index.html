@@ -71,6 +71,22 @@
         "@type": "Answer",
         "text": "Budget: $700-1,260 for two. Mid-range: $1,680-3,080 for two. Comfort: $4,480+ for two. All figures exclude international flights. A north-to-south flight saves 30+ hours of bus travel and typically costs $30-60 per person booked in advance."
       }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need a visa for Vietnam?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most nationalities need a Vietnamese e-visa ($25, 90 days, single or multiple entry) applied at evisa.gov.vn — processing takes 3 business days. Some nationalities enter visa-free: South Korea, Japan, and several EU countries get 15–45 days without a visa. The exemption list expanded significantly in 2023, so check before applying."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What cities should I visit in Vietnam?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A classic north-to-south route covers Hanoi (3 nights), a Ha Long Bay cruise (2 days), Hoi An (3–4 nights), Da Nang (1 night), and Ho Chi Minh City (2–3 nights) — about 14–16 days total. Flying Hanoi to Da Nang ($30–60) saves 18 hours of bus travel. Sapa, Da Lat, and the Mekong Delta each reward a 2–3 day extension."
+      }
     }
   ]
 }
@@ -192,6 +208,14 @@ footer a:hover{color:#fff;}
 @media(max-width:1100px){.dest-shell{grid-template-columns:1fr 380px;}}
 @media(max-width:900px){.dest-shell{grid-template-columns:1fr;}.dest-sidebar{display:none;}.mobile-cta{display:block;}.tier-sub{grid-template-columns:1fr 1fr;}}
 @media(max-width:520px){.tier-row{grid-template-columns:1fr;}.tier-sub{grid-template-columns:1fr 1fr;}.quick-box{padding:18px 16px;}.tier-card{padding:18px 16px;}.affiliate-box{padding:16px;}}
+.compare-links{display:flex;flex-direction:column;gap:10px;margin-bottom:32px;}
+.compare-link{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:var(--rm);border:1.5px solid var(--parch);background:var(--white);text-decoration:none;transition:all .18s;box-shadow:var(--sh);}
+.compare-link:hover{border-color:var(--forest);background:var(--fl);text-decoration:none;}
+.compare-flag{font-size:1.4rem;flex-shrink:0;}
+.compare-info{flex:1;display:flex;flex-direction:column;}
+.compare-dest{font-size:.92rem;font-weight:700;color:var(--ink);}
+.compare-desc{font-size:.75rem;color:var(--ink3);margin-top:2px;}
+.compare-arrow{color:var(--forest);font-weight:700;flex-shrink:0;}
 </style>
 </head>
 <body>
@@ -432,6 +456,34 @@ footer a:hover{color:#fff;}
         <div class="faq-q">How much does 2 weeks in Vietnam cost for 2 people?</div>
         <div class="faq-a">Budget: $700&ndash;1,260 for two ($25&ndash;45/day each). Mid-range: $1,680&ndash;3,080 for two ($60&ndash;110/day each). Comfort: $4,480+ for two ($160+/day each). All figures exclude international flights. Add $50 total for two e-visas. An internal Hanoi&ndash;Da Nang flight ($30&ndash;60/person) is highly recommended for a north&ndash;south route.</div>
       </div>
+      <div class="faq-item">
+        <div class="faq-q">Do I need a visa for Vietnam?</div>
+        <div class="faq-a">Most nationalities need a Vietnamese e-visa: $25 for 90 days, single or multiple entry. Apply at evisa.gov.vn &mdash; processing takes 3 business days. Some nationalities enter visa-free: South Korea, Japan, and several EU countries get 15&ndash;45 days without a visa. The exemption list expanded significantly in 2023, so check the current list before applying. The 90-day multiple-entry e-visa is the best option for most long-term visitors or anyone crossing into Laos or Cambodia and returning.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What cities should I visit in Vietnam?</div>
+        <div class="faq-a">A classic north-to-south route: Hanoi (3 nights) for the Old Quarter and street food, a Ha Long Bay cruise (2 days), Hoi An (3&ndash;4 nights) for the ancient town and beaches, Da Nang (1 night) as a transit hub, and Ho Chi Minh City (2&ndash;3 nights) for energy and history &mdash; 14&ndash;16 days total. Flying Hanoi to Da Nang ($30&ndash;60 on VietJet) saves 18 hours of travel. Sapa, Da Lat, and the Mekong Delta each reward a 2&ndash;3 day extension if you have the time.</div>
+      </div>
+    </div>
+
+    <h2 class="section-h2">Compare Other Destinations</h2>
+    <div class="compare-links">
+      <a class="compare-link" href="/destinations/thailand/">
+        <span class="compare-flag">&#127481;&#127469;</span>
+        <span class="compare-info">
+          <span class="compare-dest">How Much Does Thailand Cost? (2026)</span>
+          <span class="compare-desc">$30&ndash;180+/day &middot; Bangkok, Phuket, Chiang Mai &middot; No visa needed (60 days)</span>
+        </span>
+        <span class="compare-arrow">&#8594;</span>
+      </a>
+      <a class="compare-link" href="/destinations/bali/">
+        <span class="compare-flag">&#127470;&#127465;</span>
+        <span class="compare-info">
+          <span class="compare-dest">How Much Does Bali Cost? (2026)</span>
+          <span class="compare-desc">$35&ndash;200+/day &middot; Ubud, Seminyak, Canggu &middot; Private villas, beach clubs, temples</span>
+        </span>
+        <span class="compare-arrow">&#8594;</span>
+      </a>
     </div>
 
     <div class="article-cta">

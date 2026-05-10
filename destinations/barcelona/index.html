@@ -71,6 +71,22 @@
         "@type": "Answer",
         "text": "Budget: $1,050-1,680 for two. Mid-range: $2,520-3,920 for two. Comfort: $5,600+ for two. All figures are on-the-ground costs excluding international flights. EU citizens pay no entry costs; most other nationalities will need to apply for the ETIAS travel authorisation (€7) from 2025."
       }
+    },
+    {
+      "@type": "Question",
+      "name": "Is Barcelona cheaper than Paris or London?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. A mid-range hotel in Barcelona costs €100–180/night versus €180–350 in Paris or London. The menú del día (three-course lunch) runs €12–15 in Barcelona, compared to €20–30 in Paris. Barcelona is comparable to Madrid or Rome and considerably cheaper than Northern and Western European capitals."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is Barcelona safe for tourists?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Barcelona is generally very safe, but pickpocketing is common on La Rambla, in the Gothic Quarter, and on the metro. Use a front-facing crossbody bag or money belt. Violent crime targeting tourists is rare. Stick to well-lit streets at night in El Raval and near the port."
+      }
     }
   ]
 }
@@ -192,6 +208,14 @@ footer a:hover{color:#fff;}
 @media(max-width:1100px){.dest-shell{grid-template-columns:1fr 380px;}}
 @media(max-width:900px){.dest-shell{grid-template-columns:1fr;}.dest-sidebar{display:none;}.mobile-cta{display:block;}.tier-sub{grid-template-columns:1fr 1fr;}}
 @media(max-width:520px){.tier-row{grid-template-columns:1fr;}.tier-sub{grid-template-columns:1fr 1fr;}.quick-box{padding:18px 16px;}.tier-card{padding:18px 16px;}.affiliate-box{padding:16px;}}
+.compare-links{display:flex;flex-direction:column;gap:10px;margin-bottom:32px;}
+.compare-link{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:var(--rm);border:1.5px solid var(--parch);background:var(--white);text-decoration:none;transition:all .18s;box-shadow:var(--sh);}
+.compare-link:hover{border-color:var(--forest);background:var(--fl);text-decoration:none;}
+.compare-flag{font-size:1.4rem;flex-shrink:0;}
+.compare-info{flex:1;display:flex;flex-direction:column;}
+.compare-dest{font-size:.92rem;font-weight:700;color:var(--ink);}
+.compare-desc{font-size:.75rem;color:var(--ink3);margin-top:2px;}
+.compare-arrow{color:var(--forest);font-weight:700;flex-shrink:0;}
 </style>
 </head>
 <body>
@@ -449,8 +473,36 @@ footer a:hover{color:#fff;}
       </div>
       <div class="faq-item">
         <div class="faq-q">How much does a week in Barcelona cost for 2 people?</div>
-        <div class="faq-a">Budget: $1,050&ndash;1,680 for two ($75&ndash;120/day each). Mid-range: $2,520&ndash;3,920 for two ($180&ndash;280/day each). Comfort: $5,600+ for two ($400+/day each). All figures exclude international flights. Add the ETIAS authorisation (€7/person, valid 3 years) if you're a non-EU visitor &mdash; required from 2025.</div>
+        <div class="faq-a">Budget: $1,050&ndash;1,680 for two ($75&ndash;120/day each). Mid-range: $2,520&ndash;3,920 for two ($180&ndash;280/day each). Comfort: $5,600+ for two ($400+/day each). All figures exclude international flights. Add the ETIAS authorisation (€7/person, valid 3 years) if you&rsquo;re a non-EU visitor &mdash; required from 2025.</div>
       </div>
+      <div class="faq-item">
+        <div class="faq-q">Is Barcelona cheaper than Paris or London?</div>
+        <div class="faq-a">Yes, significantly. A mid-range hotel in Barcelona costs €100&ndash;180/night versus €180&ndash;350 in Paris or London for equivalent quality. The men&uacute; del d&iacute;a (three-course set lunch) runs €12&ndash;15 in Barcelona, compared to €20&ndash;30 for a similar format in Paris. Flights aside, Barcelona is broadly comparable to Madrid or Rome &mdash; and considerably cheaper than most Northern and Western European capitals for accommodation and dining.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Is Barcelona safe for tourists?</div>
+        <div class="faq-a">Barcelona is generally very safe, but pickpocketing is a genuine concern &mdash; especially on La Rambla, in the Gothic Quarter, and on the metro. Use a front-facing crossbody bag or money belt. Don&rsquo;t leave bags unattended at beach caf&eacute;s or restaurant tables. Violent crime targeting tourists is rare. El Raval and parts of the port area can feel edgy at night; stick to well-lit streets and you&rsquo;ll have no issues.</div>
+      </div>
+    </div>
+
+    <h2 class="section-h2">Compare Other Destinations</h2>
+    <div class="compare-links">
+      <a class="compare-link" href="/destinations/bali/">
+        <span class="compare-flag">&#127470;&#127465;</span>
+        <span class="compare-info">
+          <span class="compare-dest">How Much Does Bali Cost? (2026)</span>
+          <span class="compare-desc">$35&ndash;200+/day &middot; Southeast Asia &middot; 3&ndash;4&times; cheaper per day than Barcelona</span>
+        </span>
+        <span class="compare-arrow">&#8594;</span>
+      </a>
+      <a class="compare-link" href="/destinations/thailand/">
+        <span class="compare-flag">&#127481;&#127469;</span>
+        <span class="compare-info">
+          <span class="compare-dest">How Much Does Thailand Cost? (2026)</span>
+          <span class="compare-desc">$30&ndash;180+/day &middot; Southeast Asia &middot; World-class street food, free visa</span>
+        </span>
+        <span class="compare-arrow">&#8594;</span>
+      </a>
     </div>
 
     <div class="article-cta">

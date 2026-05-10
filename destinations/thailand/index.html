@@ -71,6 +71,22 @@
         "@type": "Answer",
         "text": "A week for two on the ground typically costs $420–2,520 excluding flights. Budget: $420–700. Mid-range: $910–1,680. Comfort: $2,100–5,600+. Most nationalities enter visa-free for 60 days, so there are no visa costs to factor in."
       }
+    },
+    {
+      "@type": "Question",
+      "name": "Is Thailand cheaper than Bali?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Thailand and Bali are broadly comparable in price. Thailand edges street food — pad thai from a stall is $1–2. Bali edges accommodation — private villas with pools start at $40–65/night. Budget travelers can live on $35–50/day in both. Vietnam is the cheapest Southeast Asian option overall."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need a visa for Thailand?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most Western nationalities (US, UK, EU, Australia, Canada) enter Thailand visa-free for 60 days as of 2024. No advance application needed — you receive the entry stamp on arrival. Stays beyond 60 days require an in-country extension ($50–70) or a border run."
+      }
     }
   ]
 }
@@ -181,6 +197,14 @@ footer a:hover{color:#fff;}
 @media(max-width:1100px){.dest-shell{grid-template-columns:1fr 380px;}}
 @media(max-width:900px){.dest-shell{grid-template-columns:1fr;}.dest-sidebar{display:none;}.mobile-cta{display:block;}.tier-sub{grid-template-columns:1fr 1fr;}}
 @media(max-width:520px){.tier-row{grid-template-columns:1fr;}.tier-sub{grid-template-columns:1fr 1fr;}.quick-box{padding:18px 16px;}.tier-card{padding:18px 16px;}}
+.compare-links{display:flex;flex-direction:column;gap:10px;margin-bottom:32px;}
+.compare-link{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:var(--rm);border:1.5px solid var(--parch);background:var(--white);text-decoration:none;transition:all .18s;box-shadow:var(--sh);}
+.compare-link:hover{border-color:var(--forest);background:var(--fl);text-decoration:none;}
+.compare-flag{font-size:1.4rem;flex-shrink:0;}
+.compare-info{flex:1;display:flex;flex-direction:column;}
+.compare-dest{font-size:.92rem;font-weight:700;color:var(--ink);}
+.compare-desc{font-size:.75rem;color:var(--ink3);margin-top:2px;}
+.compare-arrow{color:var(--forest);font-weight:700;flex-shrink:0;}
 </style>
 </head>
 <body>
@@ -374,6 +398,34 @@ footer a:hover{color:#fff;}
         <div class="faq-q">How much does a week in Thailand cost for 2 people?</div>
         <div class="faq-a">A week for two on the ground typically costs $420&ndash;2,520 excluding flights. Budget: $420&ndash;700. Mid-range: $910&ndash;1,680. Comfort: $2,100&ndash;5,600+. Most nationalities enter visa-free for 60 days, so there are no visa costs to add.</div>
       </div>
+      <div class="faq-item">
+        <div class="faq-q">Is Thailand cheaper than Bali?</div>
+        <div class="faq-a">Thailand and Bali are broadly comparable in price. Thailand has the edge on street food &mdash; a bowl of pad thai or tom yum from a roadside cart costs $1&ndash;2. Bali edges ahead on accommodation: private villas with a plunge pool start at $40&ndash;65/night, which is hard to match. Both countries suit a $35&ndash;50/day budget traveler. Vietnam offers slightly better value than both at the budget end.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Do I need a visa for Thailand?</div>
+        <div class="faq-a">Most Western nationalities &mdash; US, UK, EU, Australia, Canada, New Zealand &mdash; enter Thailand visa-free for 60 days (extended from 30 days in 2024). No advance application needed: you receive the stamp on arrival at the airport. Stays beyond 60 days require an in-country extension ($50&ndash;70) or a border run. Check the Thai immigration authority website for your specific nationality before travel.</div>
+      </div>
+    </div>
+
+    <h2 class="section-h2">Compare Other Destinations</h2>
+    <div class="compare-links">
+      <a class="compare-link" href="/destinations/bali/">
+        <span class="compare-flag">&#127470;&#127465;</span>
+        <span class="compare-info">
+          <span class="compare-dest">How Much Does Bali Cost? (2026)</span>
+          <span class="compare-desc">$35&ndash;200+/day &middot; Ubud, Seminyak, Canggu &middot; Private pool villas from $40/night</span>
+        </span>
+        <span class="compare-arrow">&#8594;</span>
+      </a>
+      <a class="compare-link" href="/destinations/vietnam/">
+        <span class="compare-flag">&#127483;&#127475;</span>
+        <span class="compare-info">
+          <span class="compare-dest">How Much Does Vietnam Cost? (2026)</span>
+          <span class="compare-desc">$25&ndash;150+/day &middot; Hanoi, Hoi An, Ho Chi Minh City &middot; Slightly cheaper than Thailand</span>
+        </span>
+        <span class="compare-arrow">&#8594;</span>
+      </a>
     </div>
 
     <div class="article-cta">
