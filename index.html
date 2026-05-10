@@ -629,7 +629,7 @@ body.embed-mode .form-inner{padding-bottom:0!important;}
     <div class="nd-title">Menu</div>
     <button class="nd-close" onclick="closeNavMenu()" aria-label="Close menu">&times;</button>
   </div>
-  <div class="nd-section-lbl">Destinations</div>
+  <div class="nd-section-lbl">Southeast Asia</div>
   <a href="/destinations/bali/" class="nd-item" onclick="closeNavMenu()">
     <span class="nd-item-flag">🇮🇩</span>
     <div class="nd-item-info"><div class="nd-item-name">Bali, Indonesia</div><div class="nd-item-meta">Cost guide &middot; budget tiers &middot; FAQ</div></div>
@@ -648,6 +648,7 @@ body.embed-mode .form-inner{padding-bottom:0!important;}
     <span class="nd-item-badge live">Guide</span>
     <span class="nd-item-arr">&rsaquo;</span>
   </a>
+  <div class="nd-section-lbl" style="margin-top:4px">Europe</div>
   <a href="/destinations/barcelona/" class="nd-item" onclick="closeNavMenu()">
     <span class="nd-item-flag">🇪🇸</span>
     <div class="nd-item-info"><div class="nd-item-name">Barcelona, Spain</div><div class="nd-item-meta">Cost guide &middot; budget tiers &middot; FAQ</div></div>
@@ -800,15 +801,31 @@ const DEST_HINTS=[
   {key:'tokyo',flag:'\uD83C\uDDEF\uD83C\uDDF5',name:'Tokyo, Japan'},
   {key:'lisbon',flag:'\uD83C\uDDF5\uD83C\uDDF9',name:'Lisbon, Portugal'},
   {key:'bali',flag:'\uD83C\uDDEE\uD83C\uDDE9',name:'Bali, Indonesia'},
+  {key:'ubud',flag:'\uD83C\uDDEE\uD83C\uDDE9',name:'Ubud, Bali'},
+  {key:'seminyak',flag:'\uD83C\uDDEE\uD83C\uDDE9',name:'Seminyak, Bali'},
   {key:'nyc',flag:'\uD83C\uDDFA\uD83C\uDDF8',name:'New York, USA'},
   {key:'barcelona',flag:'\uD83C\uDDEA\uD83C\uDDF8',name:'Barcelona, Spain'},
   {key:'dubai',flag:'\uD83C\uDDE6\uD83C\uDDEA',name:'Dubai, UAE'},
   {key:'bangkok',flag:'\uD83C\uDDF9\uD83C\uDDED',name:'Bangkok, Thailand'},
+  {key:'chiangmai',flag:'\uD83C\uDDF9\uD83C\uDDED',name:'Chiang Mai, Thailand'},
+  {key:'phuket',flag:'\uD83C\uDDF9\uD83C\uDDED',name:'Phuket, Thailand'},
+  {key:'kohsamui',flag:'\uD83C\uDDF9\uD83C\uDDED',name:'Koh Samui, Thailand'},
+  {key:'hanoi',flag:'\uD83C\uDDFB\uD83C\uDDF3',name:'Hanoi, Vietnam'},
+  {key:'hochiminh',flag:'\uD83C\uDDFB\uD83C\uDDF3',name:'Ho Chi Minh City, Vietnam'},
+  {key:'hoian',flag:'\uD83C\uDDFB\uD83C\uDDF3',name:'Hoi An, Vietnam'},
+  {key:'danang',flag:'\uD83C\uDDFB\uD83C\uDDF3',name:'Da Nang, Vietnam'},
   {key:'rome',flag:'\uD83C\uDDEE\uD83C\uDDF9',name:'Rome, Italy'},
   {key:'santorini',flag:'\uD83C\uDDEC\uD83C\uDDF7',name:'Santorini, Greece'},
   {key:'marrakech',flag:'\uD83C\uDDF2\uD83C\uDDE6',name:'Marrakech, Morocco'},
   {key:'amsterdam',flag:'\uD83C\uDDF3\uD83C\uDDF1',name:'Amsterdam, Netherlands'},
-  {key:'sydney',flag:'\uD83C\uDDE6\uD83C\uDDFA',name:'Sydney, Australia'}
+  {key:'sydney',flag:'\uD83C\uDDE6\uD83C\uDDFA',name:'Sydney, Australia'},
+  {key:'singapore',flag:'\uD83C\uDDF8\uD83C\uDDEC',name:'Singapore'},
+  {key:'kyoto',flag:'\uD83C\uDDEF\uD83C\uDDF5',name:'Kyoto, Japan'},
+  {key:'osaka',flag:'\uD83C\uDDEF\uD83C\uDDF5',name:'Osaka, Japan'},
+  {key:'london',flag:'\uD83C\uDDEC\uD83C\uDDE7',name:'London, UK'},
+  {key:'istanbul',flag:'\uD83C\uDDF9\uD83C\uDDF7',name:'Istanbul, Turkey'},
+  {key:'mexicocity',flag:'\uD83C\uDDF2\uD83C\uDDFD',name:'Mexico City, Mexico'},
+  {key:'cancun',flag:'\uD83C\uDDF2\uD83C\uDDFD',name:'Cancun, Mexico'}
 ];
 const DEST_CUR={
   france:'EUR',paris:'EUR',lisbon:'EUR',portugal:'EUR',barcelona:'EUR',spain:'EUR',
@@ -1696,6 +1713,34 @@ const GUIDES={
       ['Is Vietnam cheaper than Bali?','Yes — street food costs $1–3, beers from $0.50, budget guesthouses from $8. Daily costs of $25 are realistic for slow travelers.'],
       ['Best time to visit Vietnam?','November–April for the south and central coast. June–August for the north (Sapa, Hanoi). Weather varies significantly by region.'],
       ['2 weeks in Vietnam for 2 people?','Budget $700–1,120 · Mid-range $1,540–2,800 · Comfort $4,200+. The north–south flight saves 30+ hours of bus travel.']
+    ]
+  },
+  barcelona:{
+    flag:'🇪🇸',slug:'barcelona',tabLabel:'Barcelona Guide',name:'Barcelona',country:'Barcelona, Spain',h2:'How Much Does a Trip to Barcelona Cost?',
+    intro:'Barcelona is mid-range by Western European standards — noticeably cheaper than Paris or London for accommodation. Hostels, market lunches and the metro make $75/day achievable; private hotels and Gaudí attraction tickets push comfortable travel to $180–280.',
+    tiers:[
+      {name:'Budget',price:'$75–120',day:'per person / day'},
+      {name:'Mid-range',price:'$180–280',day:'per person / day'},
+      {name:'Comfort',price:'$400+',day:'per person / day'}
+    ],
+    table:[
+      ['Accommodation','$22–55/night','$100–200/night','$280–650+/night'],
+      ['Food','$15–30/day','$40–75/day','$120–250/day'],
+      ['Transport','$5–8/day','$12–22/day','$40–80/day'],
+      ['Activities','$10–20/day','$20–50/day','$60–150/day'],
+      ['Total / day','$52–113','$172–347','$500–1,130']
+    ],
+    hiddenCosts:[
+      ['€3–6/night','Barcelona tourist tax — added to hotel bill automatically'],
+      ['€7','ETIAS travel authorisation (non-EU, from 2025)'],
+      ['€35–55','Airport transfer — Aeronòbus or taxi from El Prat'],
+      ['€26–36','Sagrada Família entry — book online weeks in advance'],
+      ['€10','Park Güell monumental zone entry']
+    ],
+    faq:[
+      ['Is $1,000 enough for a week?','Yes — $143/day is comfortable budget-to-mid-range. A decent 3-star hotel, the menú del día lunch daily, a couple of guided tours, and the main attractions all fit at this level.'],
+      ['Cheapest time to visit Barcelona?','November–February: hotel rates drop 30–40%, crowds are thinner. The city still averages 10–14°C. Avoid August if you dislike crowds — peak season and school holidays push prices up sharply.'],
+      ['2 weeks in Barcelona for 2 people?','Budget $2,100–3,360 · Mid-range $5,040–7,840 · Comfort $11,200+. On-the-ground costs only; international flights excluded.']
     ]
   }
 };
