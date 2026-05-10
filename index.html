@@ -1709,7 +1709,10 @@ function _guideKey(destName){
   const l=(destName||'').toLowerCase();
   return Object.keys(GUIDES).find(function(k){
     const cities=GUIDE_CITIES[k]||[k];
-    return cities.some(function(city){return l.includes(city);});
+    return cities.some(function(city){
+      var esc=city.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+      return new RegExp('\\b'+esc+'\\b').test(l);
+    });
   })||null;
 }
 function checkGuide(destName){
